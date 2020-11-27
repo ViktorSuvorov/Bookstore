@@ -1,11 +1,7 @@
-/* eslint-disable no-console */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/jsx-filename-extension */
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const Login = ({ setAuth }) => {
   const [inputs, setInputs] = useState({
@@ -31,7 +27,6 @@ const Login = ({ setAuth }) => {
       });
 
       const parseRes = await response.json();
-      console.log('parseRes login', parseRes);
       localStorage.setItem('token', parseRes.token);
       setAuth(true);
     } catch (error) {
@@ -54,7 +49,7 @@ const Login = ({ setAuth }) => {
               onChange={onChange}
             />
             <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
+              We`ll never share your email with anyone else.
             </Form.Text>
           </Form.Group>
           <Form.Group controlId="formBasicPassword">
@@ -75,6 +70,10 @@ const Login = ({ setAuth }) => {
       </div>
     </>
   );
+};
+
+Login.propTypes = {
+  setAuth: PropTypes.bool.isRequired,
 };
 
 export default Login;

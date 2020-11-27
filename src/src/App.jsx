@@ -1,6 +1,4 @@
-/* eslint-disable no-console */
 /* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/jsx-filename-extension */
 import React, { useState, useEffect } from 'react';
 import './App.css';
 

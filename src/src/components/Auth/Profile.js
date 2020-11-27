@@ -3,8 +3,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
-import AllBooks from '../books';
-import Header from '../header';
+import AllBooks from '../Books/Index';
+import Header from '../Header/Header';
 
 const Profile = ({ setAuth }) => {
   const [name, setName] = useState('');

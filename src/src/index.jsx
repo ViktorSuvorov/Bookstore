@@ -5,7 +5,6 @@ import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
-  // eslint-disable-next-line react/jsx-filename-extension
   <React.StrictMode>
     <App />
   </React.StrictMode>,

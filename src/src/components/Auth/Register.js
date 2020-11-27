@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable react/prop-types */
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 
@@ -20,17 +21,10 @@ const Register = ({ setAuth }) => {
     e.preventDefault();
     try {
       const body = { email, password, name };
-
-      const response = await fetch('http://localhost:5000/api/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
-
-      const parseRes = await response.json();
-
+      const response = await axios.post('http://localhost:5000/api/register',
+        body);
+      const parseRes = await response.data;
       localStorage.setItem('token', parseRes.token);
-
       setAuth(true);
     } catch (error) {
       console.error(error.mesage);

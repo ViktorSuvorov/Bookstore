@@ -5,23 +5,16 @@
 /* eslint-disable react/no-unescaped-entities */
 // eslint-disable-next-line react/jsx-filename-extension
 import React, { useEffect, useState } from 'react';
-import Book from './book';
+import axios from 'axios';
+import Book from './Book';
 
 const AllBooks = () => {
   const [allBooks, setAllBooks] = useState([]);
   const getAllBooks = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/main', {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      });
-      const parsRes = await response.json();
-      console.log(parsRes);
-      setAllBooks(parsRes);
-      console.log(allBooks);
-      // eslint-disable-next-line no-console
+      const response = await axios.get('http://localhost:5000/api/main');
+      setAllBooks(response.data);
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.error(error.message);
     }
   };
