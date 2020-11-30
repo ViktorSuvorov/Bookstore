@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+// import axios from 'axios';
 import PropTypes from 'prop-types';
 
 const Login = ({ setAuth }) => {
@@ -73,7 +74,7 @@ const Login = ({ setAuth }) => {
 };
 
 Login.propTypes = {
-  setAuth: PropTypes.bool.isRequired,
+  setAuth: PropTypes.func.isRequired,
 };
 
 export default Login;
