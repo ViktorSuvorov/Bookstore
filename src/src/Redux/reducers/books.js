@@ -1,27 +1,23 @@
-import { SET_BOOK, ADD_BOOK } from '../constants';
+import { SET_BOOKS, SET_IS_LOADING } from '../constants';
 
 const initialState = {
-  books: [{
-    id: 250,
-    title: 'SomeOne',
-  },
-  ],
+  isLoading: true,
+  items: [],
 };
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
-    case SET_BOOK:
-      return {
-        books: payload,
-      };
-    case ADD_BOOK: {
+    case SET_BOOKS:
       return {
         ...state,
-        books: [
-          ...state.books,
-        ],
+        items: payload,
+        isLoading: false,
       };
-    }
+    case SET_IS_LOADING:
+      return {
+        ...state,
+        isLoading: payload,
+      };
     default:
       return state;
   }

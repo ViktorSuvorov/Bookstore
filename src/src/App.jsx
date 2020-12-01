@@ -1,7 +1,7 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
 import './App.css';
 
 import {
@@ -29,7 +29,6 @@ const App = () => {
         headers: { Authorization: localStorage.token },
       });
       const parsRes = await response.json();
-      // eslint-disable-next-line no-unused-expressions
       parsRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
     } catch (error) {
       console.error(error.message);
@@ -85,8 +84,4 @@ const App = () => {
   );
 };
 
-const mapStateToProps = (store) => ({
-  store,
-});
-
-export default connect(mapStateToProps)(App);
+export default App;

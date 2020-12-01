@@ -15,7 +15,7 @@ router.get('/is-verify',authorization,controllers.isVerify)
 router.get('/profile',authorization,controllers.profile)
 
 // books
-router.get('/main',controllers.getAllBooks);
+router.get('/books',controllers.getAllBooks);
 
 
 // all 

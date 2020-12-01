@@ -5,16 +5,9 @@ import './index.css';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import appStore from './Redux/store';
-import { ADD_BOOK } from './Redux/constants';
 
 const store = appStore();
-setTimeout(
-  () => {
-    store.dispatch({
-      type: ADD_BOOK,
-    });
-  }, 1000,
-);
+console.log('Store', store.getState());
 
 ReactDOM.render(
   <React.StrictMode>

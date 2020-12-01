@@ -3,9 +3,11 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import AllBooks from '../Books/Index';
+import { Row, Col } from 'react-bootstrap';
+// import axios from 'axios';
+import AllBooks from '../Books/AllBooks';
 import Header from '../Header/Header';
+import FilterBy from '../FilterBy/FilterBy';
 
 const Profile = ({ setAuth }) => {
   const [name, setName] = useState('');
@@ -36,7 +38,10 @@ const Profile = ({ setAuth }) => {
     <>
       <div className="container">
         <Header logout={(e) => logout(e)} name={name} />
-        <AllBooks />
+        <Row>
+          <Col sm={8}><FilterBy /></Col>
+          <Col sm={4}><AllBooks /></Col>
+        </Row>
       </div>
     </>
   );
