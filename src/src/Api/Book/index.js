@@ -8,3 +8,9 @@ export const getBooks = () => (
     url: `${path}`,
   })
 );
+
+export const getCurrentBook = (id) => (
+  axios({
+    url: `${path}${id}`,
+  })
+);
