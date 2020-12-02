@@ -9,20 +9,20 @@ const FilterBy = () => {
 
   return (
     <ListGroup as="ul">
-      <ListGroup.Item name="All" as="li" active={filter === 'All'} onClick={(e) => handleItemClick(e)}>
+      <ListGroup.Item name="All" as="li" active={filter === 'All'} action variant="light" onClick={(e) => handleItemClick(e)}>
         All
       </ListGroup.Item>
-      <ListGroup.Item name="Name" as="li" active={filter === 'Name'} onClick={(e) => handleItemClick(e)}>
+      <ListGroup.Item name="Name" as="li" active={filter === 'Name'} action variant="light" onClick={(e) => handleItemClick(e)}>
         Name
       </ListGroup.Item>
-      <ListGroup.Item name="Author" as="li" active={filter === 'Author'} onClick={handleItemClick}>Author</ListGroup.Item>
-      <ListGroup.Item name="Price-cheap" as="li" active={filter === 'Price-cheap'} onClick={handleItemClick}>
+      <ListGroup.Item name="Author" as="li" active={filter === 'Author'} action variant="light" onClick={handleItemClick}>Author</ListGroup.Item>
+      <ListGroup.Item name="Price-cheap" as="li" active={filter === 'Price-cheap'} action variant="light" onClick={handleItemClick}>
         Price-cheap
       </ListGroup.Item>
-      <ListGroup.Item name="Price-expencive" as="li" active={filter === 'Price-exprencive'} onClick={handleItemClick}>
+      <ListGroup.Item name="Price-expencive" as="li" active={filter === 'Price-exprencive'} action variant="light" onClick={handleItemClick}>
         Price-exprencive
       </ListGroup.Item>
-      <ListGroup.Item name="Rating" as="li" active={filter === 'Rating'} onClick={handleItemClick}>Rating</ListGroup.Item>
+      <ListGroup.Item name="Rating" as="li" active={filter === 'Rating'} action variant="light" onClick={handleItemClick}>Rating</ListGroup.Item>
     </ListGroup>
   );
 };

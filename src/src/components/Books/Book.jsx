@@ -1,7 +1,6 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
 import { Button, Card } from 'react-bootstrap';
-// import PropTypes, { object } from 'prop-types';
+import PropTypes from 'prop-types';
 import './Book.css';
 
 const Book = ({
@@ -28,8 +27,12 @@ const Book = ({
   </Card>
 );
 
-// Book.propTypes = {
-//   allBooks: PropTypes.arrayOf([object]).isRequired,
-// };
+Book.propTypes = {
+  image: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+
+};
 
 export default Book;

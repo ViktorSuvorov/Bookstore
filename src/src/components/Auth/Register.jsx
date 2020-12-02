@@ -1,9 +1,8 @@
-/* eslint-disable no-console */
-/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 const Register = ({ setAuth }) => {
   const [inputs, setInputs] = useState({
@@ -32,7 +31,6 @@ const Register = ({ setAuth }) => {
   };
 
   return (
-    // eslint-disable-next-line react/jsx-filename-extension
     <>
       <div className="container">
         <Form onSubmit={onSumbitForm}>
@@ -75,6 +73,10 @@ const Register = ({ setAuth }) => {
       </div>
     </>
   );
+};
+
+Register.propTypes = {
+  setAuth: PropTypes.func.isRequired,
 };
 
 export default Register;
