@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-bootstrap';
@@ -5,6 +6,7 @@ import axios from 'axios';
 import AllBooks from '../Books/AllBooks';
 import Header from '../Header/Header';
 import FilterBy from '../FilterBy/FilterBy';
+import CurrentBook from '../Books/CurrentBook';
 
 const Profile = ({ setAuth }) => {
   const [name, setName] = useState('');

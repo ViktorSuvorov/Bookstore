@@ -69,19 +69,28 @@ const isVerify = async (req, res) => {
 const profile = async (req, res) => {
   try {
     const user = await models.User.findOne({ where: { id: req.user } });
-    res.json({ name:user.name,email:user.email});
+    res.json({ name: user.name, email: user.email });
   } catch (error) {
     console.error(error.message);
     res.status(500).json('Server error');
   }
 };
 
-const getAllBooks = async (req,res) => {
+const getAllBooks = async (req, res) => {
   try {
     const books = await models.Book.findAll();
-    console.log(books)
-    const answer = res.json(books)
-    console.log('answer',answer)
+    const answer = res.json(books);
+  } catch (error) {
+    console.error(console.message)
+  }
+}
+
+const getCurrentBook = async (req, res) => {
+  try {
+    console.log('getCurrentBookID', req.params);
+
+    const book = await models.Book.findOne({ where: { id: req.params.id } });
+    const answer = res.json(book);
   } catch (error) {
     console.error(console.message)
   }
@@ -94,4 +103,5 @@ module.exports = {
   isVerify,
   profile,
   getAllBooks,
+  getCurrentBook,
 };

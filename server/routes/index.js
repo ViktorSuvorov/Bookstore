@@ -8,7 +8,7 @@ router.get('/', (req, res) => res.send('Welcome'));
 // create
 router.post('/users',controllers.createUser);
 
-// registr and login 
+// register and login 
 router.post('/register',validInfo,controllers.registerNewUser);
 router.post('/login',validInfo,controllers.login)
 router.get('/is-verify',authorization,controllers.isVerify)
@@ -16,14 +16,14 @@ router.get('/profile',authorization,controllers.profile)
 
 // books
 router.get('/books',controllers.getAllBooks);
-
+router.get('/books/:id',controllers.getCurrentBook);
 
 // all 
 // router.get('/',controllers.findAll);
 // // one
 // router.get('/',controllers.findOne);
 // // modification
-// router.put('/:id',controllers.update);
+// router.post('/:id',controllers.update);
 // // delete
 // router.delete(':/',controllers.delete);
 

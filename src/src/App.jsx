@@ -17,7 +17,6 @@ import Profile from './components/Auth/Profile';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
   const setAuth = (boolean) => {
     setIsAuthenticated(boolean);
   };
@@ -78,6 +77,7 @@ const App = () => {
               <Redirect to="/login" />
             ))}
           />
+          {/* <Route path="/CurrentBook/:id" render={() => <CurrentBook />} /> */}
         </Switch>
       </Router>
     </>
