@@ -1,37 +1,130 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { getOneBook, cleanBook } from '../../Redux/actions/books';
+import PropTypes from 'prop-types';
+import { Button } from 'react-bootstrap';
+import styled from 'styled-components';
+import { getCurrentBook } from '../../Api/Book/index';
 import Book from './Book';
 import Header from '../Header/Header';
-import Loading from '../Utils/Loading';
 
-const CurrentBook = ({
-  getOneBookConnect, match,
-}) => {
-  const [book, setBook] = useState();
-  const isLoading = 'false';
+const CurrentBook = ({ match }) => {
+  const [book, setBook] = useState({
+    name: '',
+    image: '',
+    author: '',
+    price: +'',
+  });
+  const getBook = async () => {
+    const response = await getCurrentBook(match.params.id);
+    setBook(response.data);
+  };
+
   useEffect(() => {
-    setBook(getOneBookConnect(match.params.id));
-    return cleanBook();
+    getBook();
+    return () => {
+      setBook([]);
+    };
   }, []);
+
   return (
     <div className="container">
       <Header />
-      {
-          isLoading
-            ? <Loading />
-            : <Book {...book} />
-      }
+      <BookName>{book.name}</BookName>
+      <BookAuthor>
+        Автор:
+        {book.author}
+      </BookAuthor>
+      <FullSizeBookCard>
+        <FullSizeBookCardLeft {...book}>
+          <Img>
+            <img style={{ width: '300px' }} src={book.image} alt="book cover img" />
+          </Img>
+        </FullSizeBookCardLeft>
+        <FullSizeBookCardRight>
+          <BookPrice>
+            {book.price}
+            &#8381;
+          </BookPrice>
+          <Button variant="dark" size="lg" block>В корзину</Button>
+          <br />
+          <p>Товар можно купить по Книжному абонементу</p>
+          <h4>Caмовывоз</h4>
+          <p>
+            Сегодня в 2 магазинах
+            Бесплатно
+          </p>
+          <h4>Пункты выдачи</h4>
+          <p>
+            5 декабря
+            От 97
+          </p>
+          <h4>Курьерская доставка</h4>
+          <p>
+            5-6 декабря
+            От 250
+          </p>
+        </FullSizeBookCardRight>
+      </FullSizeBookCard>
+      <BookDescription>
+        <h2>Описание :</h2>
+        <p>{book.description}</p>
+      </BookDescription>
     </div>
   );
 };
 
-// const mapStateToProps = ({ books: { oneBook, isLoading } }) => ({
-//   oneBook,
-//   isLoading,
-// });
+const FullSizeBookCard = styled.div`
+width:100%;
+margin:20px 20px;
+display:flex;
+`;
 
-export default connect(null, { getOneBookConnect: getOneBook, cleanBook })(CurrentBook);
+const FullSizeBookCardLeft = styled.div`
+width:45%;
+border:1px solid black;
+box-shadow: -2px -2px 2px 2px grey;
+border-radius:3px;
+margin:20px 20px;
+`;
+
+const FullSizeBookCardRight = styled.div`
+width:45%;
+margin-left:30px;
+`;
+
+const BookPrice = styled.div`
+font-size:25px;
+font-weight:700;
+`;
+
+const Img = styled.div`
+width:100%;
+display:flex;
+justify-content:center;
+`;
+
+const ImgLeft = styled.div`
+width: 4rem;
+min-height: .3125rem;
+position: relative;
+padding: 1.875rem 0;
+`;
+
+const BookDescription = styled.div`
+text-align:left;
+font-size:13px;
+`;
+
+const BookName = styled.h1`
+text-align:left`;
+
+const BookAuthor = styled.h1`
+text-align:left`;
+
+CurrentBook.propTypes = {
+  match: PropTypes.object.isRequired,
+};
+
+export default CurrentBook;

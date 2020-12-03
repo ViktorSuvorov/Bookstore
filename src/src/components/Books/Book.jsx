@@ -42,7 +42,6 @@ Book.propTypes = {
   name: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
-
 };
 
 export default Book;

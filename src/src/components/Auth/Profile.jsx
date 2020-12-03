@@ -6,7 +6,6 @@ import axios from 'axios';
 import AllBooks from '../Books/AllBooks';
 import Header from '../Header/Header';
 import FilterBy from '../FilterBy/FilterBy';
-import CurrentBook from '../Books/CurrentBook';
 
 const Profile = ({ setAuth }) => {
   const [name, setName] = useState('');
@@ -16,8 +15,7 @@ const Profile = ({ setAuth }) => {
       const response = await axios.get('http://localhost:5000/api/profile', {
         headers: { Authorization: localStorage.token },
       });
-      const parsRes = await response.data;
-      setName(parsRes.name);
+      setName(response.data.name);
     } catch (error) {
       console.error(console.log(error));
     }

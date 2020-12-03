@@ -41,7 +41,6 @@ AllBooks.propTypes = {
   getAllBooksConnect: PropTypes.func.isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   isLoading: PropTypes.bool.isRequired,
-
 };
 
 export default connect(mapStateToProps, { getAllBooksConnect: getAllBooks })(AllBooks);
