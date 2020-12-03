@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button, Card } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import './Book.css';
+import styled from 'styled-components';
 import { NavLink as Link } from 'react-router-dom';
 
 const Book = ({
@@ -16,7 +16,7 @@ const Book = ({
       }}
       to={`/book/${id}`}
     >
-      <img src={image} alt="book-covers" className="grid__img" />
+      <Img src={image} alt="book-covers" className="grid__img" />
       <Card.Body className="text-truncate">
         <Card.Title>{name}</Card.Title>
         <Card.Text>
@@ -36,6 +36,11 @@ const Book = ({
     </Card.Footer>
   </Card>
 );
+
+const Img = styled.img`
+width:150px;
+height: 200px;
+`;
 
 Book.propTypes = {
   image: PropTypes.string.isRequired,

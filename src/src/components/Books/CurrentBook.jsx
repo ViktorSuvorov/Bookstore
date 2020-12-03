@@ -3,11 +3,12 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import AwesomeSlider from 'react-awesome-slider';
 import { Button } from 'react-bootstrap';
 import styled from 'styled-components';
 import { getCurrentBook } from '../../Api/Book/index';
-import Book from './Book';
 import Header from '../Header/Header';
+import 'react-awesome-slider/dist/styles.css';
 
 const CurrentBook = ({ match }) => {
   const [book, setBook] = useState({
@@ -41,6 +42,30 @@ const CurrentBook = ({ match }) => {
           <Img>
             <img style={{ width: '300px' }} src={book.image} alt="book cover img" />
           </Img>
+          <AwesomeSlider>
+            <div>
+              <img
+                style={{
+                  width: '92%',
+                  marginLeft: '10px',
+                  marginRight: '10px',
+                }}
+                src={book.image}
+                alt="book cover img"
+              />
+            </div>
+            <div>
+              <img
+                style={{
+                  width: '92%',
+                  marginLeft: '10px',
+                  marginRight: '10px',
+                }}
+                src={book.image}
+                alt="book cover img"
+              />
+            </div>
+          </AwesomeSlider>
         </FullSizeBookCardLeft>
         <FullSizeBookCardRight>
           <BookPrice>
@@ -82,11 +107,12 @@ display:flex;
 `;
 
 const FullSizeBookCardLeft = styled.div`
-width:45%;
+width:50%;
 border:1px solid black;
 box-shadow: -2px -2px 2px 2px grey;
 border-radius:3px;
 margin:20px 20px;
+display:flex;
 `;
 
 const FullSizeBookCardRight = styled.div`
@@ -114,7 +140,7 @@ padding: 1.875rem 0;
 
 const BookDescription = styled.div`
 text-align:left;
-font-size:13px;
+font-size:15px;
 `;
 
 const BookName = styled.h1`
