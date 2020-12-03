@@ -1,9 +1,5 @@
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-unused-vars */
-/* eslint-disable import/prefer-default-export */
 import { getBooks, getCurrentBook } from '../../Api/Book';
-
-import { SET_BOOKS, GET_BOOK } from '../constants';
+import { SET_BOOKS, GET_BOOK, CLEAN_BOOK } from '../constants';
 
 export const setBooks = (books) => ({
   type: SET_BOOKS,
@@ -15,9 +11,15 @@ export const getBook = (id) => ({
   payload: id,
 });
 
+export const cleanBook = () => ({
+  type: CLEAN_BOOK,
+  payload: [],
+});
+
 export const getAllBooks = () => async (dispatch) => {
   try {
     const response = await getBooks();
+    console.log(response);
     dispatch(setBooks(response.data));
   } catch (error) {
     console.error(error.message);

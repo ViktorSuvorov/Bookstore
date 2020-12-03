@@ -1,8 +1,11 @@
-import { SET_BOOKS, SET_IS_LOADING, GET_BOOK } from '../constants';
+import {
+  SET_BOOKS, SET_IS_LOADING, GET_BOOK, CLEAN_BOOK,
+} from '../constants';
 
 const initialState = {
   isLoading: true,
   items: [],
+  oneBook: [],
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -21,7 +24,13 @@ export default (state = initialState, { type, payload }) => {
     case GET_BOOK:
       return {
         ...state,
-        items: state.items.find((item) => item.id === payload.id),
+        oneBook: payload,
+        isLoading: false,
+      };
+    case CLEAN_BOOK:
+      return {
+        ...state,
+        cleanBook: payload,
       };
     default:
       return state;

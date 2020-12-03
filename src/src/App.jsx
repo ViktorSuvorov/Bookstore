@@ -14,6 +14,7 @@ import {
 import Register from './components/Auth/Register';
 import Login from './components/Auth/Login';
 import Profile from './components/Auth/Profile';
+import CurrentBook from './components/Books/CurrentBook';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -77,7 +78,7 @@ const App = () => {
               <Redirect to="/login" />
             ))}
           />
-          {/* <Route path="/CurrentBook/:id" render={() => <CurrentBook />} /> */}
+          <Route exact path="/book/:id" render={(props) => <CurrentBook {...props} />} />
         </Switch>
       </Router>
     </>

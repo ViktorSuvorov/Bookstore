@@ -1,33 +1,30 @@
-/* eslint-disable no-unused-expressions */
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable no-shadow */
-/* eslint-disable react/prop-types */
-/* eslint-disable array-callback-return */
-/* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable react/jsx-filename-extension */
-/* eslint-disable react/no-unescaped-entities */
-// eslint-disable-next-line react/jsx-filename-extension
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import { CardColumns } from 'react-bootstrap';
 import { getAllBooks } from '../../Redux/actions/books';
 import Book from './Book';
 import Loading from '../Utils/Loading';
 
-const AllBooks = ({ getAllBooks, items, isLoading }) => {
+const AllBooks = ({ getAllBooksConnect, items, isLoading }) => {
   useEffect(() => {
-    getAllBooks();
+    getAllBooksConnect();
   }, []);
   return (
     <div className="container">
       <CardColumns>
         {
-          isLoading ? <Loading />
+          isLoading
+            ? <Loading />
             : items.map((book) => (
-              <Book key={book.id} {...book} />
+              <Book
+                key={book.id}
+                image={book.image}
+                name={book.name}
+                price={book.price}
+                author={book.author}
+                id={book.id}
+              />
             ))
         }
       </CardColumns>
@@ -40,4 +37,11 @@ const mapStateToProps = ({ books: { items, isLoading } }) => ({
   isLoading,
 });
 
-export default connect(mapStateToProps, { getAllBooks })(AllBooks);
+AllBooks.propTypes = {
+  getAllBooksConnect: PropTypes.func.isRequired,
+  items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isLoading: PropTypes.bool.isRequired,
+
+};
+
+export default connect(mapStateToProps, { getAllBooksConnect: getAllBooks })(AllBooks);

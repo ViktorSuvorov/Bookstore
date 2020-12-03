@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { Button, Card } from 'react-bootstrap';
 import PropTypes from 'prop-types';
@@ -5,7 +6,7 @@ import './Book.css';
 import { NavLink as Link } from 'react-router-dom';
 
 const Book = ({
-  image, name, price, author,
+  image, name, price, author, id,
 }) => (
   <Card border="dark">
     <Link
@@ -13,7 +14,7 @@ const Book = ({
         textDecoration: 'none',
         color: 'black',
       }}
-      to="/"
+      to={`/book/${id}`}
     >
       <img src={image} alt="book-covers" className="grid__img" />
       <Card.Body className="text-truncate">

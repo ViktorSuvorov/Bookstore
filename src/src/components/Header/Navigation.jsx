@@ -5,7 +5,7 @@ import {
 
 const Navigation = () => (
   <Navbar bg="dark" variant="dark" className="rounded mb-1">
-    <Navbar.Brand href="#home">Bookstore</Navbar.Brand>
+    <Navbar.Brand href="/profile">Bookstore</Navbar.Brand>
     <Nav className="mr-auto">
       <Nav.Link href="#home">Home</Nav.Link>
       <Nav.Link href="#features">Profile</Nav.Link>
