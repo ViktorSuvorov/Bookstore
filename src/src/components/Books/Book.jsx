@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
 import { Button, Card } from 'react-bootstrap';
 import PropTypes from 'prop-types';
@@ -16,7 +15,9 @@ const Book = ({
       }}
       to={`/book/${id}`}
     >
-      <Img src={image} alt="book-covers" className="grid__img" />
+      <ImgWrapper>
+        <Img src={image} alt="book-covers" className="grid__img" />
+      </ImgWrapper>
       <Card.Body className="text-truncate">
         <Card.Title>{name}</Card.Title>
         <Card.Text>
@@ -42,11 +43,17 @@ width:150px;
 height: 200px;
 `;
 
+const ImgWrapper = styled.div`
+display:flex;
+justify-content:center;
+`;
+
 Book.propTypes = {
   image: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
+  id: PropTypes.number.isRequired,
 };
 
 export default Book;

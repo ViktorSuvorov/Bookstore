@@ -10,20 +10,20 @@ import FilterBy from '../FilterBy/FilterBy';
 const Profile = ({ setAuth }) => {
   const [name, setName] = useState('');
 
-  const getName = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/api/profile', {
-        headers: { Authorization: localStorage.token },
-      });
-      setName(response.data.name);
-    } catch (error) {
-      console.error(console.log(error));
-    }
-  };
+  // const getName = async () => {
+  //   try {
+  //     const response = await axios.get('http://localhost:5000/api/profile', {
+  //       headers: { Authorization: localStorage.token },
+  //     });
+  //     setName(response.data.name);
+  //   } catch (error) {
+  //     console.error(console.log(error));
+  //   }
+  // };
 
-  useEffect(() => {
-    getName();
-  }, []);
+  // useEffect(() => {
+  //   getName();
+  // }, []);
 
   const logout = (e) => {
     e.preventDefault();

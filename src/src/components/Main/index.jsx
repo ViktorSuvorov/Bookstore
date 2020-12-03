@@ -1,14 +1,19 @@
 import React from 'react';
+import { Row, Col } from 'react-bootstrap';
 import AllBooks from '../Books/AllBooks';
 import Header from '../Header/Header';
-import Sidebar from '../Sidebar/Sidebar';
+import FilterBy from '../FilterBy/FilterBy';
 
-const index = () => (
+const Main = () => (
   <>
-    <Header />
-    <Sidebar />
-    <AllBooks />
+    <div className="container">
+      <Header />
+      <Row>
+        <Col sm={3}><FilterBy /></Col>
+        <Col sm={9}><AllBooks /></Col>
+      </Row>
+    </div>
   </>
 );
 
-export default index;
+export default Main;

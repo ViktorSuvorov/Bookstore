@@ -14,6 +14,7 @@ import {
 import Register from './components/Auth/Register';
 import Login from './components/Auth/Login';
 import Profile from './components/Auth/Profile';
+import Main from './components/Main/index';
 import CurrentBook from './components/Books/CurrentBook';
 
 const App = () => {
@@ -45,11 +46,7 @@ const App = () => {
           <Route
             exact
             path="/"
-            render={(props) => (!isAuthenticated ? (
-              <Login {...props} setAuth={setAuth} />
-            ) : (
-              <Redirect to="/login" />
-            ))}
+            render={() => <Main />}
           />
           <Route
             exact
@@ -57,7 +54,7 @@ const App = () => {
             render={(props) => (!isAuthenticated ? (
               <Login {...props} setAuth={setAuth} />
             ) : (
-              <Redirect to="/profile" />
+              <Redirect to="/" />
             ))}
           />
           <Route
