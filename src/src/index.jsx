@@ -4,9 +4,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import appStore from './Redux/store';
+import store from './Redux/store';
 
-const store = appStore();
 console.log('Store', store.getState());
 
 ReactDOM.render(

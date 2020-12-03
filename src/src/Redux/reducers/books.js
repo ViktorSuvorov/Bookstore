@@ -25,7 +25,6 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         oneBook: payload,
-        isLoading: false,
       };
     case CLEAN_BOOK:
       return {

@@ -1,11 +1,10 @@
 /* eslint-disable no-unused-vars */
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import Logger from 'redux-logger';
 import rootReducer from './reducers';
 
-const appStore = () => {
-  const store = createStore(rootReducer, applyMiddleware(thunk, Logger));
-  return store;
-};
-export default appStore;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk, Logger)));
+
+export default store;

@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { getOneBook, cleanBook } from '../../Redux/actions/books';
 import Book from './Book';
@@ -8,11 +9,12 @@ import Header from '../Header/Header';
 import Loading from '../Utils/Loading';
 
 const CurrentBook = ({
-  getOneBookConnect, oneBook, match, isLoading,
+  getOneBookConnect, match,
 }) => {
-  console.log('oneBook', oneBook);
+  const [book, setBook] = useState();
+  const isLoading = 'false';
   useEffect(() => {
-    getOneBookConnect(match.params.id);
+    setBook(getOneBookConnect(match.params.id));
     return cleanBook();
   }, []);
   return (
@@ -21,15 +23,15 @@ const CurrentBook = ({
       {
           isLoading
             ? <Loading />
-            : <Book {...oneBook} />
+            : <Book {...book} />
       }
     </div>
   );
 };
 
-const mapStateToProps = ({ books: { oneBook, isLoading } }) => ({
-  oneBook,
-  isLoading,
-});
+// const mapStateToProps = ({ books: { oneBook, isLoading } }) => ({
+//   oneBook,
+//   isLoading,
+// });
 
-export default connect(mapStateToProps, { getOneBookConnect: getOneBook, cleanBook })(CurrentBook);
+export default connect(null, { getOneBookConnect: getOneBook, cleanBook })(CurrentBook);
