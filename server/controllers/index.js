@@ -1,6 +1,9 @@
 const models = require('../database/models');
 const bcrypt = require('bcrypt');
 const jwtGenerator = require('../routes/authorization/helpers');
+const Sequelize = require("sequelize");
+
+const Op = Sequelize.Op;
 
 const createUser = async (req, res) => {
   try {
@@ -78,17 +81,65 @@ const profile = async (req, res) => {
 
 const getAllBooks = async (req, res) => {
   try {
-    const books = await models.Book.findAll();
-    const answer = res.json(books);
+    const {
+      priceLowToHigh,
+      priceHighToLow,
+      priceMin,
+      priceMax,
+      sortField,
+      sortOrder,
+      search,
+      author,
+      genre,
+      name
+    } = req.query;
+    console.log(req.query);
+
+    let options = { where: {}};
+
+    if( search ) {
+      const name = Sequelize.where(
+        Sequelize.fn("Lower", Sequelize.col("name")),
+        "LIKE",
+        "%" + search.toLowerCase() + "%"
+      );
+      const description = Sequelize.where(
+        Sequelize.fn("LOWER",Sequelize.col("description")),
+        "LIKE",
+        "%" + search.toLowerCase + "%"
+      );
+      options.where ={
+        [Op.or]:[name,description],
+      };
+    }
+
+    if ( author ) {
+      options.where.author = author;
+    }
+
+    if ( name ) {
+      options.where.name = name;
+    }
+ 
+    if ( genre ) {
+      options.where.genre = genre;
+    }
+
+    if ( priceMin && priceMax ) {
+      options.where.priceSegment = {[Op.between]:[priceMin, priceMax]};
+    };
+    
+    const books = await models.Book.findAll(options);
+    res.json(books);
+    // console.log(books);
   } catch (error) {
     console.error(console.message)
+    return res.sendStatus(500);
   }
 }
 
 const getCurrentBook = async (req, res) => {
   try {
-    console.log('getCurrentBookID', req.params);
-
     const book = await models.Book.findOne({ where: { id: req.params.id } });
     const answer = res.json(book);
   } catch (error) {

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import AwesomeSlider from 'react-awesome-slider';
 import { Button } from 'react-bootstrap';
 import styled from 'styled-components';
-import { getCurrentBook } from '../../Api/Book/index';
+import { getCurrentBook } from '../../Api/Book/bookApi';
 import Header from '../Header/Header';
 import 'react-awesome-slider/dist/styles.css';
 

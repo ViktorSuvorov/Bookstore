@@ -5,10 +5,10 @@ import {
 
 const Navigation = () => (
   <Navbar bg="dark" variant="dark" className="rounded mb-1">
-    <Navbar.Brand href="/profile">Bookstore</Navbar.Brand>
+    <Navbar.Brand href="/">Bookstore</Navbar.Brand>
     <Nav className="mr-auto">
-      <Nav.Link href="#home">Home</Nav.Link>
-      <Nav.Link href="#features">Profile</Nav.Link>
+      <Nav.Link href="/login">Login</Nav.Link>
+      <Nav.Link href="/profile">Profile</Nav.Link>
       <Nav.Link href="#pricing">
         Cart:(0)
         Total:(0)

@@ -4,16 +4,21 @@ import {
 
 const initialState = {
   isLoading: true,
-  items: [],
-  oneBook: [],
+  books: [],
+  booksFilters: {
+    author: '',
+    genre: '',
+    name: '',
+    search: '',
+  },
 };
 
-export default (state = initialState, { type, payload }) => {
+const bookReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case SET_BOOKS:
       return {
         ...state,
-        items: payload,
+        books: payload,
         isLoading: false,
       };
     case SET_IS_LOADING:
@@ -35,3 +40,5 @@ export default (state = initialState, { type, payload }) => {
       return state;
   }
 };
+
+export default bookReducer;

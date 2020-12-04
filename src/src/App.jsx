@@ -13,7 +13,7 @@ import {
 
 import Register from './components/Auth/Register';
 import Login from './components/Auth/Login';
-import Profile from './components/Auth/Profile';
+import Profile from './components/Profile/Profile';
 import Main from './components/Main/index';
 import CurrentBook from './components/Books/CurrentBook';
 
@@ -66,7 +66,7 @@ const App = () => {
               <Redirect to="/login" />
             ))}
           />
-          <Route
+          {/* <Route
             exact
             path="/profile"
             render={(props) => (isAuthenticated ? (
@@ -74,6 +74,20 @@ const App = () => {
             ) : (
               <Redirect to="/login" />
             ))}
+          /> */}
+          {/* <Route
+            exact
+            path="/profile"
+            render={(props) => (isAuthenticated ? (
+              <Profile {...props} setAuth={setAuth} />
+            ) : (
+              <Redirect to="/login" />
+            ))}
+          /> */}
+          <Route
+            exact
+            path="/profile"
+            render={(props) => <Profile {...props} setAuth={setAuth} />}
           />
           <Route exact path="/book/:id" render={(props) => <CurrentBook {...props} />} />
         </Switch>

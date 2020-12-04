@@ -1,14 +1,19 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { CardColumns } from 'react-bootstrap';
 import { getAllBooks } from '../../Redux/actions/books';
-import Book from './Book';
+import BookCard from './BookСard';
 import Loading from '../Utils/Loading';
 
-const AllBooks = ({ getAllBooksConnect, items, isLoading }) => {
+const AllBooks = ({
+  getAllBooksConnect, books, isLoading, booksFilters,
+}) => {
+  console.log(booksFilters);
   useEffect(() => {
-    getAllBooksConnect();
+    getAllBooksConnect(booksFilters);
   }, []);
   return (
     <div className="container">
@@ -16,8 +21,8 @@ const AllBooks = ({ getAllBooksConnect, items, isLoading }) => {
         {
           isLoading
             ? <Loading />
-            : items.map((book) => (
-              <Book
+            : books.map((book) => (
+              <BookCard
                 key={book.id}
                 image={book.image}
                 name={book.name}
@@ -32,14 +37,19 @@ const AllBooks = ({ getAllBooksConnect, items, isLoading }) => {
   );
 };
 
-const mapStateToProps = ({ books: { items, isLoading } }) => ({
-  items,
+const mapStateToProps = ({
+  bookReducer: {
+    books, isLoading, booksFilters,
+  },
+}) => ({
+  books,
   isLoading,
+  booksFilters,
 });
 
 AllBooks.propTypes = {
   getAllBooksConnect: PropTypes.func.isRequired,
-  items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  books: PropTypes.arrayOf(PropTypes.object).isRequired,
   isLoading: PropTypes.bool.isRequired,
 };
 
