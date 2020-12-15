@@ -11,11 +11,16 @@ import {
   Redirect,
 } from 'react-router-dom';
 
-import Register from './components/Auth/Register';
-import Login from './components/Auth/Login';
-import Profile from './components/Profile/Profile';
-import Main from './components/Main/index';
-import CurrentBook from './components/Books/CurrentBook';
+import { Container } from 'react-bootstrap';
+import Register from './components/Register';
+import Login from './components/Login';
+import Profile from './components/Profile';
+import Main from './components/MainPage';
+import CurrentBook from './components/CurrentBook';
+import Header from './components/Header';
+import CartPage from './pages/CartPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -23,25 +28,10 @@ const App = () => {
     setIsAuthenticated(boolean);
   };
 
-  const isAuth = async () => {
-    try {
-      const response = await fetch('http://localhost:5000/api/is-verify', {
-        method: 'GET',
-        headers: { Authorization: localStorage.token },
-      });
-      const parsRes = await response.json();
-      parsRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
-
-  useEffect(() => {
-    isAuth();
-  });
   return (
-    <>
-      <Router>
+    <Router>
+      <Header />
+      <Container>
         <Switch>
           <Route
             exact
@@ -51,48 +41,32 @@ const App = () => {
           <Route
             exact
             path="/login"
-            render={(props) => (!isAuthenticated ? (
-              <Login {...props} setAuth={setAuth} />
-            ) : (
-              <Redirect to="/" />
-            ))}
+            component={
+              LoginPage
+            }
           />
           <Route
             exact
             path="/register"
-            render={(props) => (!isAuthenticated ? (
-              <Register {...props} setAuth={setAuth} />
-            ) : (
-              <Redirect to="/login" />
-            ))}
+            component={
+              RegisterPage
+            }
           />
-          {/* <Route
+          <Route
             exact
-            path="/profile"
-            render={(props) => (isAuthenticated ? (
-              <Profile {...props} setAuth={setAuth} />
-            ) : (
-              <Redirect to="/login" />
-            ))}
-          /> */}
-          {/* <Route
-            exact
-            path="/profile"
-            render={(props) => (isAuthenticated ? (
-              <Profile {...props} setAuth={setAuth} />
-            ) : (
-              <Redirect to="/login" />
-            ))}
-          /> */}
+            path="/cart/:id?"
+            render={(props) => <CartPage {...props} />}
+          />
           <Route
             exact
             path="/profile"
             render={(props) => <Profile {...props} setAuth={setAuth} />}
           />
           <Route exact path="/book/:id" render={(props) => <CurrentBook {...props} />} />
+
         </Switch>
-      </Router>
-    </>
+      </Container>
+    </Router>
   );
 };
 

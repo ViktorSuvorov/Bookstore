@@ -22,12 +22,29 @@ const filter = (sorting) => {
   return { sortField, sortOrder };
 };
 
+// priceLowToHigh,
+// priceHighToLow,
+// priceMin,
+// priceMax,
+// sortField,
+// sortOrder,
+// search,
+// author,
+// genre,
+// name
+
 export const getBooks = (arg) => (
   axios({
     url: `${path}`,
     params: {
       ...arg,
     },
+  })
+);
+
+export const getBooksAuthors = () => (
+  axios({
+    url: `${path}authors`,
   })
 );
 
