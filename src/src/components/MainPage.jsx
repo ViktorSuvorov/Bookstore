@@ -12,10 +12,8 @@ const Main = () => {
     priceMax: '',
     search: '',
   });
-  console.log('Mainpage', filter);
   const handleSetFilter = (result) => {
     setFilter(result);
-    console.log('result', result);
   };
 
   return (

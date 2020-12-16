@@ -8,13 +8,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../components/Loading';
 import { loginUser } from '../Redux/actions/userActions';
 import FormContainer from '../components/FormContainer';
+import Message from '../components/Message';
 
 const LoginPage = ({ location, history }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const redirect = location.search ? location.search.split('=')[1] : '/register';
-  console.log('loginredirect', redirect);
+  const redirect = location.search ? location.search.split('=')[1] : '/';
   const dispatch = useDispatch();
+  console.log('redirect from loginpage', redirect);
+  console.log('location search', location.search);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { isLoading, error, userInfo } = userLogin;
@@ -22,7 +24,6 @@ const LoginPage = ({ location, history }) => {
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(loginUser(email, password));
-    console.log(loginUser);
   };
 
   useEffect(() => {
@@ -34,7 +35,7 @@ const LoginPage = ({ location, history }) => {
   return (
     <FormContainer>
       <h1>Sign In </h1>
-      {error && <h3>{error}</h3> }
+      {error && <Message variant="danger">{error}</Message>}
       {isLoading && <Loading />}
       <Form onSubmit={(e) => submitHandler(e)}>
         <Form.Group controlId="email">

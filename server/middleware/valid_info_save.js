@@ -5,19 +5,15 @@ module.exports = (req, res, next) => {
     }
     if (req.path === "/register") {
       if (![email, name, password].every(Boolean)) {
-        res.status(401)
-        throw new Error("Missing Credentials");
+        return res.status(401).json("Missing Credentials");
       } else if (!validEmail(email)) {
-        res.status(401)
-        throw new Error("Invalid Email");
+        return res.status(401).json("Invalid Email");
       }
     } else if (req.path === "/login") {
       if (![email, password].every(Boolean)) {
-        res.status(401)
-        throw new Error("Missing Credentials");
+        return res.status(401).json("Missing Credentials");
       } else if (!validEmail(email)) {
-        res.status(401)
-        throw new Error("Invalid Email");
+        return res.status(401).json("Invalid Email");
       }
     }
     next();

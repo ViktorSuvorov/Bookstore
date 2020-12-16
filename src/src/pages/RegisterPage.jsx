@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../components/Loading';
 import { registerUser } from '../Redux/actions/userActions';
 import FormContainer from '../components/FormContainer';
+import Message from '../components/Message';
 
 const RegisterPage = ({ location, history }) => {
   const [name, setName] = useState('');
@@ -17,16 +18,16 @@ const RegisterPage = ({ location, history }) => {
   const [message, setMessage] = useState(null);
 
   const redirect = location.search ? location.search.split('=')[1] : '/';
-  console.log('location', location);
-  console.log('registerredirect', redirect);
   const dispatch = useDispatch();
 
   const userRegister = useSelector((state) => state.userRegister);
   const { isLoading, error, userInfo } = userRegister;
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const isAuth = userLogin.userInfo;
+
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log('Reg');
     if (password !== confirmPassword) {
       setMessage('Password do not match');
     } else {
@@ -35,7 +36,9 @@ const RegisterPage = ({ location, history }) => {
   };
 
   useEffect(() => {
-    if (userInfo) {
+    console.log(userInfo);
+    if (userInfo || isAuth) {
+      console.log(userInfo);
       history.push(redirect);
     }
   }, [history, userInfo, redirect]);
@@ -43,8 +46,8 @@ const RegisterPage = ({ location, history }) => {
   return (
     <FormContainer>
       <h1>Sign Up </h1>
-      {message && <h3>{message}</h3>}
-      {error && <h3>{error}</h3>}
+      {message && <Message variant="danger">{message}</Message>}
+      {error && <Message variant="danger">{error}</Message>}
       {isLoading && <Loading />}
       <Form onSubmit={(e) => submitHandler(e)}>
         <Form.Group controlId="name">

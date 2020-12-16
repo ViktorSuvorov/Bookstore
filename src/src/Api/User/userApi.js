@@ -19,3 +19,48 @@ export const userRegisterApi = (name, email, password) => (
     data: { name, email, password },
   })
 );
+
+export const userGetProfileApi = (id, getState) => {
+  const { userLogin: { userInfo } } = getState();
+  return (axios({
+    url: `${path}profile/${id}`,
+    headers: {
+      Authorization: `Bearer ${userInfo.token}`,
+    },
+  }));
+};
+
+export const updateUserProfileApi = (user, getState) => {
+  const { userLogin: { userInfo } } = getState();
+  console.log(user);
+  return (axios({
+    method: 'PUT',
+    url: `${path}profile`,
+    headers: {
+      Authorization: `Bearer ${userInfo.token}`,
+    },
+    data: user,
+  }));
+};
+
+export const getUsersListApi = (getState) => {
+  const { userLogin: { userInfo } } = getState();
+  return (axios({
+    url: `${path}`,
+    headers: {
+      Authorization: `Bearer ${userInfo.token}`,
+    },
+  }));
+};
+
+export const deleteUserByIdApi = (id, getState) => {
+  const { userLogin: { userInfo } } = getState();
+  return (axios({
+    method: 'DELETE',
+    url: `${path}${id}`,
+    headers: {
+      Authorization: `Bearer ${userInfo.token}`,
+    },
+    data: { id },
+  }));
+};
