@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { Route } from 'react-router-dom';
 import { Row, Col, Container } from 'react-bootstrap';
-import HomeScreen from '../pages/HomePage';
 import FilterBy from './FilterBy';
+import HomePage from '../pages/HomePage';
 
 const Main = () => {
   const [filter, setFilter] = useState({
@@ -19,10 +20,15 @@ const Main = () => {
   return (
     <Container>
       <Row>
-
-        <Col sm={3}><FilterBy handleSetFilter={(result) => handleSetFilter(result)} /></Col>
-        <Col sm={9}><HomeScreen filter={filter} /></Col>
-
+        <Col sm={3}>
+          <FilterBy handleSetFilter={(result) => handleSetFilter(result)} />
+        </Col>
+        <Col sm={9}>
+          <Route
+            filter={filter}
+            render={({ match }) => <HomePage match={match} />}
+          />
+        </Col>
       </Row>
     </Container>
   );

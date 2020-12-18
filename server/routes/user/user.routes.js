@@ -10,6 +10,7 @@ userRouter.get('/is-verify', isAuthorized,controllers.userControllers.isVerify);
 userRouter.get('/profile', isAuthorized,controllers.userControllers.getUserProfile);
 userRouter.put('/profile', isAuthorized,controllers.userControllers.updateUserProfile );
 userRouter.get('/', isAuthorized,isAdmin,controllers.userControllers.getUsers);
-userRouter.delete('/:id',isAuthorized,isAdmin,controllers.userControllers.deleteUser)
-
+userRouter.delete('/:id',isAuthorized,isAdmin,controllers.userControllers.deleteUser);
+userRouter.put('/:id',isAuthorized,isAdmin,controllers.userControllers.updateUserProfileByAdmin);
+userRouter.get('/:id',isAuthorized,isAdmin,controllers.userControllers.updateUserProfileByAdmin);
 module.exports = userRouter;

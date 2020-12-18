@@ -33,9 +33,9 @@ const filter = (sorting) => {
 // genre,
 // name
 
-export const getBooks = (arg) => (
+export const getBooks = (arg, pageNumber) => (
   axios({
-    url: `${path}`,
+    url: `${path}?pageNumber=${pageNumber}`,
     params: {
       ...arg,
     },
@@ -53,3 +53,44 @@ export const getCurrentBook = (id) => (
     url: `${path}${id}`,
   })
 );
+
+export const deleteBookById = (id, getState) => {
+  const { userLogin: { userInfo } } = getState();
+  return (
+    axios({
+      method: 'DELETE',
+      url: `${path}${id}`,
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+      data: { id },
+    })
+  );
+};
+
+export const createBookApi = (getState) => {
+  const { userLogin: { userInfo } } = getState();
+  return (
+    axios({
+      method: 'POST',
+      url: `${path}`,
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    })
+  );
+};
+
+export const updateBookApi = (getState, book) => {
+  const { userLogin: { userInfo } } = getState();
+  return (
+    axios({
+      method: 'PUT',
+      url: `${path}${book.id}`,
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+      data: book,
+    })
+  );
+};

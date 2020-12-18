@@ -8,12 +8,13 @@ const getAllBooksQuery = (req) => {
 };
 
 const getAllBooksParams = (req) => {
-  return req.params;
+  return req.params.id;
 };
 
-const getBooks = ({ name, genre, author, search }) => {
-  let options = { where: {} };
-
+const getBooks = ({ name, genre, author, search }, pageSize, page) => {
+  let skipValue = pageSize * (page - 1);
+  console.log('skipValue', skipValue);
+  let options = { where: {}, limit: pageSize, offset: skipValue };
   if (search) {
     const name = Sequelize.where(
       Sequelize.fn('Lower', Sequelize.col('name')),
@@ -44,11 +45,45 @@ const getBooks = ({ name, genre, author, search }) => {
   return models.Book.findAll(options);
 };
 
-const getBookById = ({id}) => models.Book.findOne({ where: { id: id } });
+const getBookById = (id) => models.Book.findOne({ where: { id } });
+
+const deleteBookById = (book) => book.destroy();
+
+const createNewBook = (req) =>
+  models.Book.create({
+    name: 'Sample Name',
+    price: 0,
+    userId: req.user.id,
+    image: '/images/sample.jpeg',
+    author: 'Sample author',
+    genre: 'Sample genre',
+    description: 'Put descriprion here',
+    rating: 0,
+  });
+
+const getCountOfBooks = async () => {
+  return await models.Book.count();
+};
+
+const getDataFromReqBody = (req) =>
+  ({
+    name,
+    price,
+    userId,
+    image,
+    author,
+    genre,
+    description,
+    rating,
+  } = req.body);
 
 module.exports = {
   getAllBooksQuery,
   getAllBooksParams,
   getBookById,
   getBooks,
+  deleteBookById,
+  createNewBook,
+  getDataFromReqBody,
+  getCountOfBooks,
 };

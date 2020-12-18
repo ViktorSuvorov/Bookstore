@@ -6,11 +6,13 @@ const notFound = (req, res, next) => {
   
   const errorHandler = (err, req, res, next) => {
     const statusCode = res.statusCode === 200 ? 500 : res.statusCode
+    console.log('@@@', statusCode);
     res.status(statusCode)
     console.log(err.message);
     res.json({
       message: err.message,
     })
+    next()
   }
 
   module.exports = {

@@ -54,7 +54,7 @@ const Header = () => {
               <LinkContainer to="/admin/userlist">
                 <NavDropdown.Item>Userslist</NavDropdown.Item>
               </LinkContainer>
-              <LinkContainer to="admin/booklist">
+              <LinkContainer to="/admin/booklist">
                 <NavDropdown.Item>Booklist</NavDropdown.Item>
               </LinkContainer>
             </NavDropdown>

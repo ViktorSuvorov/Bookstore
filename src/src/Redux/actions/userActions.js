@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
@@ -18,6 +19,10 @@ import {
   USER_DELETE_REQUEST,
   USER_DELETE_SUCCESS,
   USER_DELETE_FAIL,
+  USER_UPDATE_REQUEST,
+  USER_UPDATE_SUCCESS,
+  USER_UPDATE_FAIL,
+  USER_UPDATE_RESET,
 } from '../constants';
 import {
   userLoginApi,
@@ -26,6 +31,7 @@ import {
   updateUserProfileApi,
   getUsersListApi,
   deleteUserByIdApi,
+  updateUserProfileByAdminApi,
 } from '../../Api/User/userApi';
 
 export const userLoginRequest = () => ({
@@ -115,6 +121,23 @@ export const userDeleteError = (error) => ({
   payload: error.data.message,
 });
 
+export const userUpdateRequest = () => ({
+  type: USER_UPDATE_REQUEST,
+});
+
+export const userUpdateSuccess = () => ({
+  type: USER_UPDATE_SUCCESS,
+});
+
+export const userUpdateError = (error) => ({
+  type: USER_UPDATE_FAIL,
+  payload: error.data.message,
+});
+
+export const userUpdateReset = () => ({
+  type: USER_UPDATE_RESET,
+});
+
 export const loginUser = (email, password) => async (dispatch) => {
   try {
     const { data } = await userLoginApi(email, password);
@@ -186,5 +209,17 @@ export const deleteUser = (id) => async (dispatch, getState) => {
     dispatch(userDeleteSuccess(data));
   } catch (error) {
     dispatch(userDeleteError(error));
+  }
+};
+
+//
+export const updateUser = (user) => async (dispatch, getState) => {
+  try {
+    const { data } = await updateUserProfileByAdminApi(user, getState);
+    dispatch(userUpdateRequest());
+    dispatch(userUpdateSuccess());
+    dispatch(userDetailsSuccess(data));
+  } catch (error) {
+    dispatch(userUpdateError(error));
   }
 };

@@ -15,6 +15,10 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
 import UserListPage from './pages/UserListPage';
+import UserEditPage from './pages/UserEditPage';
+import BookListPage from './pages/BookListPage';
+import BookEditPage from './pages/BookEditPage';
+import HomePage from './pages/HomePage';
 
 const App = () => (
   <Router>
@@ -29,6 +33,11 @@ const App = () => (
           <Route exact path="/profile" component={ProfilePage} />
           <Route exact path="/book/:id" component={CurrentBook} />
           <Route exact path="/admin/userlist" component={UserListPage} />
+          <Route exact path="/admin/user/:id/edit" component={UserEditPage} />
+          <Route exact path="/admin/booklist" component={BookListPage} />
+          <Route exact path="/admin/booklist/:pageNumber" component={BookListPage} />
+          <Route exact path="/admin/book/:id/edit" component={BookEditPage} />
+          <Route exact path="/page/:pageNumber" component={HomePage} />
         </Switch>
       </Container>
     </main>

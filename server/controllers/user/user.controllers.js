@@ -2,7 +2,7 @@ const asyncHandler = require('express-async-handler');
 const userService = require('../../services/user/user.services');
 
 const registerNewUser = asyncHandler(async (req, res) => {
-  const data = await userService.getUserBodyData(req);
+  const data = userService.getUserBodyData(req);
   const userAlredyExist = await userService.getUser(data);
   if (userAlredyExist) {
     res.status(401);
@@ -25,7 +25,7 @@ const registerNewUser = asyncHandler(async (req, res) => {
 });
 
 const login = asyncHandler(async (req, res) => {
-  const data = await userService.getUserBodyData(req);
+  const data = userService.getUserBodyData(req);
   const user = await userService.getUser(data);
   const token = userService.createToken(user);
   if (user && (await userService.checkPassword(user, data))) {
@@ -72,6 +72,21 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
+const updateUserProfileByAdmin = asyncHandler(async (req, res) => {
+  const user = await userService.checkProfileAndUpdateByAdmin(req);
+  if (user) {
+    res.json({
+      name: user.name,
+      email: user.email,
+      id: user.id,
+      isAdmin: user.isAdmin,
+    });
+  } else {
+    res.status(500);
+    throw new Error('Internal server error');
+  }
+});
+
 const getUsers = asyncHandler(async (req, res) => {
   const users = await userService.getAllUsers();
   res.json(users);
@@ -80,7 +95,7 @@ const getUsers = asyncHandler(async (req, res) => {
 const deleteUser = asyncHandler(async (req, res) => {
   const user = await userService.getUserById(req);
   if (user) {
-   const result = await userService.deleteUser(req);
+    await userService.deleteUser(req);
     res.json({ message: 'User removed' });
   } else {
     res.status(404);
@@ -106,4 +121,5 @@ module.exports = {
   updateUserProfile,
   getUsers,
   deleteUser,
+  updateUserProfileByAdmin,
 };

@@ -59,6 +59,16 @@ const checkProfileAndUpdate = async (req) => {
   }
 };
 
+const checkProfileAndUpdateByAdmin = async (req) => {
+  const data = await models.User.findOne({ where: { id:req.params.id } });
+  if (data) {
+    data.name = req.body.name || data.name;
+    data.email = req.body.email || data.email;
+    data.isAdmin = req.body.isAdmin;
+    return await data.save();
+  }
+};
+
 const deleteUser = async ({params:{id}}) => {
   const user = await models.User.findOne({ where: { id } });
   user.destroy();
@@ -75,4 +85,5 @@ module.exports = {
   getAllUsers,
   deleteUser,
   getUserById,
+  checkProfileAndUpdateByAdmin,
 };

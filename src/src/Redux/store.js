@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import Logger from 'redux-logger';
 import rootReducer from './reducers';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -22,7 +21,7 @@ const initialState = {
 const store = createStore(
   rootReducer,
   initialState,
-  composeEnhancers(applyMiddleware(thunk, Logger)),
+  composeEnhancers(applyMiddleware(thunk)),
 );
 
 export default store;
