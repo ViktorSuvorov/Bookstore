@@ -16,11 +16,11 @@ import { getBookDetails } from '../Redux/actions/bookActions';
 import Loading from './Loading';
 
 const CurrentBook = ({ history, match }) => {
-  const [qty, setQty] = useState(1);
   const dispatch = useDispatch();
+
+  const [qty, setQty] = useState(1);
   const bookDetails = useSelector((state) => state.bookDetails);
   const { loading, error, book } = bookDetails;
-  console.log(bookDetails);
 
   useEffect(() => {
     dispatch(getBookDetails(match.params.id));

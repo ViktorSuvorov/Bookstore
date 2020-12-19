@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
@@ -11,17 +12,19 @@ import { getBooksList } from '../Redux/actions/bookActions';
 import BookCard from '../components/BookСard';
 import Loading from '../components/Loading';
 import Pagin from '../components/Pagin';
+import Message from '../components/Message';
 
 const HomePage = ({
   filter, match,
 }) => {
+  const dispatch = useDispatch();
+
   const { keyword } = match.params;
   const { pageNumber } = match.params || 1;
 
-  const dispatch = useDispatch();
   const bookList = useSelector((state) => state.bookList);
   const {
-    books, isLoading, page, pages,
+    books, isLoading, page, pages, error,
   } = bookList;
 
   useEffect(() => {
@@ -31,7 +34,7 @@ const HomePage = ({
   return (
     <Container>
       {
-          isLoading ? <Loading /> : (
+          isLoading ? <Loading /> : error ? (<Message variant="danger">{error}</Message>) : (
             <>
               <Row>
                 {books.map((book) => (
@@ -51,7 +54,6 @@ const HomePage = ({
             </>
           )
 }
-
     </Container>
   );
 };

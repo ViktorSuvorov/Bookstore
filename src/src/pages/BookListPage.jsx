@@ -17,13 +17,12 @@ import {
 } from '../Redux/actions/bookActions';
 import Pagin from '../components/Pagin';
 
-// eslint-disable-next-line react/prop-types
 const BookListPage = ({ history, match }) => {
-  const pageNumber = match.params.pageNumber || 1;
-
   const dispatch = useDispatch();
+  const { pageNumber } = match.params || 1;
 
   const bookList = useSelector((state) => state.bookList);
+
   const {
     isLoading, error, books, page, pages,
   } = bookList;
@@ -48,7 +47,7 @@ const BookListPage = ({ history, match }) => {
 
   useEffect(() => {
     dispatch(bookCreateReset());
-    if (!userInfo.isAdmin) {
+    if (!userInfo || !userInfo.isAdmin) {
       history.push('/login');
     }
     if (successCreate) {

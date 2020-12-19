@@ -11,6 +11,7 @@ import { bookUpdateReset, getBookDetails, updateBook } from '../Redux/actions/bo
 import { uploadBookImage } from '../Api/Upload/uploadApi';
 
 const BookEditPage = ({ match, history }) => {
+  const dispatch = useDispatch();
   const bookId = Number(match.params.id);
 
   // ИЗМЕНИТЬ НА useReducer, когда закончу с функционалом.
@@ -22,10 +23,9 @@ const BookEditPage = ({ match, history }) => {
   const [description, setDescription] = useState('');
   const [uploading, setUploading] = useState(false);
 
-  const dispatch = useDispatch();
-
   const bookDetails = useSelector((state) => state.bookDetails);
   const { loading, error, book } = bookDetails;
+
   const bookUpdate = useSelector((state) => state.bookUpdate);
   const {
     loading: loadingUpdate,
@@ -51,17 +51,14 @@ const BookEditPage = ({ match, history }) => {
 
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0];
-    console.log(e.target.file);
     const formData = new FormData();
     formData.append('image', file);
     setUploading(true);
     try {
       const { data } = await uploadBookImage(formData);
-      console.log(data);
       setImage(data);
       setUploading(false);
     } catch {
-      console.error(error);
       setUploading(false);
     }
   };

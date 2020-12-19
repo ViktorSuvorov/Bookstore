@@ -10,11 +10,10 @@ import {
 import { addToCart, removeFromCart } from '../Redux/actions/cartActions';
 
 const CartPage = ({ match, location, history }) => {
-  const bookId = match.params.id;
-  console.log(bookId);
-  const qty = location.search ? Number(location.search.split('=')[1]) : 1;
-
   const dispatch = useDispatch();
+
+  const bookId = match.params.id;
+  const qty = location.search ? Number(location.search.split('=')[1]) : 1;
 
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;

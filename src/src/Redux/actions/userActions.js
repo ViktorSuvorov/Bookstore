@@ -204,7 +204,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     dispatch(userUpdateProfileSuccess(data));
   } catch (error) {
     const { message } = error.data;
-    if (message === 'Not authorized') {
+    if (message === 'Not Authorize') {
       dispatch(logout());
     }
     dispatch(userUpdateProfileError(error));
@@ -218,7 +218,7 @@ export const listUsers = () => async (dispatch, getState) => {
     dispatch(userListSuccess(data));
   } catch (error) {
     const { message } = error.data;
-    if (message === 'Not authorized') {
+    if (message === 'Not Authorize') {
       dispatch(logout());
     }
     dispatch(userListError(error));
@@ -232,7 +232,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
     dispatch(userDeleteSuccess(data));
   } catch (error) {
     const { message } = error.data;
-    if (message === 'Not authorized') {
+    if (message === 'Not Authorize') {
       dispatch(logout());
     }
     dispatch(userDeleteError(error));
@@ -247,7 +247,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
     dispatch(userDetailsSuccess(data));
   } catch (error) {
     const { message } = error.data;
-    if (message === 'Not authorized') {
+    if (message === 'Not Authorize') {
       dispatch(logout());
     }
     dispatch(userUpdateError(error));

@@ -11,6 +11,8 @@ import FormContainer from '../components/FormContainer';
 import Message from '../components/Message';
 
 const RegisterPage = ({ location, history }) => {
+  const dispatch = useDispatch();
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,7 +20,6 @@ const RegisterPage = ({ location, history }) => {
   const [message, setMessage] = useState(null);
 
   const redirect = location.search ? location.search.split('=')[1] : '/';
-  const dispatch = useDispatch();
 
   const userRegister = useSelector((state) => state.userRegister);
   const { isLoading, error, userInfo } = userRegister;
@@ -36,9 +37,7 @@ const RegisterPage = ({ location, history }) => {
   };
 
   useEffect(() => {
-    console.log(userInfo);
     if (userInfo || isAuth) {
-      console.log(userInfo);
       history.push(redirect);
     }
   }, [history, userInfo, redirect]);
