@@ -106,9 +106,9 @@ export const bookUpdateReset = () => ({
   type: BOOK_UPDATE_RESET,
 });
 
-export const getBooksList = (arg, pageNumber = '') => async (dispatch) => {
+export const getBooksList = (filter, pageNumber = '', keyword = '') => async (dispatch) => {
   try {
-    const { data } = await getBooks(arg, pageNumber);
+    const { data } = await getBooks(filter, pageNumber, keyword);
     dispatch(bookListRequest());
     dispatch(bookListSuccess(data));
   } catch (error) {

@@ -54,7 +54,7 @@ const BookListPage = ({ history, match }) => {
     if (successCreate) {
       history.push(`/admin/book/${createdBook.id}/edit`);
     } else {
-      dispatch(getBooksList('', pageNumber));
+      dispatch(getBooksList('', pageNumber, ''));
     }
   }, [
     dispatch,

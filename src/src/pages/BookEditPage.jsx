@@ -12,7 +12,7 @@ import { uploadBookImage } from '../Api/Upload/uploadApi';
 
 const BookEditPage = ({ match, history }) => {
   const bookId = Number(match.params.id);
-  console.log('bookId', bookId);
+
   // ИЗМЕНИТЬ НА useReducer, когда закончу с функционалом.
   const [name, setName] = useState('');
   const [price, setPrice] = useState(0);

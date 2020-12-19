@@ -11,20 +11,31 @@ const getAllBooksParams = (req) => {
   return req.params.id;
 };
 
-const getBooks = ({ name, genre, author, search }, pageSize, page) => {
-  let skipValue = pageSize * (page - 1);
-  console.log('skipValue', skipValue);
-  let options = { where: {}, limit: pageSize, offset: skipValue };
-  if (search) {
+const getBooks = ({ name, genre, author, search, keyword }, pageSize, page) => {
+  // keyword = keyword
+  //   ? {
+  //       name: {
+  //         $regex: keyword,
+  //         $options: 'i',
+  //       },
+  //     }
+  //   : {};
+
+    console.log(keyword);
+
+  const skipValue = pageSize * (page - 1);
+  let options = { where: {}, limit: pageSize, offset: skipValue, ...keyword};
+  if (keyword) {
+    console.log('im work');
     const name = Sequelize.where(
       Sequelize.fn('Lower', Sequelize.col('name')),
       'LIKE',
-      '%' + search.toLowerCase() + '%'
+      '%' + keyword.toLowerCase() + '%'
     );
     const description = Sequelize.where(
       Sequelize.fn('LOWER', Sequelize.col('description')),
       'LIKE',
-      '%' + search.toLowerCase + '%'
+      '%' + keyword.toLowerCase() + '%'
     );
     options.where = {
       [Op.or]: [name, description],
@@ -42,6 +53,7 @@ const getBooks = ({ name, genre, author, search }, pageSize, page) => {
   if (genre) {
     options.where.genre = genre;
   }
+  console.log(options);
   return models.Book.findAll(options);
 };
 

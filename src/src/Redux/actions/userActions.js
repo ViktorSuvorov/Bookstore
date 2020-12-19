@@ -23,6 +23,9 @@ import {
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
   USER_UPDATE_RESET,
+  USER_DETAILS_RESET,
+  USER_LIST_RESET,
+  USER_UPDATE_PROFILE_RESET,
 } from '../constants';
 import {
   userLoginApi,
@@ -71,6 +74,10 @@ export const userDetailsSuccess = (data) => ({
   payload: data,
 });
 
+export const userDetailsReset = () => ({
+  type: USER_DETAILS_RESET,
+});
+
 export const userDetailsError = (error) => ({
   type: USER_DETAILS_FAIL,
   payload: error.data.message,
@@ -90,6 +97,10 @@ export const userUpdateProfileError = (error) => ({
   payload: error.data.message,
 });
 
+export const userUpdateProfileReset = () => ({
+  type: USER_UPDATE_PROFILE_RESET,
+});
+
 export const logout = () => ({
   type: USER_LOGOUT,
 });
@@ -106,6 +117,10 @@ export const userListSuccess = (data) => ({
 export const userListError = (error) => ({
   type: USER_LIST_FAIL,
   payload: error.data.message,
+});
+
+export const userListReset = () => ({
+  type: USER_LIST_RESET,
 });
 
 export const userDeleteRequest = () => ({
@@ -145,8 +160,6 @@ export const loginUser = (email, password) => async (dispatch) => {
     dispatch(userLoginSuccess(data));
     localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
-    console.log(error);
-    console.log(error.data.message);
     dispatch(userLoginError(error));
   }
 };
@@ -155,6 +168,8 @@ export const logoutUser = () => async (dispatch) => {
   try {
     localStorage.removeItem('userInfo');
     dispatch(logout());
+    dispatch(userDetailsReset());
+    dispatch(userListReset());
   } catch (error) {
     console.log(error);
   }
@@ -188,6 +203,10 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     dispatch(userUpdateProfileRequest());
     dispatch(userUpdateProfileSuccess(data));
   } catch (error) {
+    const { message } = error.data;
+    if (message === 'Not authorized') {
+      dispatch(logout());
+    }
     dispatch(userUpdateProfileError(error));
   }
 };
@@ -198,6 +217,10 @@ export const listUsers = () => async (dispatch, getState) => {
     dispatch(userListRequest());
     dispatch(userListSuccess(data));
   } catch (error) {
+    const { message } = error.data;
+    if (message === 'Not authorized') {
+      dispatch(logout());
+    }
     dispatch(userListError(error));
   }
 };
@@ -208,11 +231,14 @@ export const deleteUser = (id) => async (dispatch, getState) => {
     dispatch(userDeleteRequest());
     dispatch(userDeleteSuccess(data));
   } catch (error) {
+    const { message } = error.data;
+    if (message === 'Not authorized') {
+      dispatch(logout());
+    }
     dispatch(userDeleteError(error));
   }
 };
 
-//
 export const updateUser = (user) => async (dispatch, getState) => {
   try {
     const { data } = await updateUserProfileByAdminApi(user, getState);
@@ -220,6 +246,10 @@ export const updateUser = (user) => async (dispatch, getState) => {
     dispatch(userUpdateSuccess());
     dispatch(userDetailsSuccess(data));
   } catch (error) {
+    const { message } = error.data;
+    if (message === 'Not authorized') {
+      dispatch(logout());
+    }
     dispatch(userUpdateError(error));
   }
 };

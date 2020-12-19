@@ -6,12 +6,7 @@ const bookService = require('../../services/book/book.services');
 const getAllBooks = asyncHandler(async (req, res) => {
   const pageSize = 8;
   const page = Number(req.query.pageNumber) || 1;
-  console.log('page',page);
- 
-
   const count = await bookService.getCountOfBooks();  
-  const j = Math.ceil(count / pageSize);
-  console.log('pages',j);
   const booksFilters = bookService.getAllBooksQuery(req);
   const books = await bookService.getBooks(booksFilters,pageSize,page);
   res.status(201).json( {books, page, pages:Math.ceil(count / pageSize) });

@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Row, Col, Container, Pagination,
+  Row, Col, Container,
 } from 'react-bootstrap';
 import { getBooksList } from '../Redux/actions/bookActions';
 import BookCard from '../components/BookСard';
@@ -13,9 +13,10 @@ import Loading from '../components/Loading';
 import Pagin from '../components/Pagin';
 
 const HomePage = ({
-  filter, match, keyword,
+  filter, match,
 }) => {
-  const pageNumber = match.params.pageNumber || 1;
+  const { keyword } = match.params;
+  const { pageNumber } = match.params || 1;
 
   const dispatch = useDispatch();
   const bookList = useSelector((state) => state.bookList);
@@ -24,8 +25,8 @@ const HomePage = ({
   } = bookList;
 
   useEffect(() => {
-    dispatch(getBooksList(filter, pageNumber));
-  }, [dispatch, filter, pageNumber]);
+    dispatch(getBooksList(filter, pageNumber, keyword));
+  }, [dispatch, filter, pageNumber, keyword]);
 
   return (
     <Container>

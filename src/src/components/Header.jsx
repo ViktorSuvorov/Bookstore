@@ -1,18 +1,18 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
+import { Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
 import {
-  Navbar, Form, FormControl, Button, Nav, Container, NavDropdown,
+  Navbar, Nav, Container, NavDropdown,
 } from 'react-bootstrap';
 import { logoutUser } from '../Redux/actions/userActions';
+import SearchBox from './SearchBox';
 
 const Header = () => {
+  const dispatch = useDispatch();
+
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-  console.log(userInfo);
-
-  const dispatch = useDispatch();
 
   const logoutHandler = () => {
     dispatch(logoutUser());
@@ -27,6 +27,7 @@ const Header = () => {
               Bookstore
             </Navbar.Brand>
           </LinkContainer>
+          <Route render={({ history }) => <SearchBox history={history} />} />
           <Nav className="ml-auto">
             <LinkContainer to="/cart">
               <Nav.Link>
@@ -60,10 +61,6 @@ const Header = () => {
             </NavDropdown>
             )}
           </Nav>
-          <Form inline>
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-            <Button>Search</Button>
-          </Form>
         </Container>
       </Navbar>
 

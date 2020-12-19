@@ -38,6 +38,7 @@ const App = () => (
           <Route exact path="/admin/booklist/:pageNumber" component={BookListPage} />
           <Route exact path="/admin/book/:id/edit" component={BookEditPage} />
           <Route exact path="/page/:pageNumber" component={HomePage} />
+          <Route exact path="/search/:keyword" component={HomePage} />
         </Switch>
       </Container>
     </main>

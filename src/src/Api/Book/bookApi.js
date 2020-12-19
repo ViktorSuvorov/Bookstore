@@ -8,19 +8,19 @@ const PRICE_LOW_TO_HIGH = 'PRICE_LOW_TO_HIGH';
 const PRICE_HIGH_TO_LOW = 'PRICE_HIGH_TO_LOW';
 
 // Реализовать позже
-const filter = (sorting) => {
-  let sortField;
-  let sortOrder;
-  if (sorting === PRICE_LOW_TO_HIGH) {
-    sortField = 'price';
-    sortOrder = 'asc';
-  }
-  if (sorting === PRICE_HIGH_TO_LOW) {
-    sortField = 'price';
-    sortOrder = 'desc';
-  }
-  return { sortField, sortOrder };
-};
+// const filter = (sorting) => {
+//   let sortField;
+//   let sortOrder;
+//   if (sorting === PRICE_LOW_TO_HIGH) {
+//     sortField = 'price';
+//     sortOrder = 'asc';
+//   }
+//   if (sorting === PRICE_HIGH_TO_LOW) {
+//     sortField = 'price';
+//     sortOrder = 'desc';
+//   }
+//   return { sortField, sortOrder };
+// };
 
 // priceLowToHigh,
 // priceHighToLow,
@@ -33,11 +33,11 @@ const filter = (sorting) => {
 // genre,
 // name
 
-export const getBooks = (arg, pageNumber) => (
+export const getBooks = (filter, pageNumber, keyword) => (
   axios({
-    url: `${path}?pageNumber=${pageNumber}`,
+    url: `${path}?pageNumber=${pageNumber}&keyword=${keyword}`,
     params: {
-      ...arg,
+      ...filter,
     },
   })
 );
