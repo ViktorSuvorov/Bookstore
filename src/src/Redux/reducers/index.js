@@ -1,6 +1,11 @@
 import { combineReducers } from 'redux';
 import {
-  bookListReducer, bookDetailsReducer, bookDeleteReducer, bookCreateReducer, bookUpdateReducer,
+  bookListReducer,
+  bookDetailsReducer,
+  bookDeleteReducer,
+  bookCreateReducer,
+  bookUpdateReducer,
+  bookReviewCreateReducer,
 } from './bookReducers';
 import { cartReducer } from './cartReducers';
 import {
@@ -19,6 +24,7 @@ const rootReducer = combineReducers({
   bookDelete: bookDeleteReducer,
   bookCreate: bookCreateReducer,
   bookUpdate: bookUpdateReducer,
+  bookReviewCreate: bookReviewCreateReducer,
   cart: cartReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,

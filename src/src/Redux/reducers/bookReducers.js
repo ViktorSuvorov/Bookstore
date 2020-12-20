@@ -16,6 +16,10 @@ import {
   BOOK_UPDATE_SUCCESS,
   BOOK_UPDATE_FAIL,
   BOOK_UPDATE_RESET,
+  BOOK_CREATE_REVIEW_REQUEST,
+  BOOK_CREATE_REVIEW_SUCCESS,
+  BOOK_CREATE_REVIEW_FAIL,
+  BOOK_CREATE_REVIEW_RESET,
 } from '../constants';
 
 const initialState = {
@@ -146,6 +150,32 @@ export const bookUpdateReducer = (
       };
     case BOOK_UPDATE_RESET:
       return { book: {} };
+    default:
+      return state;
+  }
+};
+
+export const bookReviewCreateReducer = (
+  state = {},
+  { type, payload },
+) => {
+  switch (type) {
+    case BOOK_CREATE_REVIEW_REQUEST:
+      return {
+        isLoading: true,
+      };
+    case BOOK_CREATE_REVIEW_SUCCESS:
+      return {
+        isLoading: false,
+        success: true,
+      };
+    case BOOK_CREATE_REVIEW_FAIL:
+      return {
+        isLoading: false,
+        error: payload,
+      };
+    case BOOK_CREATE_REVIEW_RESET:
+      return {};
     default:
       return state;
   }

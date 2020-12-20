@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import {
-  getBooks, getCurrentBook, deleteBookById, createBookApi, updateBookApi,
+  getBooks, getCurrentBook, deleteBookById, createBookApi, updateBookApi, createReviewBookApi,
 } from '../../Api/Book/bookApi';
 
 import {
@@ -21,6 +21,10 @@ import {
   BOOK_UPDATE_SUCCESS,
   BOOK_UPDATE_FAIL,
   BOOK_UPDATE_RESET,
+  BOOK_CREATE_REVIEW_REQUEST,
+  BOOK_CREATE_REVIEW_SUCCESS,
+  BOOK_CREATE_REVIEW_FAIL,
+  BOOK_CREATE_REVIEW_RESET,
 } from '../constants';
 
 export const bookListRequest = () => ({
@@ -86,6 +90,23 @@ export const bookCreateError = (error) => ({
 
 export const bookCreateReset = () => ({
   type: BOOK_CREATE_RESET,
+});
+
+export const bookCreateReviewRequest = () => ({
+  type: BOOK_CREATE_REVIEW_REQUEST,
+});
+
+export const bookCreateReviewSuccess = () => ({
+  type: BOOK_CREATE_REVIEW_SUCCESS,
+});
+
+export const bookCreateReviewError = (error) => ({
+  type: BOOK_CREATE_REVIEW_FAIL,
+  payload: error.data.message,
+});
+
+export const bookCreateReviewReset = () => ({
+  type: BOOK_CREATE_REVIEW_RESET,
 });
 
 export const bookUpdateRequest = () => ({
@@ -154,5 +175,15 @@ export const updateBook = (book) => async (dispatch, getState) => {
     dispatch(bookUpdateSuccess(data));
   } catch (error) {
     dispatch(bookUpdateError(error));
+  }
+};
+
+export const createBookReview = (bookId, review) => async (dispatch, getState) => {
+  try {
+    await createReviewBookApi(getState, bookId, review);
+    dispatch(bookCreateReviewRequest());
+    dispatch(bookCreateReviewSuccess());
+  } catch (error) {
+    dispatch(bookCreateReviewError(error));
   }
 };

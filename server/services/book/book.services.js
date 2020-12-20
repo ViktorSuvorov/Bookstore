@@ -1,6 +1,6 @@
 const models = require('../../database/models');
 const Sequelize = require('sequelize');
-
+const asyncHandler = require('express-async-handler');
 const Op = Sequelize.Op;
 
 const getAllBooksQuery = (req) => {
@@ -12,21 +12,9 @@ const getAllBooksParams = (req) => {
 };
 
 const getBooks = ({ name, genre, author, search, keyword }, pageSize, page) => {
-  // keyword = keyword
-  //   ? {
-  //       name: {
-  //         $regex: keyword,
-  //         $options: 'i',
-  //       },
-  //     }
-  //   : {};
-
-    console.log(keyword);
-
   const skipValue = pageSize * (page - 1);
-  let options = { where: {}, limit: pageSize, offset: skipValue, ...keyword};
+  let options = { where: {}, limit: pageSize, offset: skipValue };
   if (keyword) {
-    console.log('im work');
     const name = Sequelize.where(
       Sequelize.fn('Lower', Sequelize.col('name')),
       'LIKE',
@@ -57,7 +45,16 @@ const getBooks = ({ name, genre, author, search, keyword }, pageSize, page) => {
   return models.Book.findAll(options);
 };
 
-const getBookById = (id) => models.Book.findOne({ where: { id } });
+const getBookById = (id) =>
+  models.Book.findOne({
+    where: { id },
+    include: [
+      {
+        model: models.Review,
+        as: 'reviews',
+      },
+    ],
+  });
 
 const deleteBookById = (book) => book.destroy();
 
@@ -72,6 +69,17 @@ const createNewBook = (req) =>
     description: 'Put descriprion here',
     rating: 0,
   });
+
+const createNewReview = (req) => {
+  const rating = Number(req.body.rating);
+  models.Review.create({
+    name: req.body.name,
+    rating: rating,
+    comment: req.body.comment,
+    bookId: req.params.id,
+    userId: req.body.id,
+  });
+};
 
 const getCountOfBooks = async () => {
   return await models.Book.count();
@@ -89,6 +97,43 @@ const getDataFromReqBody = (req) =>
     rating,
   } = req.body);
 
+const test = asyncHandler(async (req, res) => {
+  const books = await models.Book.findAll({
+    include: [
+      {
+        model: models.Review,
+        as: 'reviews',
+      },
+      {
+        model: models.User,
+        as: 'test',
+      },
+    ],
+  });
+  if (books) {
+    return res.json({ books });
+  } else {
+    return res.status(500);
+  }
+});
+
+const getBookForReview = async (id) => {
+  const book = await models.Book.findOne({
+    where: { id },
+    include: [
+      {
+        model: models.Review,
+        as: 'reviews',
+      },
+    ],
+  });
+  if (book) {
+    return book;
+  } else {
+    throw new Error('Book not found');
+  }
+};
+
 module.exports = {
   getAllBooksQuery,
   getAllBooksParams,
@@ -98,4 +143,7 @@ module.exports = {
   createNewBook,
   getDataFromReqBody,
   getCountOfBooks,
+  test,
+  createNewReview,
+  getBookForReview,
 };

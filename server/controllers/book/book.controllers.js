@@ -6,14 +6,14 @@ const bookService = require('../../services/book/book.services');
 const getAllBooks = asyncHandler(async (req, res) => {
   const pageSize = 8;
   const page = Number(req.query.pageNumber) || 1;
-  const count = await bookService.getCountOfBooks();  
+  const count = await bookService.getCountOfBooks();
   const booksFilters = bookService.getAllBooksQuery(req);
-  const books = await bookService.getBooks(booksFilters,pageSize,page);
-  res.status(201).json( {books, page, pages:Math.ceil(count / pageSize) });
+  const books = await bookService.getBooks(booksFilters, pageSize, page);
+  res.status(201).json({ books, page, pages: Math.ceil(count / pageSize) });
 });
 
 const getCurrentBook = asyncHandler(async (req, res) => {
-  const bookId =  bookService.getAllBooksParams(req);
+  const bookId = bookService.getAllBooksParams(req);
   const book = await bookService.getBookById(bookId);
   if (book) {
     res.json(book);
@@ -49,8 +49,8 @@ const deleteBook = asyncHandler(async (req, res) => {
 });
 
 const createBook = asyncHandler(async (req, res) => {
-    const book = await bookService.createNewBook(req);
-    res.status(201).json(book);
+  const book = await bookService.createNewBook(req);
+  res.status(201).json(book);
 });
 
 const updateBook = asyncHandler(async (req, res) => {
@@ -58,14 +58,14 @@ const updateBook = asyncHandler(async (req, res) => {
   const bookId = bookService.getAllBooksParams(req);
   const book = await bookService.getBookById(bookId);
   if (book) {
-    book.name = data.name
-    book.price = data.price
-    book.userId = data.userId
-    book.image = data.image
-    book.author = data.author
-    book.genre = data.genre
-    book.description = data.description
-    book.rating = data.rating
+    book.name = data.name;
+    book.price = data.price;
+    book.userId = data.userId;
+    book.image = data.image;
+    book.author = data.author;
+    book.genre = data.genre;
+    book.description = data.description;
+    book.rating = data.rating;
 
     const updatedBook = await book.save();
     res.json(updatedBook);
@@ -75,4 +75,41 @@ const updateBook = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { getAllBooks, getCurrentBook, getAllAuthors, deleteBook,createBook, updateBook };
+const createBookReview = asyncHandler(async (req, res) => {
+  // ТУТ RATING,COMMENT
+  const data = bookService.getDataFromReqBody(req);
+
+  const bookId = bookService.getAllBooksParams(req);
+  let book = await bookService.getBookForReview(bookId);
+  if (book) {
+    const alredyReviwied = book.reviews.find(
+      (review) => review.userId === req.body.id
+    );
+    if (alredyReviwied) {
+      res.status(400);
+      throw new Error('Book alredy reviewd');
+    }
+    bookService.createNewReview(req);
+    book.rating =
+      book.reviews.reduce((acc, item) => item.rating + acc, 0) /
+      book.reviews.length;
+      book.save();
+    res.status(201).json({message:'Review added'});
+  } else {
+    res.status(404);
+    throw new Error('Book not found');
+  }
+});
+
+const testing = (req, res) => bookService.test(req, res);
+
+module.exports = {
+  getAllBooks,
+  getCurrentBook,
+  getAllAuthors,
+  deleteBook,
+  createBook,
+  updateBook,
+  testing,
+  createBookReview,
+};

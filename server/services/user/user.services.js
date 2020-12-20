@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt');
 const models = require('../../database/models');
 const jwtGenerator = require('../../utils/auth.helpers');
 
+
+
 const createNewUser = async ({ name, email, password }) => {
   const saltRound = 10;
   const salt = await bcrypt.genSalt(saltRound);
