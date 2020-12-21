@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
+import { Route } from 'react-router-dom';
 import {
   Form, Button, Row, Col,
 } from 'react-bootstrap';
@@ -7,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loading from '../components/Loading';
 import { getUserDetails, updateUserProfile, userUpdateProfileReset } from '../Redux/actions/userActions';
 import Message from '../components/Message';
+import Favorite from '../components/Favorite';
 
 const ProfilePage = ({ history }) => {
   const dispatch = useDispatch();
@@ -105,7 +107,8 @@ const ProfilePage = ({ history }) => {
         </Form>
       </Col>
       <Col md={9}>
-        <h2>SOME CONTENT</h2>
+        <h3>Favorite books</h3>
+        <Route render={({ match }) => <Favorite history={history} match={match} />} />
       </Col>
     </Row>
   );

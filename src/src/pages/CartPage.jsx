@@ -51,7 +51,7 @@ const CartPage = ({ match, location, history }) => {
                     <Image src={item.image} alt={item.name} fluid rounded />
                   </Col>
                   <Col md={3}>
-                    <Link to={`/book/:${item.book}`}>
+                    <Link to={`/book/${item.book}`}>
                       {item.name}
                     </Link>
                   </Col>

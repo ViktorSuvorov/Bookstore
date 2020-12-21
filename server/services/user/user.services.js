@@ -1,8 +1,7 @@
 const bcrypt = require('bcrypt');
 const models = require('../../database/models');
 const jwtGenerator = require('../../utils/auth.helpers');
-
-
+const asyncHandler = require('express-async-handler');
 
 const createNewUser = async ({ name, email, password }) => {
   const saltRound = 10;
@@ -21,31 +20,31 @@ const getUserBodyData = (req) => {
   return req.body;
 };
 
-const getUser = async ({ email }) => {
+const getUser = asyncHandler(async ({ email }) => {
   return (user = await models.User.findOne({ where: { email } }));
-};
+});
 
-const getUserById = async ({ params:{id} }) => {
+const getUserById = asyncHandler(async ({ params: { id } }) => {
   return (user = await models.User.findOne({ where: { id } }));
-};
+});
 
-const getAllUsers = async () => {
+const getAllUsers = asyncHandler(async () => {
   return (user = await models.User.findAll());
-};
+});
 
-const checkPassword = async (user, data) => {
+const checkPassword = asyncHandler(async (user, data) => {
   return (isValid = await bcrypt.compare(data.password, user.password));
-};
+});
 
 const createToken = (user) => {
   return (token = jwtGenerator(user.id));
 };
 
-const checkProfile = async ({ user }) => {
+const checkProfile = asyncHandler(async ({ user }) => {
   return (user = await models.User.findOne({ where: { id: user } }));
-};
+});
 
-const checkProfileAndUpdate = async (req) => {
+const checkProfileAndUpdate = asyncHandler(async (req) => {
   const data = await models.User.findOne({ where: { id: req.user } });
   if (data) {
     data.name = req.body.name || data.name;
@@ -59,22 +58,56 @@ const checkProfileAndUpdate = async (req) => {
     const updatedUser = await data.save();
     return updatedUser;
   }
-};
+});
 
-const checkProfileAndUpdateByAdmin = async (req) => {
-  const data = await models.User.findOne({ where: { id:req.params.id } });
+const checkProfileAndUpdateByAdmin = asyncHandler(async (req) => {
+  const data = await models.User.findOne({ where: { id: req.params.id } });
   if (data) {
     data.name = req.body.name || data.name;
     data.email = req.body.email || data.email;
     data.isAdmin = req.body.isAdmin;
     return await data.save();
   }
-};
+});
 
-const deleteUser = async ({params:{id}}) => {
+const deleteUser = asyncHandler(async ({ params: { id } }) => {
   const user = await models.User.findOne({ where: { id } });
   user.destroy();
-};
+});
+
+const checkBook = asyncHandler(
+  async (req) => await models.Book.findOne({ where: { id: req.body.bookId } })
+);
+
+const alredyInFavorite = asyncHandler(
+  async (req) =>
+    await models.User_Books.findOne({
+      where: { userId: req.body.userId, bookId: req.body.bookId },
+    })
+);
+
+const addToUserBooksTable = asyncHandler(
+  async (req) =>
+    await new models.User_Books({
+      userId: req.body.userId,
+      bookId: req.body.bookId,
+    })
+);
+
+const getFavorite = asyncHandler(
+  async (req) =>
+    await models.User.findOne({
+      where: { id: req.body.userId },
+      attributes: { exclude: ['password'] },
+      include: [{ model: models.Book }],
+    })
+);
+
+// const addToFavourite = async (req) =>  {
+//   await new models.User_Books({
+//     userId:req.body.userId,
+//     bookId:req.body.bookId,
+//   })
 
 module.exports = {
   createNewUser,
@@ -88,4 +121,9 @@ module.exports = {
   deleteUser,
   getUserById,
   checkProfileAndUpdateByAdmin,
+  checkBook,
+  alredyInFavorite,
+  addToUserBooksTable,
+  getFavorite,
+  // addToFavourite,
 };

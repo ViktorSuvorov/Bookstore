@@ -27,6 +27,7 @@ import {
 } from '../Redux/actions/bookActions';
 import Loading from './Loading';
 import Message from './Message';
+import { favoriteReducer } from '../Redux/reducers/favoriteReducers';
 
 const CurrentBook = ({ history, match }) => {
   const dispatch = useDispatch();
@@ -40,6 +41,9 @@ const CurrentBook = ({ history, match }) => {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  const favorite = useSelector((state) => state.favorite);
+  const { favoriteItems } = favorite;
 
   const bookReviewCreate = useSelector((state) => state.bookReviewCreate);
   const {
@@ -59,6 +63,10 @@ const CurrentBook = ({ history, match }) => {
 
   const addToCartHandler = () => {
     history.push(`/cart/${match.params.id}?qty=${qty}`);
+  };
+
+  const addToFavouriteHandler = () => {
+    history.push(`/profile/${match.params.id}`);
   };
 
   const sumbitHandler = (e) => {
@@ -153,6 +161,46 @@ const CurrentBook = ({ history, match }) => {
                       Add to Cart
                     </Button>
                   </ListGroup.Item>
+                  <ListGroup.Item>
+                    <h4>Add to favourite</h4>
+                    { userInfo && !favoriteItems.includes(match.params.id) ? (
+                      <Button
+                        variant="outline-warning"
+                        className="btn-block"
+                        type="button"
+                        onClick={addToFavouriteHandler}
+                      >
+                        {' '}
+                        <i className="fa fa-heart" aria-hidden="true" />
+                        {' '}
+                        Add to favourite
+                      </Button>
+                    ) : (
+
+                      <ListGroup variant="flush">
+                        <ListGroup.Item>
+                          <Button
+                            className="btn-block"
+                            type="button"
+                            onClick={addToFavouriteHandler}
+                            disabled
+                          >
+                            {' '}
+                            <i className="fa fa-heart" aria-hidden="true" />
+                            {' '}
+                            Add to favourite
+                          </Button>
+                        </ListGroup.Item>
+                        <Message variant="danger">
+                          You must
+                          {' '}
+                          <Link to="/login">sign in</Link>
+                          {' '}
+                          to add to favourite
+                        </Message>
+                      </ListGroup>
+                    )}
+                  </ListGroup.Item>
                 </ListGroup>
               </Card>
             </Col>
@@ -205,7 +253,7 @@ const CurrentBook = ({ history, match }) => {
                       <Button type="sumbit">Submit</Button>
                     </Form>
                   ) : (
-                    <Message>
+                    <Message variant="danger">
                       You must
                       {' '}
                       <Link to="/login">sign in</Link>

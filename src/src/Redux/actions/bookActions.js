@@ -39,9 +39,7 @@ export const bookListSuccess = (books) => ({
 export const bookListError = (error) => ({
   type: BOOKS_LIST_FAIL,
   payload:
-    error.response && error.response.data.message
-      ? error.response.data.message
-      : error.message,
+  error.data.message,
 });
 
 export const bookDeleteRequest = () => ({
@@ -69,9 +67,7 @@ export const bookDetailsSuccess = (books) => ({
 export const bookDetailsError = (error) => ({
   type: BOOKS_DETAILS_FAIL,
   payload:
-    error.response && error.response.data.message
-      ? error.response.data.message
-      : error.message,
+  error.data.message,
 });
 
 export const bookCreateRequest = () => ({

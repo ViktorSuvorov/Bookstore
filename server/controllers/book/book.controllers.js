@@ -6,9 +6,12 @@ const bookService = require('../../services/book/book.services');
 const getAllBooks = asyncHandler(async (req, res) => {
   const pageSize = 8;
   const page = Number(req.query.pageNumber) || 1;
-  const count = await bookService.getCountOfBooks();
+ 
+  
   const booksFilters = bookService.getAllBooksQuery(req);
   const books = await bookService.getBooks(booksFilters, pageSize, page);
+  const count = await bookService.getCountOfBooks(req);
+  console.log('getCount',count);
   res.status(201).json({ books, page, pages: Math.ceil(count / pageSize) });
 });
 
@@ -82,19 +85,27 @@ const createBookReview = asyncHandler(async (req, res) => {
   const bookId = bookService.getAllBooksParams(req);
   let book = await bookService.getBookForReview(bookId);
   if (book) {
-    const alredyReviwied = book.reviews.find(
+    const alreadReviewed = book.reviews.find(
       (review) => review.userId === req.body.id
     );
-    if (alredyReviwied) {
+    if (alreadReviewed) {
       res.status(400);
-      throw new Error('Book alredy reviewd');
+      throw new Error('Book alredy reviewed');
     }
     bookService.createNewReview(req);
-    book.rating =
-      book.reviews.reduce((acc, item) => item.rating + acc, 0) /
-      book.reviews.length;
-      book.save();
-    res.status(201).json({message:'Review added'});
+
+    let rating = await bookService.getBookReviewTotal(bookId);
+    console.log('rating',rating);
+
+    if (rating > 0) {
+      book.rating = 0;
+      book.rating = rating;
+    } else {
+      book.rating = req.body.rating;
+    }
+
+    await book.save();
+    res.status(201).json({ message: 'Review added' });
   } else {
     res.status(404);
     throw new Error('Book not found');

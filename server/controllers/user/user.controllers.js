@@ -1,5 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const userService = require('../../services/user/user.services');
+const models = require('../../database/models/index');
+const { compareSync } = require('bcrypt');
 
 const registerNewUser = asyncHandler(async (req, res) => {
   const data = userService.getUserBodyData(req);
@@ -103,6 +105,27 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
 });
 
+const addToFavourite = asyncHandler(async (req, res) => {
+  const checkBook = await userService.checkBook(req);
+  if (!checkBook) {
+    res.status(404);
+    throw new Error('Book not found');
+  }
+
+  const alreadyExists = await userService.alredyInFavorite(req);
+
+  if (alreadyExists) {
+    return res.status(409).send({ message: "already in favorite" }); 
+  }
+
+  const userBooksTable = await userService.addToUserBooksTable(req);
+  await userBooksTable.save();
+
+  let favorite = await userService.getFavorite(req);
+
+  res.json(favorite);
+});
+
 // !!!
 const isVerify = async (req, res) => {
   try {
@@ -122,4 +145,5 @@ module.exports = {
   getUsers,
   deleteUser,
   updateUserProfileByAdmin,
+  addToFavourite
 };

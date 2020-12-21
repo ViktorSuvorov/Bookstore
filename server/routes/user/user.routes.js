@@ -13,4 +13,5 @@ userRouter.get('/', isAuthorized,isAdmin,controllers.userControllers.getUsers);
 userRouter.delete('/:id',isAuthorized,isAdmin,controllers.userControllers.deleteUser);
 userRouter.put('/:id',isAuthorized,isAdmin,controllers.userControllers.updateUserProfileByAdmin);
 userRouter.get('/:id',isAuthorized,isAdmin,controllers.userControllers.updateUserProfileByAdmin);
+userRouter.post("/favorite", controllers.userControllers.addToFavourite);
 module.exports = userRouter;
