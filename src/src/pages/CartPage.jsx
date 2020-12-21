@@ -65,8 +65,6 @@ const CartPage = ({ match, location, history }) => {
                       as="select"
                       value={item.qty}
                       onChange={(e) => {
-                        console.log('value:', e.target.value);
-                        console.log('item', item.book);
                         dispatch(addToCart(item.book, Number(e.target.value)));
                       }}
                     >

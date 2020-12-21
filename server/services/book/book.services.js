@@ -1,7 +1,6 @@
 const models = require('../../database/models');
 const Sequelize = require('sequelize');
 const asyncHandler = require('express-async-handler');
-const e = require('express');
 const Op = Sequelize.Op;
 
 const getAllBooksQuery = (req) => {
@@ -12,7 +11,7 @@ const getAllBooksParams = (req) => {
   return req.params.id;
 };
 
-const getBooks = ({ name, genre, author, search, keyword }, pageSize, page) => {
+const getBooks = ({ name, genre, author, keyword }, pageSize, page) => {
   const skipValue = pageSize * (page - 1);
   let options = { where: {}, limit: pageSize, offset: skipValue };
   if (keyword) {
@@ -35,19 +34,15 @@ const getBooks = ({ name, genre, author, search, keyword }, pageSize, page) => {
     options.where.author = author;
   }
 
-  if (name) {
-    options.where.name = name;
-  }
-
   if (genre) {
     options.where.genre = genre;
   }
-  console.log(options.limit,options.offset);
+
   return models.Book.findAll(options);
 };
 
-const getBookById = (id) =>
-  models.Book.findOne({
+const getBookById = asyncHandler(async (id) =>
+ await models.Book.findOne({
     where: { id },
     include: [
       {
@@ -55,42 +50,41 @@ const getBookById = (id) =>
         as: 'reviews',
       },
     ],
-  });
+  }));
 
 const deleteBookById = (book) => book.destroy();
 
 const createNewBook = (req) => {
-  console.log(req.user);
-return (  models.Book.create({
+  return models.Book.create({
     name: 'Sample Name',
     price: 0,
-    userId: req.user ,
+    userId: req.user,
     image: '/images/sample.jpeg',
     author: 'Sample author',
     genre: 'Sample genre',
     description: 'Put descriprion here',
     rating: 0,
-  }))};
+  });
+};
 
-const createNewReview = async (req) => {
+const createNewReview = asyncHandler(async (req) => {
   let rating = Number(req.body.rating);
- await models.Review.create({
+  await models.Review.create({
     name: req.body.name,
     rating: rating,
     comment: req.body.comment,
     bookId: req.params.id,
     userId: req.body.id,
   });
-};
+});
 
-const getCountOfBooks = async (req) => {
-  if(req.query.keyword) {
-    return await models.Book.count({where:{name:req.query.keyword}});
+const getCountOfBooks = asyncHandler(async (req) => {
+  if (req.query.keyword) {
+    return await models.Book.count({ where: { name: req.query.keyword } });
+  } else {
+    return await models.Book.count();
   }
-  else {
-    return await models.Book.count()
-  }
-};
+});
 
 const getDataFromReqBody = (req) =>
   ({
@@ -104,27 +98,7 @@ const getDataFromReqBody = (req) =>
     rating,
   } = req.body);
 
-const test = asyncHandler(async (req, res) => {
-  const books = await models.Book.findAll({
-    include: [
-      {
-        model: models.Review,
-        as: 'reviews',
-      },
-      {
-        model: models.User,
-        as: 'test',
-      },
-    ],
-  });
-  if (books) {
-    return res.json({ books });
-  } else {
-    return res.status(500);
-  }
-});
-
-const getBookForReview = async (id) => {
+const getBookForReview = asyncHandler(async (id) => {
   const book = await models.Book.findOne({
     where: { id },
     include: [
@@ -139,23 +113,18 @@ const getBookForReview = async (id) => {
   } else {
     throw new Error('Book not found');
   }
-};
+});
 
-const getBookReviewTotal = async (id) => {
- const total = await models.Review.sum('Review.rating', {
-    where:{bookId:id}
-    })
-    console.log("total", total);
-  const amount =  await models.Review.findAndCountAll({
-      where:{bookId:id}
-    })
-  console.log("amount",amount);
-  console.log(typeof(amount));
-  console.log("adsdsadsadsadasadsds", amount.count)
-  const result = total / (amount.count-(1/3));
-  console.log(result,"RESULT");
-  return result; 
-  }
+const getBookReviewTotal = asyncHandler(async (id) => {
+  const total = await models.Review.sum('Review.rating', {
+    where: { bookId: id },
+  });
+  const amount = await models.Review.findAndCountAll({
+    where: { bookId: id },
+  });
+  const result = total / (amount.count - 1 / 3);
+  return result;
+});
 
 module.exports = {
   getAllBooksQuery,
@@ -166,7 +135,6 @@ module.exports = {
   createNewBook,
   getDataFromReqBody,
   getCountOfBooks,
-  test,
   createNewReview,
   getBookForReview,
   getBookReviewTotal,

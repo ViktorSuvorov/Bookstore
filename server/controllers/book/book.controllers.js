@@ -6,12 +6,9 @@ const bookService = require('../../services/book/book.services');
 const getAllBooks = asyncHandler(async (req, res) => {
   const pageSize = 8;
   const page = Number(req.query.pageNumber) || 1;
- 
-  
   const booksFilters = bookService.getAllBooksQuery(req);
   const books = await bookService.getBooks(booksFilters, pageSize, page);
   const count = await bookService.getCountOfBooks(req);
-  console.log('getCount',count);
   res.status(201).json({ books, page, pages: Math.ceil(count / pageSize) });
 });
 
@@ -79,7 +76,6 @@ const updateBook = asyncHandler(async (req, res) => {
 });
 
 const createBookReview = asyncHandler(async (req, res) => {
-  // ТУТ RATING,COMMENT
   const data = bookService.getDataFromReqBody(req);
 
   const bookId = bookService.getAllBooksParams(req);
@@ -112,8 +108,6 @@ const createBookReview = asyncHandler(async (req, res) => {
   }
 });
 
-const testing = (req, res) => bookService.test(req, res);
-
 module.exports = {
   getAllBooks,
   getCurrentBook,
@@ -121,6 +115,5 @@ module.exports = {
   deleteBook,
   createBook,
   updateBook,
-  testing,
   createBookReview,
 };

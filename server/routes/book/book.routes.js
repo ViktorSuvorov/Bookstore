@@ -4,7 +4,6 @@ const controllers = require('../../controllers');
 const bookRouter = Router();
 
 bookRouter.get('/',controllers.bookControllers.getAllBooks);
-bookRouter.get('/test',controllers.bookControllers.testing);
 bookRouter.post('/',isAuthorized,isAdmin,controllers.bookControllers.createBook);
 bookRouter.get('/authors',controllers.bookControllers.getAllAuthors);
 bookRouter.get('/:id',controllers.bookControllers.getCurrentBook);

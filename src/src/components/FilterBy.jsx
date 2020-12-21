@@ -20,7 +20,7 @@ const FilterBy = ({ handleSetFilter }) => {
     setAuthors(data);
   };
 
-  useEffect(() => getAuthors(), []);
+  useEffect(() => getAuthors(), [filter]);
 
   const onInputChange = (event) => {
     handleSetFilter({ [event.target.getAttribute('name')]: event.target.getAttribute('value') });

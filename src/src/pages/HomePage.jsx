@@ -2,21 +2,31 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Row, Col, Container,
-} from 'react-bootstrap';
+import { Row, Col, Container } from 'react-bootstrap';
 import { getBooksList } from '../Redux/actions/bookActions';
 import BookCard from '../components/BookСard';
 import Loading from '../components/Loading';
 import Pagin from '../components/Pagin';
 import Message from '../components/Message';
+import FilterBy from '../components/FilterBy';
 
-const HomePage = ({
-  filter, match,
-}) => {
+const HomePage = ({ match }) => {
+  const [filter, setFilter] = useState({
+    name: '',
+    author: '',
+    genre: '',
+    priceMin: '',
+    priceMax: '',
+    search: '',
+  });
+
+  const handleSetFilter = (result) => {
+    setFilter(result);
+  };
+
   const dispatch = useDispatch();
 
   const { keyword } = match.params;
@@ -33,8 +43,16 @@ const HomePage = ({
 
   return (
     <Container>
-      {
-          isLoading ? <Loading /> : error ? (<Message variant="danger">{error}</Message>) : (
+      <Row>
+        <Col sm={3}>
+          <FilterBy handleSetFilter={(result) => handleSetFilter(result)} />
+        </Col>
+        <Col>
+          {isLoading ? (
+            <Loading />
+          ) : error ? (
+            <Message variant="danger">{error}</Message>
+          ) : (
             <>
               <Row>
                 {books.map((book) => (
@@ -52,8 +70,9 @@ const HomePage = ({
               </Row>
               <Pagin pages={pages} page={page} keyword={keyword || ''} />
             </>
-          )
-}
+          )}
+        </Col>
+      </Row>
     </Container>
   );
 };
