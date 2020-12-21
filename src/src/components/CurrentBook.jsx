@@ -99,7 +99,15 @@ const CurrentBook = ({ history, match }) => {
                   Author:
                   <h4>
                     {' '}
-                    {book.author}
+                    {book.author.name}
+                    {' '}
+                  </h4>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  Genre:
+                  <h4>
+                    {' '}
+                    {book.genre.name}
                     {' '}
                   </h4>
                 </ListGroup.Item>

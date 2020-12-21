@@ -7,7 +7,7 @@ module.exports = {
       {
         name: 'Jhon Smith',
         email: 'Smith@example.com',
-        password:12345,
+        password:123456,
         isAdmin:true,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -16,7 +16,7 @@ module.exports = {
         name: 'Jane Do',
         email: 'Do@example.com',
         isAdmin:false,
-        password:12345,
+        password:123456,
         createdAt: new Date(),
         updatedAt: new Date(),
       },

@@ -16,6 +16,10 @@ module.exports = {
         allowNull: true,
         type: Sequelize.INTEGER
       },
+      rating: {
+        allowNull: true,
+        type: Sequelize.DECIMAL
+      },
       price: {
         allowNull: false,
         type: Sequelize.INTEGER

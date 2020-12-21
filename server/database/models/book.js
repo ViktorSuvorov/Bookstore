@@ -20,12 +20,19 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE',
       });
 
-      Book.belongsTo(models.User, {
-        foreignKey: 'userId',
-        as: 'test',
+      Book.belongsTo(models.Author, {
+        foreignKey: 'authorId',
+        as: 'author',
+        onDelete: 'CASCADE',
+      });
+
+      Book.belongsTo(models.Genre, {
+        foreignKey: 'genreId',
+        as: 'genre',
         onDelete: 'CASCADE',
       });
     }
+
   }
   Book.init(
     {
@@ -34,8 +41,8 @@ module.exports = (sequelize, DataTypes) => {
       price: DataTypes.INTEGER,
       name: DataTypes.STRING,
       image: DataTypes.STRING,
-      author: DataTypes.STRING,
-      genre: DataTypes.STRING,
+      authorId: DataTypes.INTEGER,
+      genreId: DataTypes.INTEGER,
       rating: DataTypes.DECIMAL,
     },
     {

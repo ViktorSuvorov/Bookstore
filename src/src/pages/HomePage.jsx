@@ -15,16 +15,11 @@ import FilterBy from '../components/FilterBy';
 
 const HomePage = ({ match }) => {
   const [filter, setFilter] = useState({
-    name: '',
-    author: '',
-    genre: '',
-    priceMin: '',
-    priceMax: '',
-    search: '',
   });
 
   const handleSetFilter = (result) => {
     setFilter(result);
+    console.log('result', typeof (result));
   };
 
   const dispatch = useDispatch();
@@ -38,6 +33,7 @@ const HomePage = ({ match }) => {
   } = bookList;
 
   useEffect(() => {
+    console.log(filter);
     dispatch(getBooksList(filter, pageNumber, keyword));
   }, [dispatch, filter, pageNumber, keyword]);
 

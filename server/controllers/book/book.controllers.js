@@ -4,9 +4,10 @@ const Sequelize = require('sequelize');
 const bookService = require('../../services/book/book.services');
 
 const getAllBooks = asyncHandler(async (req, res) => {
-  const pageSize = 8;
+  const pageSize = 30;
   const page = Number(req.query.pageNumber) || 1;
   const booksFilters = bookService.getAllBooksQuery(req);
+  console.log("BOOKSFILTERS", typeof(booksFilters.filters));
   const books = await bookService.getBooks(booksFilters, pageSize, page);
   const count = await bookService.getCountOfBooks(req);
   res.status(201).json({ books, page, pages: Math.ceil(count / pageSize) });
@@ -25,11 +26,7 @@ const getCurrentBook = asyncHandler(async (req, res) => {
 
 const getAllAuthors = asyncHandler(async (req, res) => {
   try {
-    const authors = await models.Book.findAll({
-      attributes: [
-        [Sequelize.fn('DISTINCT', Sequelize.col('author')), 'author'],
-      ],
-    });
+    const authors = await models.Author.findAll({});
     res.json(authors);
   } catch (error) {
     console.error(console.message);
@@ -91,7 +88,6 @@ const createBookReview = asyncHandler(async (req, res) => {
     bookService.createNewReview(req);
 
     let rating = await bookService.getBookReviewTotal(bookId);
-    console.log('rating',rating);
 
     if (rating > 0) {
       book.rating = 0;

@@ -11,10 +11,26 @@ const getAllBooksParams = (req) => {
   return req.params.id;
 };
 
-const getBooks = ({ name, genre, author, keyword }, pageSize, page) => {
+const getBooks = async (filters, pageSize, page) => {
+  console.log('authorID', filters.authorId)
   const skipValue = pageSize * (page - 1);
-  let options = { where: {}, limit: pageSize, offset: skipValue };
-  if (keyword) {
+  let options = { where: {}, limit: pageSize, offset: skipValue, include: [
+    {
+      model: models.Genre,
+      as: 'genre',
+      where:{
+        id:[1,2,3,4,5,6,7,8]
+      }
+    },
+    {
+      model: models.Author,
+      as: 'author',
+      where:{
+        id:[7,8,9,1,2,3]
+      }
+    }
+  ] };
+  if (filters.keyword) {
     const name = Sequelize.where(
       Sequelize.fn('Lower', Sequelize.col('name')),
       'LIKE',
@@ -30,15 +46,9 @@ const getBooks = ({ name, genre, author, keyword }, pageSize, page) => {
     };
   }
 
-  if (author) {
-    options.where.author = author;
-  }
-
-  if (genre) {
-    options.where.genre = genre;
-  }
-
-  return models.Book.findAll(options);
+  const l = await models.Book.findAll(options);
+  console.log(l.length);
+  return l;
 };
 
 const getBookById = asyncHandler(async (id) =>
@@ -49,6 +59,14 @@ const getBookById = asyncHandler(async (id) =>
         model: models.Review,
         as: 'reviews',
       },
+      {
+        model: models.Genre,
+        as: 'genre'
+      },
+      {
+        model: models.Author,
+        as: 'author'
+      }
     ],
   }));
 

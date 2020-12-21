@@ -7,7 +7,6 @@ import './App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { Container } from 'react-bootstrap';
-import Main from './components/MainPage';
 import CurrentBook from './components/CurrentBook';
 import Header from './components/Header';
 import CartPage from './pages/CartPage';
@@ -19,6 +18,7 @@ import UserEditPage from './pages/UserEditPage';
 import BookListPage from './pages/BookListPage';
 import BookEditPage from './pages/BookEditPage';
 import HomePage from './pages/HomePage';
+import { PrivateRoute } from './components/PrivateRout';
 
 const App = () => (
   <Router>
@@ -30,7 +30,7 @@ const App = () => (
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/register" component={RegisterPage} />
           <Route exact path="/cart/:id?" component={CartPage} />
-          <Route exact path="/profile/:id?" component={ProfilePage} />
+          <PrivateRoute exact path="/profile/:id?" component={ProfilePage} />
           <Route exact path="/book/:id" component={CurrentBook} />
           <Route exact path="/admin/userlist" component={UserListPage} />
           <Route exact path="/admin/user/:id/edit" component={UserEditPage} />

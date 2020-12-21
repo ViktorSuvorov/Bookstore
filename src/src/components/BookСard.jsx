@@ -27,7 +27,7 @@ const Book = ({
         </Card.Title>
         <Card.Text as="div">
           <div className="my-3">
-            {author}
+            {author.name}
           </div>
         </Card.Text>
         <Card.Text as="div">
@@ -43,13 +43,5 @@ const Book = ({
     </Link>
   </Card>
 );
-
-Book.propTypes = {
-  image: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  id: PropTypes.number.isRequired,
-};
 
 export default Book;
