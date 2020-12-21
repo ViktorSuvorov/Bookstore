@@ -9,7 +9,7 @@ import Rating from './Rating';
 const Book = ({
   image, name, price, author, id, rating,
 }) => (
-  <Card className="my-3 p-1 rounded">
+  <Card className="my-3 p-2 rounded">
     <Link
       style={{
         textDecoration: 'none',
@@ -41,9 +41,6 @@ const Book = ({
         </Card.Text>
       </Card.Body>
     </Link>
-    {/* <Card.Footer>
-      <Button variant="outline-dark" style={{ color: 'black' }}>Add to cart</Button>
-    </Card.Footer> */}
   </Card>
 );
 

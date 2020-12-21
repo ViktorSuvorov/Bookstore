@@ -27,7 +27,6 @@ import {
 } from '../Redux/actions/bookActions';
 import Loading from './Loading';
 import Message from './Message';
-import { favoriteReducer } from '../Redux/reducers/favoriteReducers';
 
 const CurrentBook = ({ history, match }) => {
   const dispatch = useDispatch();

@@ -79,8 +79,9 @@ const createNewReview = asyncHandler(async (req) => {
 });
 
 const getCountOfBooks = asyncHandler(async (req) => {
-  if (req.query.keyword) {
-    return await models.Book.count({ where: { name: req.query.keyword } });
+  if (req.query.keyword || req.query.author) {
+    return await models.Book.count({where:{name:req.query.keyword,
+    author:req.query.author}});
   } else {
     return await models.Book.count();
   }
