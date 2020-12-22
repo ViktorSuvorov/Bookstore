@@ -1,30 +1,30 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-const Checkbox = ({ authors, handleFilters }) => {
+const Checkbox = ({ filterList, handleFilters }) => {
   const [checked, setChecked] = useState([]);
-  const handleToggle = (author) => () => {
-    const currentAuthorId = checked.indexOf(author);
-    const newCheckedAuthorId = [...checked];
-    if (currentAuthorId === -1) {
-      newCheckedAuthorId.push(author);
+  const handleToggle = (item) => () => {
+    const currentItemId = checked.indexOf(item);
+    const newCheckedItemId = [...checked];
+    if (currentItemId === -1) {
+      newCheckedItemId.push(item);
     } else {
-      newCheckedAuthorId.splice(currentAuthorId, 1);
+      newCheckedItemId.splice(currentItemId, 1);
     }
-    setChecked(newCheckedAuthorId);
-    handleFilters(newCheckedAuthorId);
+    setChecked(newCheckedItemId);
+    handleFilters(newCheckedItemId);
   };
 
-  return authors.map((author) => (
-    <li className="list-unstyled" key={author.id}>
+  return filterList.map((iten) => (
+    <li className="list-unstyled" key={iten.id}>
       <input
-        onChange={handleToggle(author.id)}
+        onChange={handleToggle(iten.id)}
         type="checkbox"
         className="form-check-input"
-        value={checked.indexOf(author.id === -1)}
+        value={checked.indexOf(iten.id === -1)}
       />
-      <label className="form-check-label">{author.name}</label>
+      <label className="form-check-label">{iten.name}</label>
     </li>
   ));
 };

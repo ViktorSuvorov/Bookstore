@@ -14,8 +14,6 @@ const SearchBox = ({ history }) => {
     }
   };
 
-  console.log(keyword);
-
   return (
     <Form onSubmit={submitHandler} inline>
       <Form.Control

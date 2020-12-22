@@ -6,6 +6,7 @@ const bookRouter = Router();
 bookRouter.get('/',controllers.bookControllers.getAllBooks);
 bookRouter.post('/',isAuthorized,isAdmin,controllers.bookControllers.createBook);
 bookRouter.get('/authors',controllers.bookControllers.getAllAuthors);
+bookRouter.get('/genres',controllers.bookControllers.getAllGenres);
 bookRouter.get('/:id',controllers.bookControllers.getCurrentBook);
 bookRouter.post('/:id/reviews',controllers.bookControllers.createBookReview);
 bookRouter.delete('/:id',isAuthorized,isAdmin,controllers.bookControllers.deleteBook)

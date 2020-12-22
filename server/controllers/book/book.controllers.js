@@ -4,10 +4,9 @@ const Sequelize = require('sequelize');
 const bookService = require('../../services/book/book.services');
 
 const getAllBooks = asyncHandler(async (req, res) => {
-  const pageSize = 30;
+  const pageSize = 8;
   const page = Number(req.query.pageNumber) || 1;
   const booksFilters = bookService.getAllBooksQuery(req);
-  console.log("BOOKSFILTERS", typeof(booksFilters.filters));
   const books = await bookService.getBooks(booksFilters, pageSize, page);
   const count = await bookService.getCountOfBooks(req);
   res.status(201).json({ books, page, pages: Math.ceil(count / pageSize) });
@@ -28,6 +27,15 @@ const getAllAuthors = asyncHandler(async (req, res) => {
   try {
     const authors = await models.Author.findAll({});
     res.json(authors);
+  } catch (error) {
+    console.error(console.message);
+  }
+});
+
+const getAllGenres = asyncHandler(async (req, res) => {
+  try {
+    const genres = await models.Genre.findAll({});
+    res.json(genres);
   } catch (error) {
     console.error(console.message);
   }
@@ -112,4 +120,5 @@ module.exports = {
   createBook,
   updateBook,
   createBookReview,
+  getAllGenres,
 };

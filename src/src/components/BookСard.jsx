@@ -17,7 +17,7 @@ const Book = ({
       }}
       to={`/book/${id}`}
     >
-      <Card.Img src={image} alt="book-covers" variant="top" />
+      <Card.Img src={image} alt="book-covers" variant="top" style={{ width: '165px', height: '200px' }} />
       <Card.Body>
         <Card.Title as="div">
           <strong>
@@ -34,7 +34,7 @@ const Book = ({
           <Rating value={rating} />
         </Card.Text>
         <Card.Text as="h3">
-          <div className="my-3">
+          <div>
             {price}
             &#8381;
           </div>

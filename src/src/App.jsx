@@ -1,7 +1,4 @@
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/jsx-props-no-spreading */
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './App.css';
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -38,7 +35,13 @@ const App = () => (
           <Route exact path="/admin/booklist/:pageNumber" component={BookListPage} />
           <Route exact path="/admin/book/:id/edit" component={BookEditPage} />
           <Route exact path="/page/:pageNumber" component={HomePage} />
-          <Route exact path="/search/:keyword" component={HomePage} />
+          <Route exact path="/search/:keyword/" component={HomePage} />
+          <Route
+            path="/search/:keyword/page/:pageNumber"
+            component={HomePage}
+            exact
+          />
+          {/* <Route exact path="/search/:keyword/" component={HomePage} /> */}
         </Switch>
       </Container>
     </main>

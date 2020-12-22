@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable jsx-a11y/heading-has-content */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/prop-types */
@@ -29,15 +30,17 @@ import Loading from './Loading';
 import Message from './Message';
 
 const CurrentBook = ({ history, match }) => {
+  console.log('match', match);
   const dispatch = useDispatch();
-  let reviewConfirmed;
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
 
   const bookDetails = useSelector((state) => state.bookDetails);
   const { loading, error, book } = bookDetails;
+  console.log(bookDetails);
 
+  console.log('!!!!!!!!!!', match.params.id);
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -50,15 +53,19 @@ const CurrentBook = ({ history, match }) => {
     error: errorBookReview,
   } = bookReviewCreate;
 
+  console.log('sasdsda');
+
   useEffect(() => {
+    console.log('FROM USEEFFECT');
     if (successBookReview) {
-      reviewConfirmed = 'Review added';
       setRating(0);
       setComment('');
+    }
+    if (!book.id || book.id !== match.params.id) {
+      dispatch(getBookDetails(match.params.id));
       dispatch(bookCreateReviewReset());
     }
-    dispatch(getBookDetails(match.params.id));
-  }, [dispatch, match, successBookReview]);
+  }, [dispatch, successBookReview, book.id, match]);
 
   const addToCartHandler = () => {
     history.push(`/cart/${match.params.id}?qty=${qty}`);
@@ -92,14 +99,10 @@ const CurrentBook = ({ history, match }) => {
             <Col md={3}>
               <ListGroup variant="flush">
                 <ListGroup.Item>
-                  Title:
-                  <h3>{book.name}</h3>
-                </ListGroup.Item>
-                <ListGroup.Item>
                   Author:
                   <h4>
                     {' '}
-                    {book.author.name}
+                    {book?.author?.name}
                     {' '}
                   </h4>
                 </ListGroup.Item>
@@ -107,7 +110,7 @@ const CurrentBook = ({ history, match }) => {
                   Genre:
                   <h4>
                     {' '}
-                    {book.genre.name}
+                    {book?.genre?.name}
                     {' '}
                   </h4>
                 </ListGroup.Item>
@@ -170,7 +173,7 @@ const CurrentBook = ({ history, match }) => {
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <h4>Add to favourite</h4>
-                    { userInfo && !favoriteItems.includes(match.params.id) ? (
+                    {userInfo && !favoriteItems.includes(match.params.id) ? (
                       <Button
                         variant="outline-warning"
                         className="btn-block"
@@ -180,10 +183,10 @@ const CurrentBook = ({ history, match }) => {
                         {' '}
                         <i className="fa fa-heart" aria-hidden="true" />
                         {' '}
-                        Add to favourite
+                        Add to
+                        favourite
                       </Button>
                     ) : (
-
                       <ListGroup variant="flush">
                         <ListGroup.Item>
                           <Button
@@ -195,7 +198,8 @@ const CurrentBook = ({ history, match }) => {
                             {' '}
                             <i className="fa fa-heart" aria-hidden="true" />
                             {' '}
-                            Add to favourite
+                            Add
+                            to favourite
                           </Button>
                         </ListGroup.Item>
                         <Message variant="danger">
@@ -203,7 +207,8 @@ const CurrentBook = ({ history, match }) => {
                           {' '}
                           <Link to="/login">sign in</Link>
                           {' '}
-                          to add to favourite
+                          to add to
+                          favourite
                         </Message>
                       </ListGroup>
                     )}
@@ -215,7 +220,6 @@ const CurrentBook = ({ history, match }) => {
           <Row>
             <Col md={6}>
               <h2>Reviews</h2>
-              {reviewConfirmed && <Message>{reviewConfirmed}</Message>}
               {book.reviews.length === 0 && <Message>No reviews</Message>}
               <ListGroup variant="flush">
                 {book.reviews.map((review) => (
@@ -277,10 +281,6 @@ const CurrentBook = ({ history, match }) => {
       )}
     </>
   );
-};
-
-CurrentBook.propTypes = {
-  match: PropTypes.object.isRequired,
 };
 
 export default CurrentBook;

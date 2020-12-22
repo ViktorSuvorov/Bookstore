@@ -12,47 +12,78 @@ const getAllBooksParams = (req) => {
 };
 
 const getBooks = async (filters, pageSize, page) => {
-  console.log('authorID', filters.authorId)
+
+  const authorsId = filters.authorId.split(',').map((item) => Number(item));
+  const genresId = filters.genreId.split(',').map((item) => Number(item));
   const skipValue = pageSize * (page - 1);
-  let options = { where: {}, limit: pageSize, offset: skipValue, include: [
-    {
-      model: models.Genre,
-      as: 'genre',
-      where:{
-        id:[1,2,3,4,5,6,7,8]
-      }
-    },
-    {
-      model: models.Author,
-      as: 'author',
-      where:{
-        id:[7,8,9,1,2,3]
-      }
-    }
-  ] };
+
+  let sortField;
+  let sortOrder;
+
+  if (filters.priceType === 'price up') {
+    sortField = 'price';
+    sortOrder = 'asc';
+  }
+  if (filters.priceType === 'price down') {
+    sortField = 'price';
+    sortOrder = 'desc';
+  }
+  if (filters.ratingType === 'rating up') {
+    sortField = 'rating';
+    sortOrder = 'asc';
+  }
+  if (filters.ratingType === 'rating down') {
+    sortField = 'rating';
+    sortOrder = 'desc';
+  } 
+  if (!filters.ratingType || !filters.priceType) {
+    sortField = 'price'
+    sortOrder = 'asc'
+  }
+
+  let options = {
+    where: {},
+    limit: pageSize,
+    offset: skipValue,
+    order: [[sortField, sortOrder]],
+    include: [
+      {
+        model: models.Genre,
+        as: 'genre',
+        where: {
+          id: {
+            [Op.or]: genresId,
+          },
+        },
+      },
+      {
+        model: models.Author,
+        as: 'author',
+        where: {
+          id: {
+            [Op.or]: authorsId,
+          },
+        },
+      },
+    ],
+  };
+  
   if (filters.keyword) {
     const name = Sequelize.where(
-      Sequelize.fn('Lower', Sequelize.col('name')),
+      Sequelize.fn('Lower', Sequelize.col('Book.name')),
       'LIKE',
-      '%' + keyword.toLowerCase() + '%'
-    );
-    const description = Sequelize.where(
-      Sequelize.fn('LOWER', Sequelize.col('description')),
-      'LIKE',
-      '%' + keyword.toLowerCase() + '%'
+      '%' + filters.keyword.toLowerCase() + '%'
     );
     options.where = {
-      [Op.or]: [name, description],
+      name,
     };
   }
 
-  const l = await models.Book.findAll(options);
-  console.log(l.length);
-  return l;
+  return models.Book.findAll(options);
 };
 
-const getBookById = asyncHandler(async (id) =>
- await models.Book.findOne({
+const getBookById = asyncHandler(async (id) => {
+  return await models.Book.findOne({
     where: { id },
     include: [
       {
@@ -61,14 +92,15 @@ const getBookById = asyncHandler(async (id) =>
       },
       {
         model: models.Genre,
-        as: 'genre'
+        as: 'genre',
       },
       {
         model: models.Author,
-        as: 'author'
-      }
+        as: 'author',
+      },
     ],
-  }));
+  });
+});
 
 const deleteBookById = (book) => book.destroy();
 
@@ -97,12 +129,28 @@ const createNewReview = asyncHandler(async (req) => {
 });
 
 const getCountOfBooks = asyncHandler(async (req) => {
-  if (req.query.keyword || req.query.author) {
-    return await models.Book.count({where:{name:req.query.keyword,
-    author:req.query.author}});
-  } else {
-    return await models.Book.count();
-  }
+  const name = Sequelize.where(
+    Sequelize.fn('Lower', Sequelize.col('Book.name')),
+    'LIKE',
+    '%' + req.query.keyword.toLowerCase() + '%'
+  );
+  const authorsId = req.query.authorId.split(',').map((item) => Number(item));
+  const count = await models.Book.count({
+    where: {
+      name,
+    },
+    include: [
+      {
+        model: models.Author,
+        as: 'author',
+        where: {
+          id: { [Op.or]: authorsId },
+        },
+      },
+    ],
+  });
+  console.log('COUNT FROM GET COUNT', count);
+  return count;
 });
 
 const getDataFromReqBody = (req) =>
