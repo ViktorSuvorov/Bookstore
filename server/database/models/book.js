@@ -14,6 +14,12 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE',
       });
 
+      Book.hasMany(models.Image, {
+        foreignKey: 'bookId',
+        as: 'image',
+        onDelete: 'CASCADE',
+      });
+
       Book.belongsToMany(models.User, {
         through: { model: models.User_Books, unique: false },
         foreignKey: 'bookId',
@@ -40,10 +46,9 @@ module.exports = (sequelize, DataTypes) => {
       userId: DataTypes.INTEGER,
       price: DataTypes.INTEGER,
       name: DataTypes.STRING,
-      image: DataTypes.STRING,
       authorId: DataTypes.INTEGER,
       genreId: DataTypes.INTEGER,
-      rating: DataTypes.DECIMAL,
+      rating: DataTypes.INTEGER,
     },
     {
       sequelize,

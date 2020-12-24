@@ -30,8 +30,11 @@ const upload = multer({
 })
 
 uploadRouter.post('/', upload.single('image'), (req,res) => {
-    let answer = (req.file.path);
+    //ответ получается две ссылки?
+    let answer = req.file.path;
+    // console.log(array);
     answer = answer.slice(13,answer.length);
+    console.log(answer);
     res.send(answer);
 })
 

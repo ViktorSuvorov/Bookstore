@@ -30,7 +30,6 @@ import Loading from './Loading';
 import Message from './Message';
 
 const CurrentBook = ({ history, match }) => {
-  console.log('match', match);
   const dispatch = useDispatch();
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
@@ -38,9 +37,14 @@ const CurrentBook = ({ history, match }) => {
 
   const bookDetails = useSelector((state) => state.bookDetails);
   const { loading, error, book } = bookDetails;
-  console.log(bookDetails);
+  // console.log(typeof (book.image));
+  // const myObject = JSON.parse(book.image);
+  // console.log(myObject);
+  // const result = book.image.substring(1, book.image.length - 1);
+  console.log(book);
 
-  console.log('!!!!!!!!!!', match.params.id);
+  // console.log(result);
+
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -52,8 +56,6 @@ const CurrentBook = ({ history, match }) => {
     success: successBookReview,
     error: errorBookReview,
   } = bookReviewCreate;
-
-  console.log('sasdsda');
 
   useEffect(() => {
     console.log('FROM USEEFFECT');
@@ -93,7 +95,7 @@ const CurrentBook = ({ history, match }) => {
         <>
           <Row>
             <Col md={6}>
-              <Image src={book.image} alt={book.name} fluid />
+              <Image src={book.image?.[0].url} alt={book.name} fluid />
             </Col>
 
             <Col md={3}>

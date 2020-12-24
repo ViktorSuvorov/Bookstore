@@ -1,14 +1,9 @@
-/* eslint-disable no-shadow */
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Form, Button, Container } from 'react-bootstrap';
-import axios from 'axios';
+import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import ImageUploader from 'react-images-upload';
 import Message from '../components/Message';
 import Loading from '../components/Loading';
 import FormContainer from '../components/FormContainer';
@@ -27,8 +22,7 @@ const BookEditPage = ({ match, history }) => {
   const [genre, setGenre] = useState('');
   const [description, setDescription] = useState('');
   const [uploading, setUploading] = useState(false);
-  const [pictures, setPictures] = useState('');
-  const [upload, setUpload] = useState(false);
+
   const bookDetails = useSelector((state) => state.bookDetails);
   const { loading, error, book } = bookDetails;
 
@@ -48,11 +42,27 @@ const BookEditPage = ({ match, history }) => {
     } else {
       setName(book.name);
       setPrice(book.email);
+      setImage(book.image);
       setAuthor(book.author);
       setGenre(book.genre);
       setDescription(book.description);
     }
   }, [dispatch, history, bookId, book, successUpdate]);
+
+  const uploadFileHandler = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append('image', file);
+    setUploading(true);
+    try {
+      const { data } = await uploadBookImage(formData);
+      setImage(data);
+      setUploading(false);
+    } catch {
+      setUploading(false);
+    }
+  };
+  console.log(image);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -67,24 +77,8 @@ const BookEditPage = ({ match, history }) => {
     }));
   };
 
-  const onDrop = (picture) => {
-    setPictures(picture);
-  };
-
-  const upimg = (e) => {
-    const uploadPictures = pictures.map((item) => {
-      const formData = new FormData();
-      formData.append('image', item, item.name);
-      return axios.post('http://localhost:5000/api/upload', formData);
-    });
-    axios.all(uploadPictures).then((results) => {
-      const test = results.map((item) => item.data);
-      setImage(test[0]);
-      setUpload(true);
-    })
-      .catch((error) => {
-        console.log(error);
-      });
+  const imageUploadSubmitHandler = (e) => {
+    setImage(e.target.value);
   };
 
   return (
@@ -121,6 +115,19 @@ const BookEditPage = ({ match, history }) => {
                 onChange={(e) => setPrice(e.target.value)}
               />
             </Form.Group>
+
+            <Form.Group controlId="image">
+              <Form.Label>Image</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter image url"
+                value={image}
+                onChange={(e) => setImage(e.target.value)}
+              />
+              <Form.File id="image-file" label="Choose File" custom onChange={uploadFileHandler} />
+              <Button type="submit" variant="primary" onSubmit={(e) => imageUploadSubmitHandler(e)}>Upload Images</Button>
+              {uploading && <Loading />}
+            </Form.Group>
             <Form.Group controlId="author">
               <Form.Label>Author</Form.Label>
               <Form.Control
@@ -151,35 +158,12 @@ const BookEditPage = ({ match, history }) => {
               />
             </Form.Group>
             <Button type="submit" variant="primary">
-              Update the book
+              Update
             </Button>
           </Form>
         )}
       </FormContainer>
-
-      <>
-        {upload ? <Message className="text-align-center">SUCCESS</Message> : (
-          <>
-            <ImageUploader
-              withIcon
-              buttonText="Choose images"
-              withPreview="true"
-              onChange={onDrop}
-              imgExtension={['.jpg', '.gif', '.png', '.jpeg']}
-              maxFileSize={5242880}
-            />
-            <div className="d-flex justify-content-center">
-              {pictures.length === 0 ? (<Button type="submit" onClick={upimg} disabled>PLEASE ADD IMAGES</Button>) : (
-                <Button onClick={upimg}>UPLOAD</Button>
-              )}
-            </div>
-          </>
-        )}
-
-      </>
-
     </>
-
   );
 };
 

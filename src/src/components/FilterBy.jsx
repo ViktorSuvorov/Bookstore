@@ -1,11 +1,7 @@
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable radix */
-/* eslint-disable no-shadow */
-/* eslint-disable no-restricted-globals */
+/* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
-import { Button, ListGroup } from 'react-bootstrap';
+import { ListGroup } from 'react-bootstrap';
 import { getBooksAuthors, getBooksGenres } from '../Api/Book/bookApi';
 import Checkbox from './Checkbox';
 
@@ -33,30 +29,26 @@ const FilterBy = ({ handleSetFilter }) => {
   useEffect(() => {
     getAuthors();
     getGenres();
-    handleSetFilter(myFilters);
-  }, [myFilters]);
+  }, [myFilters, type]);
 
   const handleFilters = (filters, filterBy) => {
     const newFilters = { ...myFilters, ...type };
     newFilters.filters[filterBy] = filters;
     setMyFilters(newFilters);
     handleSetFilter(newFilters);
-    console.log(myFilters);
   };
 
-  console.log('type', type);
   const onClickHandler = (event) => {
-    console.log('asdas', event.target.name);
-    console.log('work');
     setType({
       [event.target.getAttribute('name')]: event.target.getAttribute('value'),
     });
+    handleSetFilter({ [event.target.getAttribute('name')]: event.target.getAttribute('value') });
   };
 
   return (
     <>
       <ListGroup as="ul">
-        <ListGroup.Item onClick={handleSetFilter(type, '')}>
+        <ListGroup.Item>
           <ListGroup.Item
             name="price"
             as="li"
@@ -113,5 +105,4 @@ const FilterBy = ({ handleSetFilter }) => {
     </>
   );
 };
-
 export default FilterBy;

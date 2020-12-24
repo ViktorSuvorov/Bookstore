@@ -38,8 +38,7 @@ export const bookListSuccess = (books) => ({
 
 export const bookListError = (error) => ({
   type: BOOKS_LIST_FAIL,
-  payload:
-  error.data.message,
+  payload: error,
 });
 
 export const bookDeleteRequest = () => ({
@@ -139,7 +138,7 @@ export const getBookDetails = (id) => async (dispatch) => {
     dispatch(bookDetailsRequest());
     dispatch(bookDetailsSuccess(data));
   } catch (error) {
-    dispatch(bookDetailsError());
+    dispatch(bookDetailsError(error));
   }
 };
 

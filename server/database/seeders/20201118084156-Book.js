@@ -11,8 +11,6 @@ module.exports = {
           userId: 43,
           price: 3000,
           name: 'Sample Name',
-          image:
-            'https://www.alpinabook.ru/upload/setka-editor/608/608dd4e051232813f2064b7e3d07a771.jpg',
           authorId: 1,
           genreId: 6,
           rating: 4,
@@ -24,8 +22,6 @@ module.exports = {
           userId: 43,
           price: 1000,
           name: 'Another Name',
-          image:
-            'https://www.alpinabook.ru/upload/setka-editor/608/608dd4e051232813f2064b7e3d07a771.jpg',
           authorId: 2,
           genreId: 2,
           rating: 3,
@@ -37,8 +33,6 @@ module.exports = {
           userId: 43,
           price: 1500,
           name: 'Just Book',
-          image:
-            'https://ic.pics.livejournal.com/polyarinov/65159805/200088/200088_900.jpg',
           authorId: 1,
           genreId: 6,
           rating: 4,
@@ -50,8 +44,6 @@ module.exports = {
           userId: 43,
           price: 4000,
           name: 'Good Book',
-          image:
-            'https://static-cse.canva.com/blob/193586/36965116-adam-key-budet-bolno-istoriya-vracha-ushedshego-iz-professii-na-pike-karer.jpg',
           authorId: 2,
           genreId: 5,
           rating: 5,
@@ -63,8 +55,6 @@ module.exports = {
           userId: 43,
           price: 500,
           name: 'Bad Book',
-          image:
-            'https://annahlebdotcom.files.wordpress.com/2015/01/2d8698d5e197aaeb8c57aad560ec7c6c.jpg',
           authorId: 5,
           genreId: 5,
           rating: 1,
@@ -77,8 +67,6 @@ module.exports = {
           userId: 43,
           price: 2400,
           name: 'Sample Name',
-          image:
-            'https://static-cse.canva.com/blob/193590/%D0%9C%D0%9E%D0%99-%D0%9F%D0%A3%D0%A2%D0%AC.png',
           authorId: 1,
           genreId: 6,
           rating: 4.5,
@@ -90,8 +78,6 @@ module.exports = {
           userId: 43,
           price: 1800,
           name: 'Another Name',
-          image:
-            'https://www.alpinabook.ru/upload/resize_cache/iblock/dad/380_567_1/dad255f4d8915dc1de52f587d3ee76fc.jpg',
           authorId: 5,
           genreId: 6,
           rating: 3,
@@ -103,8 +89,6 @@ module.exports = {
           userId: 43,
           price: 3300,
           name: 'Just Book',
-          image:
-            'https://editus.ru/img/services/verstka/cover_1.jpg',
           authorId: 1,
           genreId: 1,
           rating: 2.5,
@@ -116,8 +100,6 @@ module.exports = {
           userId: 43,
           price: 4000,
           name: 'Next Book',
-          image:
-            'https://www.alpinabook.ru/upload/setka-editor/608/608dd4e051232813f2064b7e3d07a771.jpg',
           authorId: 2,
           genreId: 4,
           rating: 4,
@@ -129,8 +111,6 @@ module.exports = {
           userId: 43,
           price: 1300,
           name: 'Bad Book',
-          image:
-            'https://www.alpinabook.ru/upload/setka-editor/608/608dd4e051232813f2064b7e3d07a771.jpg',
           authorId: 7,
           genreId: 4,
           rating: 1,
@@ -143,8 +123,6 @@ module.exports = {
           userId: 43,
           price: 3000,
           name: 'Sample Name',
-          image:
-            'https://www.alpinabook.ru/upload/setka-editor/608/608dd4e051232813f2064b7e3d07a771.jpg',
           authorId: 10,
           genreId: 10,
           rating: 4,
@@ -156,8 +134,6 @@ module.exports = {
           userId: 43,
           price: 1000,
           name: 'Another Name',
-          image:
-            'https://www.alpinabook.ru/upload/setka-editor/608/608dd4e051232813f2064b7e3d07a771.jpg',
           authorId: 9,
           genreId: 9,
           rating: 3,
@@ -169,8 +145,6 @@ module.exports = {
           userId: 43,
           price: 1500,
           name: 'Just Book',
-          image:
-            'https://www.alpinabook.ru/upload/setka-editor/608/608dd4e051232813f2064b7e3d07a771.jpg',
           authorId: 1,
           genreId: 8,
           rating: 8,
@@ -182,8 +156,6 @@ module.exports = {
           userId: 43,
           price: 4000,
           name: 'Good Book',
-          image:
-            'https://www.alpinabook.ru/upload/setka-editor/608/608dd4e051232813f2064b7e3d07a771.jpg',
           authorId: 7,
           genreId: 7,
           rating: 5,
@@ -195,8 +167,6 @@ module.exports = {
           userId: 43,
           price: 500,
           name: 'Bad Book',
-          image:
-            'https://www.alpinabook.ru/upload/setka-editor/608/608dd4e051232813f2064b7e3d07a771.jpg',
           authorId: 6,
           genreId: 6,
           rating: 1.5,
@@ -209,8 +179,6 @@ module.exports = {
           userId: 43,
           price: 1900,
           name: 'Sample Name',
-          image:
-            'https://upload.wikimedia.org/wikipedia/ru/1/10/%D0%9E%D0%B1%D0%BB%D0%BE%D0%B6%D0%BA%D0%B0_%D0%BA%D0%BD%D0%B8%D0%B3%D0%B8_%22%D0%9D%D0%B0%D0%B2%D0%B0%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D1%8F%22%2C_%D0%9C%D0%B0%D0%BA%D1%81_%D0%A4%D1%80%D0%B0%D0%B9.jpg',
           authorId: 5,
           genreId: 5,
           rating: 4.5,
@@ -222,8 +190,6 @@ module.exports = {
           userId: 43,
           price: 1,
           name: 'Junior',
-          image:
-            'https://upload.wikimedia.org/wikipedia/ru/1/10/%D0%9E%D0%B1%D0%BB%D0%BE%D0%B6%D0%BA%D0%B0_%D0%BA%D0%BD%D0%B8%D0%B3%D0%B8_%22%D0%9D%D0%B0%D0%B2%D0%B0%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D1%8F%22%2C_%D0%9C%D0%B0%D0%BA%D1%81_%D0%A4%D1%80%D0%B0%D0%B9.jpg',
           authorId: 4,
           genreId: 4,
           rating: 2,
@@ -235,8 +201,6 @@ module.exports = {
           userId: 43,
           price: 13300,
           name: 'Gold Book',
-          image:
-            'https://upload.wikimedia.org/wikipedia/ru/1/10/%D0%9E%D0%B1%D0%BB%D0%BE%D0%B6%D0%BA%D0%B0_%D0%BA%D0%BD%D0%B8%D0%B3%D0%B8_%22%D0%9D%D0%B0%D0%B2%D0%B0%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D1%8F%22%2C_%D0%9C%D0%B0%D0%BA%D1%81_%D0%A4%D1%80%D0%B0%D0%B9.jpg',
           authorId: 3,
           genreId: 3,
           rating: 1,
@@ -248,8 +212,6 @@ module.exports = {
           userId: 43,
           price: 4200,
           name: 'Next Book',
-          image:
-            'https://upload.wikimedia.org/wikipedia/ru/1/10/%D0%9E%D0%B1%D0%BB%D0%BE%D0%B6%D0%BA%D0%B0_%D0%BA%D0%BD%D0%B8%D0%B3%D0%B8_%22%D0%9D%D0%B0%D0%B2%D0%B0%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D1%8F%22%2C_%D0%9C%D0%B0%D0%BA%D1%81_%D0%A4%D1%80%D0%B0%D0%B9.jpg',
           authorId: 2,
           genreId: 2,
           rating: 4,
@@ -261,8 +223,6 @@ module.exports = {
           userId: 43,
           price: 1200,
           name: 'Bad Book',
-          image:
-            'https://www.alpinabook.ru/upload/setka-editor/608/608dd4e051232813f2064b7e3d07a771.jpg',
           authorId: 1,
           genreId: 1,
           rating: 1,

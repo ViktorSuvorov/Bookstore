@@ -9,10 +9,9 @@ import store from './Redux/store';
 console.log('Store', store.getState());
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>,
+
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementById('root'),
 );

@@ -62,11 +62,14 @@ const updateBook = asyncHandler(async (req, res) => {
   const data = bookService.getDataFromReqBody(req);
   const bookId = bookService.getAllBooksParams(req);
   const book = await bookService.getBookById(bookId);
+  console.log('data', data);
+  console.log(typeof(data.image));
   if (book) {
+    const addImage = await bookService.addImage(req);
     book.name = data.name;
     book.price = data.price;
     book.userId = data.userId;
-    book.image = data.image;
+    book.image = addImage;
     book.author = data.author;
     book.genre = data.genre;
     book.description = data.description;
@@ -111,6 +114,28 @@ const createBookReview = asyncHandler(async (req, res) => {
     throw new Error('Book not found');
   }
 });
+
+// const updateBookImages = asyncHandler(async (req, res) => {
+//   const bookId = bookService.getAllBooksParams(req);
+//   let book = await bookService.getBookForUpdateImage(bookId);
+//     bookService.createNewReview(req);
+
+//     let rating = await bookService.getBookReviewTotal(bookId);
+
+//     if (rating > 0) {
+//       book.rating = 0;
+//       book.rating = rating;
+//     } else {
+//       book.rating = req.body.rating;
+//     }
+
+//     await book.save();
+//     res.status(201).json({ message: 'Review added' });
+//   } else {
+//     res.status(404);
+//     throw new Error('Book not found');
+//   }
+// });
 
 module.exports = {
   getAllBooks,

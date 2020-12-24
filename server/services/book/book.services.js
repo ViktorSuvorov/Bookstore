@@ -12,9 +12,12 @@ const getAllBooksParams = (req) => {
 };
 
 const getBooks = async (filters, pageSize, page) => {
-
   const authorsId = filters.authorId.split(',').map((item) => Number(item));
   const genresId = filters.genreId.split(',').map((item) => Number(item));
+  if (authorsId.length === 0) {
+    authorsId === [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  }
+
   const skipValue = pageSize * (page - 1);
 
   let sortField;
@@ -35,10 +38,10 @@ const getBooks = async (filters, pageSize, page) => {
   if (filters.ratingType === 'rating down') {
     sortField = 'rating';
     sortOrder = 'desc';
-  } 
+  }
   if (!filters.ratingType || !filters.priceType) {
-    sortField = 'price'
-    sortOrder = 'asc'
+    sortField = 'price';
+    sortOrder = 'asc';
   }
 
   let options = {
@@ -57,6 +60,10 @@ const getBooks = async (filters, pageSize, page) => {
         },
       },
       {
+        model: models.Image,
+        as: 'image',
+      },
+      {
         model: models.Author,
         as: 'author',
         where: {
@@ -67,7 +74,7 @@ const getBooks = async (filters, pageSize, page) => {
       },
     ],
   };
-  
+
   if (filters.keyword) {
     const name = Sequelize.where(
       Sequelize.fn('Lower', Sequelize.col('Book.name')),
@@ -89,14 +96,22 @@ const getBookById = asyncHandler(async (id) => {
       {
         model: models.Review,
         as: 'reviews',
+        attributes: ['comment', 'rating', 'createdAt'],
       },
       {
         model: models.Genre,
         as: 'genre',
+        attributes: ['name'],
       },
       {
         model: models.Author,
         as: 'author',
+        attributes: ['name'],
+      },
+      {
+        model: models.Image,
+        as: 'image',
+        attributes: ['url'],
       },
     ],
   });
@@ -106,14 +121,13 @@ const deleteBookById = (book) => book.destroy();
 
 const createNewBook = (req) => {
   return models.Book.create({
-    name: 'Sample Name',
-    price: 0,
+    name: 'TEST Name',
+    price: 200,
     userId: req.user,
-    image: '/images/sample.jpeg',
-    author: 'Sample author',
-    genre: 'Sample genre',
+    authorId: 2,
+    genreId: 1,
     description: 'Put descriprion here',
-    rating: 0,
+    rating: 4,
   });
 };
 
@@ -127,6 +141,15 @@ const createNewReview = asyncHandler(async (req) => {
     userId: req.body.id,
   });
 });
+const addImage = asyncHandler(async (req) => {
+  console.log(req.body.image, "from addImage");
+  await models.Image.create({
+    
+    bookId: req.params.id,
+    url:req.body.image
+  });
+});
+
 
 const getCountOfBooks = asyncHandler(async (req) => {
   const name = Sequelize.where(
@@ -149,7 +172,7 @@ const getCountOfBooks = asyncHandler(async (req) => {
       },
     ],
   });
-  console.log('COUNT FROM GET COUNT', count);
+  // console.log('COUNT FROM GET COUNT', count);
   return count;
 });
 
@@ -172,6 +195,23 @@ const getBookForReview = asyncHandler(async (id) => {
       {
         model: models.Review,
         as: 'reviews',
+      },
+    ],
+  });
+  if (book) {
+    return book;
+  } else {
+    throw new Error('Book not found');
+  }
+});
+
+const getBookForUpdateImage = asyncHandler(async (id) => {
+  const book = await models.Book.findOne({
+    where: { id },
+    include: [
+      {
+        model: models.Image,
+        as: 'image',
       },
     ],
   });
@@ -205,4 +245,6 @@ module.exports = {
   createNewReview,
   getBookForReview,
   getBookReviewTotal,
+  getBookForUpdateImage,
+  addImage
 };

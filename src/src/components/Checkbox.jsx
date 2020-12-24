@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 
 const Checkbox = ({ filterList, handleFilters }) => {
@@ -16,15 +15,15 @@ const Checkbox = ({ filterList, handleFilters }) => {
     handleFilters(newCheckedItemId);
   };
 
-  return filterList.map((iten) => (
-    <li className="list-unstyled" key={iten.id}>
+  return filterList.map((item) => (
+    <li className="list-unstyled" key={item.id}>
       <input
-        onChange={handleToggle(iten.id)}
+        onChange={handleToggle(item.id)}
         type="checkbox"
         className="form-check-input"
-        value={checked.indexOf(iten.id === -1)}
+        value={checked.indexOf(item.id === -1)}
       />
-      <label className="form-check-label">{iten.name}</label>
+      <label className="form-check-label">{item.name}</label>
     </li>
   ));
 };

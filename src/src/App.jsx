@@ -41,7 +41,6 @@ const App = () => (
             component={HomePage}
             exact
           />
-          {/* <Route exact path="/search/:keyword/" component={HomePage} /> */}
         </Switch>
       </Container>
     </main>

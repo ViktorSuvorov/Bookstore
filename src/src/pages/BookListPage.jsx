@@ -115,8 +115,8 @@ const BookListPage = ({ history, match }) => {
                   <td>{book.id}</td>
                   <td>{book.name}</td>
                   <td>{book.price}</td>
-                  <td>{book.genre}</td>
-                  <td>{book.author}</td>
+                  <td>{book.genre.name}</td>
+                  <td>{book.author.name}</td>
                   <td>{book.description}</td>
                   <td>
                     <LinkContainer to={`/admin/book/${book.id}/edit`}>

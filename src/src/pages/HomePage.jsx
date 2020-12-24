@@ -1,7 +1,6 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable no-shadow */
-/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,12 +13,10 @@ import Message from '../components/Message';
 import FilterBy from '../components/FilterBy';
 
 const HomePage = ({ match }) => {
-  const [filter, setFilter] = useState({
-  });
+  const [filter, setFilter] = useState({});
 
   const handleSetFilter = (result) => {
     setFilter(result);
-    console.log('result', typeof (result));
   };
 
   const dispatch = useDispatch();
@@ -33,7 +30,6 @@ const HomePage = ({ match }) => {
   } = bookList;
 
   useEffect(() => {
-    console.log(filter);
     dispatch(getBooksList(filter, pageNumber, keyword));
   }, [dispatch, filter, pageNumber, keyword]);
 

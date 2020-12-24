@@ -7,34 +7,12 @@ const path = 'books/';
 const allAuthorsId = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const allGenresId = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-const filterFunction = (sorting) => {
-  let sortField;
-  let sortOrder;
-  if (sorting === 'Price up') {
-    sortField = 'price';
-    sortOrder = 'asc';
-  }
-  if (sorting === 'Price down') {
-    sortField = 'price';
-    sortOrder = 'desc';
-  }
-  if (sorting === 'Rating up') {
-    sortField = 'rating';
-    sortOrder = 'asc';
-  }
-  if (sorting === 'Rating down') {
-    sortField = 'rating';
-    sortOrder = 'desc';
-  }
-  return { sortField, sortOrder };
-};
-
 export const getBooks = (filter, pageNumber, keyword) => {
+  console.log(filter.filters);
   const priceType = filter?.price || 'price up';
   const ratingType = filter?.rating;
-  console.log('keyword', keyword);
-  const authorId = filter.filters?.authorId || allAuthorsId;
-  const genreId = filter.filters?.genreId || allGenresId;
+  const authorId = filter?.filters?.authorId || allAuthorsId;
+  const genreId = filter?.filters?.genreId || allGenresId;
   return axios({
     url: `${path}?pageNumber=${pageNumber}&keyword=${keyword}&authorId=${authorId}&genreId=${genreId}&priceType=${priceType}&ratingType=${ratingType}`,
   });
