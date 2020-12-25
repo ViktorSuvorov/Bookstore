@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import {
-  getBooks, getCurrentBook, deleteBookById, createBookApi, updateBookApi, createReviewBookApi,
+  getBooks, getCurrentBook, deleteBookById, createBookApi, updateBookFromApi, createReviewBookApi,
 } from '../../Api/Book/bookApi';
 
 import {
@@ -165,7 +165,7 @@ export const createBook = () => async (dispatch, getState) => {
 
 export const updateBook = (book) => async (dispatch, getState) => {
   try {
-    const { data } = await updateBookApi(getState, book);
+    const { data } = await updateBookFromApi(getState, book);
     dispatch(bookUpdateRequest());
     dispatch(bookUpdateSuccess(data));
   } catch (error) {

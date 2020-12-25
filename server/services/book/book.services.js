@@ -3,26 +3,26 @@ const Sequelize = require('sequelize');
 const asyncHandler = require('express-async-handler');
 const Op = Sequelize.Op;
 
-const getAllBooksQuery = (req) => {
+const getDataFromBQuery = (req) => {
   return req.query;
 };
 
-const getAllBooksParams = (req) => {
-  return req.params.id;
-};
-
 const getBooks = async (filters, pageSize, page) => {
-  const authorsId = filters.authorId.split(',').map((item) => Number(item));
-  const genresId = filters.genreId.split(',').map((item) => Number(item));
-  if (authorsId.length === 0) {
-    authorsId === [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  }
-
+  const genresIdFromDb = [...await models.Genre.findAll(({attributes:['id'],raw:true}))].map(item => item.id);
+  const authorsIdFromDb = [...await models.Author.findAll(({attributes:['id'],raw:true}))].map(item => item.id);
   const skipValue = pageSize * (page - 1);
 
+  let authorsId = filters.authorId.split(',').map((item) => Number(item));
+  let genresId = filters.genreId.split(',').map((item) => Number(item));
   let sortField;
   let sortOrder;
 
+  if (genresId[0] === 0) {
+    genresId = [...genresIdFromDb];
+  }
+  if (authorsId[0] === 0) {
+    authorsId = [...authorsIdFromDb];
+  }
   if (filters.priceType === 'price up') {
     sortField = 'price';
     sortOrder = 'asc';
@@ -39,11 +39,7 @@ const getBooks = async (filters, pageSize, page) => {
     sortField = 'rating';
     sortOrder = 'desc';
   }
-  if (!filters.ratingType || !filters.priceType) {
-    sortField = 'price';
-    sortOrder = 'asc';
-  }
-
+ 
   let options = {
     where: {},
     limit: pageSize,
@@ -89,7 +85,7 @@ const getBooks = async (filters, pageSize, page) => {
   return models.Book.findAll(options);
 };
 
-const getBookById = asyncHandler(async (id) => {
+const getBookById = asyncHandler(async ({params:{id}}) => {
   return await models.Book.findOne({
     where: { id },
     include: [
@@ -188,7 +184,7 @@ const getDataFromReqBody = (req) =>
     rating,
   } = req.body);
 
-const getBookForReview = asyncHandler(async (id) => {
+const getBookForReview = asyncHandler(async ({params:{id}}) => {
   const book = await models.Book.findOne({
     where: { id },
     include: [
@@ -234,8 +230,7 @@ const getBookReviewTotal = asyncHandler(async (id) => {
 });
 
 module.exports = {
-  getAllBooksQuery,
-  getAllBooksParams,
+  getDataFromBQuery,
   getBookById,
   getBooks,
   deleteBookById,

@@ -5,7 +5,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Form, Button, Container } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import ImageUploader from 'react-images-upload';
@@ -13,7 +13,6 @@ import Message from '../components/Message';
 import Loading from '../components/Loading';
 import FormContainer from '../components/FormContainer';
 import { bookUpdateReset, getBookDetails, updateBook } from '../Redux/actions/bookActions';
-import { uploadBookImage } from '../Api/Upload/uploadApi';
 
 const BookEditPage = ({ match, history }) => {
   const dispatch = useDispatch();
@@ -26,7 +25,6 @@ const BookEditPage = ({ match, history }) => {
   const [author, setAuthor] = useState('');
   const [genre, setGenre] = useState('');
   const [description, setDescription] = useState('');
-  const [uploading, setUploading] = useState(false);
   const [pictures, setPictures] = useState('');
   const [upload, setUpload] = useState(false);
   const bookDetails = useSelector((state) => state.bookDetails);
@@ -47,9 +45,9 @@ const BookEditPage = ({ match, history }) => {
       dispatch(getBookDetails(bookId));
     } else {
       setName(book.name);
-      setPrice(book.email);
-      setAuthor(book.author);
-      setGenre(book.genre);
+      setPrice(book.price);
+      setAuthor(book.author.name);
+      setGenre(book.genre.name);
       setDescription(book.description);
     }
   }, [dispatch, history, bookId, book, successUpdate]);
@@ -130,6 +128,15 @@ const BookEditPage = ({ match, history }) => {
                 onChange={(e) => setAuthor(e.target.value)}
               />
             </Form.Group>
+            {/* <Form.Group controlId="author">
+              <Form.Label>Author</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter author name"
+                value={author}
+                onChange={(e) => setAuthor(e.target.value)}
+              />
+            </Form.Group> */}
 
             <Form.Group controlId="genre">
               <Form.Label>Genre</Form.Label>
