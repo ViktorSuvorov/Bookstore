@@ -7,6 +7,7 @@ import {
   updateBookFromApi,
   createReviewBookApi,
   updateReviewFromApi,
+  deleteReviewById,
 } from '../../Api/Book/bookApi';
 
 import {
@@ -35,6 +36,9 @@ import {
   REVIEW_UPDATE_SUCCESS,
   REVIEW_UPDATE_FAIL,
   REVIEW_UPDATE_RESET,
+  REVIEW_DELETE_REQUEST,
+  REVIEW_DELETE_SUCCESS,
+  REVIEW_DELETE_FAIL,
 } from '../constants';
 
 export const bookListRequest = () => ({
@@ -149,6 +153,19 @@ export const reviewUpdateReset = () => ({
   type: REVIEW_UPDATE_RESET,
 });
 
+export const reviewDeleteRequest = () => ({
+  type: REVIEW_DELETE_REQUEST,
+});
+
+export const reviewDeleteSuccess = () => ({
+  type: REVIEW_DELETE_SUCCESS,
+});
+
+export const reviewDeleteError = (error) => ({
+  type: REVIEW_DELETE_FAIL,
+  payload: error.data.message,
+});
+
 export const getBooksList = (filter, pageNumber = '', keyword = '') => async (
   dispatch,
 ) => {
@@ -222,5 +239,16 @@ export const updateReview = (review) => async (dispatch, getState) => {
     dispatch(reviewUpdateSuccess(data));
   } catch (error) {
     dispatch(bookUpdateError(error));
+  }
+};
+
+export const deleteReview = (reviewId, id) => async (dispatch, getState) => {
+  try {
+    dispatch(reviewDeleteRequest());
+    await deleteReviewById(reviewId, id, getState);
+
+    dispatch(reviewDeleteSuccess());
+  } catch (error) {
+    dispatch(reviewDeleteError(error));
   }
 };

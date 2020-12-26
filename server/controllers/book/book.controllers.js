@@ -1,3 +1,4 @@
+const e = require('express');
 const asyncHandler = require('express-async-handler');
 const models = require('../../database/models');
 const bookService = require('../../services/book/book.services');
@@ -82,7 +83,6 @@ const getAllGenres = asyncHandler(async (req, res) => {
 });
 
 const createBookReview = asyncHandler(async (req, res) => {
-  
   let book = await bookService.getBookForReview(req);
   if (book) {
     const alreadReviewed = book.reviews.find(
@@ -92,8 +92,8 @@ const createBookReview = asyncHandler(async (req, res) => {
       res.status(400);
       throw new Error('Book alredy reviewed');
     }
-   await  bookService.createNewReview(req);
-   await bookService.getBookReviewTotal(req);
+    await bookService.createNewReview(req);
+    await bookService.getBookReviewTotal(req);
 
     await book.save();
     res.status(201).json({ message: 'Review added' });
@@ -114,7 +114,6 @@ const updateBookReview = asyncHandler(async (req, res) => {
     review.userId = data.userId;
     // review.id = data.id;
 
-    
     // const addImage = await bookService.addImage(req);
     // book.name = data.name;
     // book.price = data.price;
@@ -129,10 +128,29 @@ const updateBookReview = asyncHandler(async (req, res) => {
 
     await bookService.getBookReviewTotal(req);
 
-   
     console.log(updatedReview);
-    const t = await book.update({updatedReview}, { where: { id:req.params.id }});
+    await book.update({ updatedReview }, { where: { id: req.params.id } });
     res.json(updatedReview);
+  } else {
+    res.status(404);
+    throw new Error('Book not found');
+  }
+});
+
+const deleteBookReview = asyncHandler(async (req, res) => {
+  console.log('req',req.body);
+  const book = await bookService.getBookById(req);
+  if (book) {
+    const review = await bookService.getReviewById(req);
+    if (review) {
+      await bookService.deleteReviewById(review);
+      await bookService.getBookReviewTotal(req);
+      await book.save();
+      res.json({ message: 'Review removed' });
+    } else {
+      res.status(404);
+      throw new Error('Review not found');
+    }
   } else {
     res.status(404);
     throw new Error('Book not found');
@@ -149,4 +167,5 @@ module.exports = {
   createBookReview,
   getAllGenres,
   updateBookReview,
+  deleteBookReview,
 };

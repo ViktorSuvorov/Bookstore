@@ -28,6 +28,7 @@ import {
   createBookReview,
   bookCreateReviewReset,
   updateReview,
+  deleteReview,
 } from '../Redux/actions/bookActions';
 import Loading from './Loading';
 import Message from './Message';
@@ -54,6 +55,12 @@ const CurrentBook = ({ history, match }) => {
     error: errorBookReview,
   } = bookReviewCreate;
 
+  const bookReviewDelete = useSelector((state) => state.bookReviewDelete);
+  const {
+    success: successBookReviewDelete,
+    error: errorBookReviewDelete,
+  } = bookReviewDelete;
+
   useEffect(() => {
     if (successBookReview) {
       setRating(0);
@@ -63,7 +70,7 @@ const CurrentBook = ({ history, match }) => {
       dispatch(getBookDetails(match.params.id));
       dispatch(bookCreateReviewReset());
     }
-  }, [dispatch, successBookReview, book.id, match]);
+  }, [dispatch, successBookReview, book.id, match, successBookReviewDelete]);
 
   const addToCartHandler = () => {
     history.push(`/cart/${match.params.id}?qty=${qty}`);
@@ -80,11 +87,12 @@ const CurrentBook = ({ history, match }) => {
 
   const reviewEditHandler = () => {
     const review = book?.reviews?.find((item) => item.userId === userInfo.id);
-    console.log(review);
+    console.log('review', review);
     dispatch(updateReview(match.params.id, review));
   };
 
-  const reviewDeleteHandler = () => {
+  const reviewDeleteHandler = (reviewId, id) => {
+    dispatch(deleteReview(reviewId, id));
     console.log('reviewDelete');
   };
 
@@ -251,7 +259,7 @@ const CurrentBook = ({ history, match }) => {
                           <Button type="button" variant="warning" className="btn-sm" onClick={(e) => reviewEditHandler(e)}>Edit</Button>
                         </Col>
                         <Col md={2}>
-                          <Button type="button" variant="danger" className="btn-sm" onClick={reviewDeleteHandler}>Delete</Button>
+                          <Button type="button" variant="danger" className="btn-sm" onClick={() => reviewDeleteHandler(review.id, review.bookId)}>Delete</Button>
                         </Col>
                       </Row>
                     )}

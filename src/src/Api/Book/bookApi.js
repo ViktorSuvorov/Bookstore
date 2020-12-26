@@ -101,7 +101,7 @@ export const createReviewBookApi = (getState, bookId, review) => {
   });
 };
 
-export const updateReviewFromApi = (getState, review) => {
+export const updateReviewFromApi = (getState, review, id) => {
   const {
     userLogin: { userInfo },
   } = getState();
@@ -111,6 +111,21 @@ export const updateReviewFromApi = (getState, review) => {
     headers: {
       Authorization: `Bearer ${userInfo.token}`,
     },
-    data: review,
+    data: { review, id },
+  });
+};
+
+export const deleteReviewById = (reviewId, id, getState) => {
+  console.log(reviewId, id);
+  const {
+    userLogin: { userInfo },
+  } = getState();
+  return axios({
+    method: 'DELETE',
+    url: `${path}${id}/reviews`,
+    headers: {
+      Authorization: `Bearer ${userInfo.token}`,
+    },
+    data: { reviewId, id },
   });
 };

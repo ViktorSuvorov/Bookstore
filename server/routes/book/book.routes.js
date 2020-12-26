@@ -16,6 +16,7 @@ bookRouter.put('/:id',isAuthorized,isAdmin,controllers.bookControllers.updateBoo
 
 
 bookRouter.post('/:id/reviews',controllers.bookControllers.createBookReview);
-bookRouter.post('/:id/reviews',controllers.bookControllers.updateBookReview);
+bookRouter.put('/:id/reviews',controllers.bookControllers.updateBookReview);
+bookRouter.delete('/:id/reviews',controllers.bookControllers.deleteBookReview);
 
 module.exports = bookRouter;

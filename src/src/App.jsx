@@ -32,8 +32,8 @@ const App = () => (
           <PrivateRoute exact path="/admin/userlist" component={UserListPage} />
           <PrivateRoute exact path="/admin/user/:id/edit" component={UserEditPage} />
           <PrivateRoute exact path="/admin/book/:id/edit" component={BookEditPage} />
-          <Route exact path="/admin/booklist" component={BookListPage} />
-          <Route exact path="/admin/booklist/:pageNumber" component={BookListPage} />
+          <PrivateRoute exact path="/admin/booklist" component={BookListPage} />
+          <PrivateRoute exact path="/admin/booklist/:pageNumber" component={BookListPage} />
           <Route exact path="/page/:pageNumber" component={HomePage} />
           <Route exact path="/search/:keyword/" component={HomePage} />
           <Route

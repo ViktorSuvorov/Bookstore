@@ -90,13 +90,14 @@ const getBooks = async (filters, pageSize, page) => {
 };
 
 const getBookById = asyncHandler(async ({ params: { id } }) => {
+  console.log('getBookById',id );
   return await models.Book.findOne({
     where: { id },
     include: [
       {
         model: models.Review,
         as: 'reviews',
-        attributes: ['comment', 'rating', 'createdAt', 'name', 'id', 'userId'],
+        attributes: ['comment', 'rating', 'createdAt', 'name', 'id', 'userId','bookId'],
       },
       {
         model: models.Genre,
@@ -237,10 +238,13 @@ const getBookReviewTotal = asyncHandler(async ({ params: { id } }) => {
 });
 
 const getReviewById = asyncHandler(async (req) => {
+  console.log("!!@3123", req.body.reviewId)
   return await models.Review.findOne({
     where: { id :req.body.reviewId },
   });
 });
+
+const deleteReviewById = (review) => review.destroy();
 
 module.exports = {
   getDataFromBQuery,
@@ -256,4 +260,5 @@ module.exports = {
   getBookForUpdateImage,
   addImage,
   getReviewById,
+  deleteReviewById,
 };

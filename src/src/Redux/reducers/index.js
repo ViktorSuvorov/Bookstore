@@ -6,6 +6,8 @@ import {
   bookCreateReducer,
   bookUpdateReducer,
   bookReviewCreateReducer,
+  bookReviewUpdateReducer,
+  bookReviewDeleteReducer,
 } from './bookReducers';
 import { cartReducer } from './cartReducers';
 import { favoriteReducer } from './favoriteReducers';
@@ -26,6 +28,8 @@ const rootReducer = combineReducers({
   bookCreate: bookCreateReducer,
   bookUpdate: bookUpdateReducer,
   bookReviewCreate: bookReviewCreateReducer,
+  bookReviewUpdate: bookReviewUpdateReducer,
+  bookReviewDelete: bookReviewDeleteReducer,
   cart: cartReducer,
   favorite: favoriteReducer,
   userLogin: userLoginReducer,
