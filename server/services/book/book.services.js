@@ -96,7 +96,7 @@ const getBookById = asyncHandler(async ({ params: { id } }) => {
       {
         model: models.Review,
         as: 'reviews',
-        attributes: ['comment', 'rating', 'createdAt','name'],
+        attributes: ['comment', 'rating', 'createdAt', 'name', 'id', 'userId'],
       },
       {
         model: models.Genre,
@@ -227,16 +227,19 @@ const getBookForUpdateImage = asyncHandler(async (id) => {
   }
 });
 
-const getBookReviewTotal = asyncHandler(async ({params:{id}}) => {
+const getBookReviewTotal = asyncHandler(async ({ params: { id } }) => {
   const bookReviews = await models.Review.findAll({
     where: { bookId: id },
   });
-  console.log(bookReviews,'bookReviews');
   const sum = bookReviews.reduce((sum, review) => sum + review.rating, 0);
-  console.log('sum', sum);
-      const rating = (sum / bookReviews.length);
-  console.log(rating);
-      await models.Book.update({ rating }, { where: { id } });
+  const rating = sum / bookReviews.length;
+  await models.Book.update({ rating }, { where: { id } });
+});
+
+const getReviewById = asyncHandler(async (req) => {
+  return await models.Review.findOne({
+    where: { id :req.body.reviewId },
+  });
 });
 
 module.exports = {
@@ -252,4 +255,5 @@ module.exports = {
   getBookReviewTotal,
   getBookForUpdateImage,
   addImage,
+  getReviewById,
 };

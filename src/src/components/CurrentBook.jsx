@@ -27,6 +27,7 @@ import {
   getBookDetails,
   createBookReview,
   bookCreateReviewReset,
+  updateReview,
 } from '../Redux/actions/bookActions';
 import Loading from './Loading';
 import Message from './Message';
@@ -77,6 +78,16 @@ const CurrentBook = ({ history, match }) => {
     dispatch(createBookReview(match.params.id, { rating, comment }));
   };
 
+  const reviewEditHandler = () => {
+    const review = book?.reviews?.find((item) => item.userId === userInfo.id);
+    console.log(review);
+    dispatch(updateReview(match.params.id, review));
+  };
+
+  const reviewDeleteHandler = () => {
+    console.log('reviewDelete');
+  };
+
   const images = book.image?.map((item) => item.url);
   console.log(book);
   return (
@@ -95,8 +106,8 @@ const CurrentBook = ({ history, match }) => {
               <Image src={book.image?.[0]?.url} alt={book.name} style={{ maxHeight: '350px' }} className="my-3" />
               <AwesomeSlider animation="cubeAnimation">
                 {images?.map((item, index) => (
-                  <Col>
-                    <Image src={item} alt={book.name} key={index} />
+                  <Col key={item.toString() + index}>
+                    <Image src={item} alt={book.name} />
                   </Col>
                 ))}
 
@@ -229,11 +240,21 @@ const CurrentBook = ({ history, match }) => {
               {book.reviews.length === 0 && <Message>No reviews</Message>}
               <ListGroup variant="flush">
                 {book.reviews.map((review) => (
-                  <ListGroup.Item key={review.id}>
+                  <ListGroup.Item key={review.id + Date.now()}>
                     <strong>{review.name}</strong>
                     <Rating value={review.rating} />
                     <p>{review.createdAt.substring(0, 10)}</p>
                     <p>{review.comment}</p>
+                    { userInfo && review.userId === userInfo.id && (
+                      <Row>
+                        <Col md={2}>
+                          <Button type="button" variant="warning" className="btn-sm" onClick={(e) => reviewEditHandler(e)}>Edit</Button>
+                        </Col>
+                        <Col md={2}>
+                          <Button type="button" variant="danger" className="btn-sm" onClick={reviewDeleteHandler}>Delete</Button>
+                        </Col>
+                      </Row>
+                    )}
                   </ListGroup.Item>
                 ))}
                 <ListGroup.Item>

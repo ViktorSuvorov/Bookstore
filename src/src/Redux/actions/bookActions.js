@@ -1,6 +1,12 @@
 /* eslint-disable no-unused-vars */
 import {
-  getBooks, getCurrentBook, deleteBookById, createBookApi, updateBookFromApi, createReviewBookApi,
+  getBooks,
+  getCurrentBook,
+  deleteBookById,
+  createBookApi,
+  updateBookFromApi,
+  createReviewBookApi,
+  updateReviewFromApi,
 } from '../../Api/Book/bookApi';
 
 import {
@@ -25,6 +31,10 @@ import {
   BOOK_CREATE_REVIEW_SUCCESS,
   BOOK_CREATE_REVIEW_FAIL,
   BOOK_CREATE_REVIEW_RESET,
+  REVIEW_UPDATE_REQUEST,
+  REVIEW_UPDATE_SUCCESS,
+  REVIEW_UPDATE_FAIL,
+  REVIEW_UPDATE_RESET,
 } from '../constants';
 
 export const bookListRequest = () => ({
@@ -65,8 +75,7 @@ export const bookDetailsSuccess = (books) => ({
 
 export const bookDetailsError = (error) => ({
   type: BOOKS_DETAILS_FAIL,
-  payload:
-  error.data.message,
+  payload: error.data.message,
 });
 
 export const bookCreateRequest = () => ({
@@ -122,7 +131,27 @@ export const bookUpdateReset = () => ({
   type: BOOK_UPDATE_RESET,
 });
 
-export const getBooksList = (filter, pageNumber = '', keyword = '') => async (dispatch) => {
+export const reviewUpdateRequest = () => ({
+  type: REVIEW_UPDATE_REQUEST,
+});
+
+export const reviewUpdateSuccess = (data) => ({
+  type: REVIEW_UPDATE_SUCCESS,
+  payload: data,
+});
+
+export const reviewUpdateError = (error) => ({
+  type: REVIEW_UPDATE_FAIL,
+  payload: error.data.message,
+});
+
+export const reviewUpdateReset = () => ({
+  type: REVIEW_UPDATE_RESET,
+});
+
+export const getBooksList = (filter, pageNumber = '', keyword = '') => async (
+  dispatch,
+) => {
   try {
     const { data } = await getBooks(filter, pageNumber, keyword);
     dispatch(bookListRequest());
@@ -173,12 +202,25 @@ export const updateBook = (book) => async (dispatch, getState) => {
   }
 };
 
-export const createBookReview = (bookId, review) => async (dispatch, getState) => {
+export const createBookReview = (bookId, review) => async (
+  dispatch,
+  getState,
+) => {
   try {
     await createReviewBookApi(getState, bookId, review);
     dispatch(bookCreateReviewRequest());
     dispatch(bookCreateReviewSuccess());
   } catch (error) {
     dispatch(bookCreateReviewError(error));
+  }
+};
+
+export const updateReview = (review) => async (dispatch, getState) => {
+  try {
+    const { data } = await updateReviewFromApi(getState, review);
+    dispatch(reviewUpdateRequest());
+    dispatch(reviewUpdateSuccess(data));
+  } catch (error) {
+    dispatch(bookUpdateError(error));
   }
 };

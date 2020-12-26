@@ -12,10 +12,6 @@ const getAllBooks = asyncHandler(async (req, res) => {
   const count = await bookService.getCountOfBooks(req);
   const pages = Math.ceil(count / pageSize);
 
-  if (pages < page) {
-    page = pages;
-  } 
-
   res.status(201).json({ books, page, pages: pages });
 });
 
@@ -107,6 +103,42 @@ const createBookReview = asyncHandler(async (req, res) => {
   }
 });
 
+const updateBookReview = asyncHandler(async (req, res) => {
+  const data = bookService.getDataFromReqBody(req);
+  const book = await bookService.getBookById(req);
+  if (book) {
+    const review = await bookService.getReviewById(req);
+    review.name = data.name;
+    review.rating = data.rating;
+    review.comment = data.comment;
+    review.userId = data.userId;
+    // review.id = data.id;
+
+    
+    // const addImage = await bookService.addImage(req);
+    // book.name = data.name;
+    // book.price = data.price;
+    // book.userId = data.userId;
+    // book.image = addImage;
+    // book.author = data.author;
+    // book.genre = data.genre;
+    // book.description = data.description;
+    // book.rating = data.rating;
+
+    const updatedReview = await review.save();
+
+    await bookService.getBookReviewTotal(req);
+
+   
+    console.log(updatedReview);
+    const t = await book.update({updatedReview}, { where: { id:req.params.id }});
+    res.json(updatedReview);
+  } else {
+    res.status(404);
+    throw new Error('Book not found');
+  }
+});
+
 module.exports = {
   getAllBooks,
   getCurrentBook,
@@ -116,4 +148,5 @@ module.exports = {
   updateBook,
   createBookReview,
   getAllGenres,
+  updateBookReview,
 };

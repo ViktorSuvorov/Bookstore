@@ -87,7 +87,7 @@ export const createReviewBookApi = (getState, bookId, review) => {
   const {
     userLogin: { userInfo },
   } = getState();
-  const { userLogin } = getState();
+  // const { userLogin } = getState();
   return axios({
     method: 'POST',
     url: `${path}${bookId}/reviews`,
@@ -98,5 +98,19 @@ export const createReviewBookApi = (getState, bookId, review) => {
       ...review,
       ...userInfo,
     },
+  });
+};
+
+export const updateReviewFromApi = (getState, review) => {
+  const {
+    userLogin: { userInfo },
+  } = getState();
+  return axios({
+    method: 'PUT',
+    url: `${path}${book.id}/reviews`,
+    headers: {
+      Authorization: `Bearer ${userInfo.token}`,
+    },
+    data: review,
   });
 };
