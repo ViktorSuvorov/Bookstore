@@ -19,7 +19,6 @@ export const remove = (id) => ({
 
 export const addToCart = (id, qty) => async (dispatch, getState) => {
   const { data } = await getCurrentBook(id);
-  console.log('data', data);
   dispatch(add(data, qty));
   localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
 };

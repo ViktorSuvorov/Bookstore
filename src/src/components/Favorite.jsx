@@ -12,7 +12,6 @@ const Favorite = ({ match, location, history }) => {
   const dispatch = useDispatch();
 
   const bookId = match.params.id;
-  console.log(bookId);
 
   const favorite = useSelector((state) => state.favorite);
   const { favoriteItems } = favorite;
@@ -23,15 +22,9 @@ const Favorite = ({ match, location, history }) => {
     }
   }, [dispatch, bookId]);
 
-  const handle = () => {
-    console.log('handle');
-  };
-
   const removeFromFavoriteHandler = (id) => {
     dispatch(removeFromFavorite(id));
   };
-
-  console.log(favoriteItems);
 
   return (
     <ListGroup variant="flush">

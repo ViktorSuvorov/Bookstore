@@ -3,7 +3,7 @@ import axios from '../indexApi';
 
 const path = 'upload';
 
-export const uploadBookImage = (formData) => (
+export const uploadImage = (formData) => (
   axios({
     method: 'POST',
     url: `${path}`,

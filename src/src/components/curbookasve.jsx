@@ -37,13 +37,6 @@ const CurrentBook = ({ history, match }) => {
 
   const bookDetails = useSelector((state) => state.bookDetails);
   const { loading, error, book } = bookDetails;
-  // console.log(typeof (book.image));
-  // const myObject = JSON.parse(book.image);
-  // console.log(myObject);
-  // const result = book.image.substring(1, book.image.length - 1);
-  console.log(book);
-
-  // console.log(result);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -58,7 +51,6 @@ const CurrentBook = ({ history, match }) => {
   } = bookReviewCreate;
 
   useEffect(() => {
-    console.log('FROM USEEFFECT');
     if (successBookReview) {
       setRating(0);
       setComment('');
@@ -83,7 +75,6 @@ const CurrentBook = ({ history, match }) => {
   };
 
   const images = book.image?.map((item) => item.url);
-  console.log(images);
 
   return (
     <>

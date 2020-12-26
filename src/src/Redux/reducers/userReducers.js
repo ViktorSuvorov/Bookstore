@@ -35,7 +35,6 @@ export const userLoginReducer = (state = {}, { type, payload }) => {
         isLoading: true,
       };
     case USER_LOGIN_SUCCESS:
-      console.log('success', payload);
       return {
         isLoading: false,
         userInfo: payload,
@@ -172,7 +171,7 @@ export const userDeleteReducer = (state = {}, { type, payload }) => {
   }
 };
 
-export const userUpdateReducer = (state = { user: {} }, { type, payload }) => {
+export const userUpdateReducer = (state = { }, { type, payload }) => {
   switch (type) {
     case USER_UPDATE_REQUEST:
       return {
@@ -191,7 +190,6 @@ export const userUpdateReducer = (state = { user: {} }, { type, payload }) => {
       };
     case USER_UPDATE_RESET:
       return {
-        user: {},
       };
     default:
       return state;

@@ -88,7 +88,6 @@ export const createReviewBookApi = (getState, bookId, review) => {
     userLogin: { userInfo },
   } = getState();
   const { userLogin } = getState();
-  console.log(userLogin);
   return axios({
     method: 'POST',
     url: `${path}${bookId}/reviews`,

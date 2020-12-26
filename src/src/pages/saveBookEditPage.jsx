@@ -62,7 +62,6 @@ const BookEditPage = ({ match, history }) => {
       setUploading(false);
     }
   };
-  console.log(image);
 
   const submitHandler = (e) => {
     e.preventDefault();

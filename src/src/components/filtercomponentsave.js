@@ -20,8 +20,6 @@ const FilterBy = ({ handleSetFilter }) => {
       genreId: [],
     },
   );
-  console.log(myFilters);
-  console.log(type);
 
   const getAuthors = async () => {
     const { data } = await getBooksAuthors();
@@ -36,7 +34,6 @@ const FilterBy = ({ handleSetFilter }) => {
   const handleFilters = (filters, filterBy) => {
     const newFilters = { ...myFilters, ...type };
     newFilters[filterBy] = filters;
-    console.log(newFilters);
     setMyFilters(newFilters);
     handleSetFilter(newFilters);
   };

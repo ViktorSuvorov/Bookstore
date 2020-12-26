@@ -52,6 +52,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
       email: user.email,
       id: user.id,
       isAdmin: user.isAdmin,
+      image:user.image,
     });
   } else {
     res.status(404);
@@ -126,21 +127,10 @@ const addToFavourite = asyncHandler(async (req, res) => {
   res.json(favorite);
 });
 
-// !!!
-const isVerify = async (req, res) => {
-  try {
-    res.json(true);
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).send('Server error');
-  }
-};
-
 module.exports = {
   registerNewUser,
   login,
   getUserProfile,
-  isVerify,
   updateUserProfile,
   getUsers,
   deleteUser,

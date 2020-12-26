@@ -8,8 +8,12 @@ const getDataFromBQuery = (req) => {
 };
 
 const getBooks = async (filters, pageSize, page) => {
-  const genresIdFromDb = [...await models.Genre.findAll(({attributes:['id'],raw:true}))].map(item => item.id);
-  const authorsIdFromDb = [...await models.Author.findAll(({attributes:['id'],raw:true}))].map(item => item.id);
+  const genresIdFromDb = [
+    ...(await models.Genre.findAll({ attributes: ['id'], raw: true })),
+  ].map((item) => item.id);
+  const authorsIdFromDb = [
+    ...(await models.Author.findAll({ attributes: ['id'], raw: true })),
+  ].map((item) => item.id);
   const skipValue = pageSize * (page - 1);
 
   let authorsId = filters.authorId.split(',').map((item) => Number(item));
@@ -39,7 +43,7 @@ const getBooks = async (filters, pageSize, page) => {
     sortField = 'rating';
     sortOrder = 'desc';
   }
- 
+
   let options = {
     where: {},
     limit: pageSize,
@@ -85,24 +89,24 @@ const getBooks = async (filters, pageSize, page) => {
   return models.Book.findAll(options);
 };
 
-const getBookById = asyncHandler(async ({params:{id}}) => {
+const getBookById = asyncHandler(async ({ params: { id } }) => {
   return await models.Book.findOne({
     where: { id },
     include: [
       {
         model: models.Review,
         as: 'reviews',
-        attributes: ['comment', 'rating', 'createdAt'],
+        attributes: ['comment', 'rating', 'createdAt','name'],
       },
       {
         model: models.Genre,
         as: 'genre',
-        attributes: ['name','id'],
+        attributes: ['name', 'id'],
       },
       {
         model: models.Author,
         as: 'author',
-        attributes: ['name','id'],
+        attributes: ['name', 'id'],
       },
       {
         model: models.Image,
@@ -123,7 +127,7 @@ const createNewBook = (req) => {
     authorId: 2,
     genreId: 1,
     description: 'Put descriprion here',
-    rating: 4,
+    rating: 0,
   });
 };
 
@@ -137,15 +141,13 @@ const createNewReview = asyncHandler(async (req) => {
     userId: req.body.id,
   });
 });
+
 const addImage = asyncHandler(async (req) => {
-  console.log(req.body.image, "from addImage");
   await models.Image.create({
-    
     bookId: req.params.id,
-    url:req.body.image
+    url: req.body.image,
   });
 });
-
 
 const getCountOfBooks = asyncHandler(async (req) => {
   const name = Sequelize.where(
@@ -154,6 +156,7 @@ const getCountOfBooks = asyncHandler(async (req) => {
     '%' + req.query.keyword.toLowerCase() + '%'
   );
   const authorsId = req.query.authorId.split(',').map((item) => Number(item));
+  const genresId = req.query.genreId.split(',').map((item) => Number(item));
   const count = await models.Book.count({
     where: {
       name,
@@ -166,9 +169,15 @@ const getCountOfBooks = asyncHandler(async (req) => {
           id: { [Op.or]: authorsId },
         },
       },
+      {
+        model: models.Genre,
+        as: 'genre',
+        where: {
+          id: { [Op.or]: genresId },
+        },
+      },
     ],
   });
-  // console.log('COUNT FROM GET COUNT', count);
   return count;
 });
 
@@ -184,7 +193,7 @@ const getDataFromReqBody = (req) =>
     rating,
   } = req.body);
 
-const getBookForReview = asyncHandler(async ({params:{id}}) => {
+const getBookForReview = asyncHandler(async ({ params: { id } }) => {
   const book = await models.Book.findOne({
     where: { id },
     include: [
@@ -218,15 +227,16 @@ const getBookForUpdateImage = asyncHandler(async (id) => {
   }
 });
 
-const getBookReviewTotal = asyncHandler(async (id) => {
-  const total = await models.Review.sum('Review.rating', {
+const getBookReviewTotal = asyncHandler(async ({params:{id}}) => {
+  const bookReviews = await models.Review.findAll({
     where: { bookId: id },
   });
-  const amount = await models.Review.findAndCountAll({
-    where: { bookId: id },
-  });
-  const result = total / (amount.count - 1 / 3);
-  return result;
+  console.log(bookReviews,'bookReviews');
+  const sum = bookReviews.reduce((sum, review) => sum + review.rating, 0);
+  console.log('sum', sum);
+      const rating = (sum / bookReviews.length);
+  console.log(rating);
+      await models.Book.update({ rating }, { where: { id } });
 });
 
 module.exports = {
@@ -241,5 +251,5 @@ module.exports = {
   getBookForReview,
   getBookReviewTotal,
   getBookForUpdateImage,
-  addImage
+  addImage,
 };

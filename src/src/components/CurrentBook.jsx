@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable no-alert */
 /* eslint-disable jsx-a11y/heading-has-content */
 /* eslint-disable no-nested-ternary */
@@ -40,8 +41,6 @@ const CurrentBook = ({ history, match }) => {
   const bookDetails = useSelector((state) => state.bookDetails);
   const { loading, error, book } = bookDetails;
 
-  console.log(book);
-
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -79,8 +78,7 @@ const CurrentBook = ({ history, match }) => {
   };
 
   const images = book.image?.map((item) => item.url);
-  console.log(images);
-
+  console.log(book);
   return (
     <>
       <Link className="btn btn-dark my-3" to="/">
@@ -94,11 +92,11 @@ const CurrentBook = ({ history, match }) => {
         <>
           <Row>
             <Col md={6}>
-              <Image src={book.image?.[0].url} alt={book.name} style={{ maxHeight: '350px' }} className="my-3" />
+              <Image src={book.image?.[0]?.url} alt={book.name} style={{ maxHeight: '350px' }} className="my-3" />
               <AwesomeSlider animation="cubeAnimation">
-                {images?.map((item) => (
+                {images?.map((item, index) => (
                   <Col>
-                    <Image src={item} alt={book.name} />
+                    <Image src={item} alt={book.name} key={index} />
                   </Col>
                 ))}
 

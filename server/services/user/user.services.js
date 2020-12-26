@@ -11,6 +11,8 @@ const createNewUser = async ({ name, email, password }) => {
     name,
     email,
     password: bcryptPassword,
+    isAdmin:false,
+    image:'/images/user.png'
   });
   const token = jwtGenerator(newUser.id);
   return { token, newUser };
@@ -25,7 +27,9 @@ const getUser = asyncHandler(async ({ email }) => {
 });
 
 const getUserById = asyncHandler(async ({ params: { id } }) => {
+  
   return (user = await models.User.findOne({ where: { id } }));
+  
 });
 
 const getAllUsers = asyncHandler(async () => {
@@ -49,6 +53,7 @@ const checkProfileAndUpdate = asyncHandler(async (req) => {
   if (data) {
     data.name = req.body.name || data.name;
     data.email = req.body.email || data.email;
+    data.image = req.body.image || data.image;
     if (req.body.password) {
       const saltRound = 10;
       const salt = await bcrypt.genSalt(saltRound);
@@ -103,11 +108,11 @@ const getFavorite = asyncHandler(
     })
 );
 
-// const addToFavourite = async (req) =>  {
-//   await new models.User_Books({
-//     userId:req.body.userId,
-//     bookId:req.body.bookId,
-//   })
+const addToFavourite = async (req) =>  (
+  await new models.User_Books({
+    userId:req.body.userId,
+    bookId:req.body.bookId,
+  }))
 
 module.exports = {
   createNewUser,
@@ -125,5 +130,5 @@ module.exports = {
   alredyInFavorite,
   addToUserBooksTable,
   getFavorite,
-  // addToFavourite,
+  addToFavourite,
 };

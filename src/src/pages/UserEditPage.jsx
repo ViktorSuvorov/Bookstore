@@ -19,7 +19,6 @@ const UserEditPage = ({ match, history }) => {
 
   const userDetails = useSelector((state) => state.userDetails);
   const { loading, error, user } = userDetails;
-  console.log('USER', user);
   const userUpdate = useSelector((state) => state.userUpdate);
   const {
     loading: loadingUpdate,
@@ -38,14 +37,13 @@ const UserEditPage = ({ match, history }) => {
       setEmail(user.email);
       setIsAdmin(user.isAdmin);
     }
-  }, [dispatch, userId, user]);
+  }, [dispatch, history, userId, user, successUpdate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(updateUser({
       id: userId, name, email, isAdmin,
     }));
-    console.log('EEE');
   };
 
   return (

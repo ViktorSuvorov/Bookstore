@@ -171,7 +171,7 @@ export const logoutUser = () => async (dispatch) => {
     dispatch(userDetailsReset());
     dispatch(userListReset());
   } catch (error) {
-    console.log(error);
+    console.log('!');
   }
 };
 
@@ -206,6 +206,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     const { data } = await updateUserProfileApi(user, getState);
     dispatch(userUpdateProfileRequest());
     dispatch(userUpdateProfileSuccess(data));
+    dispatch(userLoginSuccess(data));
   } catch (error) {
     const { message } = error.data;
     if (message === 'Not Authorize please login') {

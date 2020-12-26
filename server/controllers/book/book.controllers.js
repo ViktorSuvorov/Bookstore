@@ -4,11 +4,19 @@ const bookService = require('../../services/book/book.services');
 
 const getAllBooks = asyncHandler(async (req, res) => {
   const pageSize = 8;
-  const page = Number(req.query.pageNumber) || 1;
   const booksFilters = bookService.getDataFromBQuery(req);
+  let page = Number(req.query.pageNumber) || 1;
+
   const books = await bookService.getBooks(booksFilters, pageSize, page);
+
   const count = await bookService.getCountOfBooks(req);
-  res.status(201).json({ books, page, pages: Math.ceil(count / pageSize) });
+  const pages = Math.ceil(count / pageSize);
+
+  if (pages < page) {
+    page = pages;
+  } 
+
+  res.status(201).json({ books, page, pages: pages });
 });
 
 const getCurrentBook = asyncHandler(async (req, res) => {
@@ -27,7 +35,6 @@ const createBook = asyncHandler(async (req, res) => {
 });
 
 const deleteBook = asyncHandler(async (req, res) => {
- 
   const book = await bookService.getBookById(req);
   if (book) {
     await bookService.deleteBookById(book);
@@ -41,8 +48,6 @@ const deleteBook = asyncHandler(async (req, res) => {
 const updateBook = asyncHandler(async (req, res) => {
   const data = bookService.getDataFromReqBody(req);
   const book = await bookService.getBookById(req);
-  console.log('data', data);
-  console.log(typeof(data.image));
   if (book) {
     const addImage = await bookService.addImage(req);
     book.name = data.name;
@@ -81,6 +86,7 @@ const getAllGenres = asyncHandler(async (req, res) => {
 });
 
 const createBookReview = asyncHandler(async (req, res) => {
+  
   let book = await bookService.getBookForReview(req);
   if (book) {
     const alreadReviewed = book.reviews.find(
@@ -90,16 +96,8 @@ const createBookReview = asyncHandler(async (req, res) => {
       res.status(400);
       throw new Error('Book alredy reviewed');
     }
-    bookService.createNewReview(req);
-
-    let rating = await bookService.getBookReviewTotal(bookId);
-
-    if (rating > 0) {
-      book.rating = 0;
-      book.rating = rating;
-    } else {
-      book.rating = req.body.rating;
-    }
+   await  bookService.createNewReview(req);
+   await bookService.getBookReviewTotal(req);
 
     await book.save();
     res.status(201).json({ message: 'Review added' });
@@ -108,7 +106,6 @@ const createBookReview = asyncHandler(async (req, res) => {
     throw new Error('Book not found');
   }
 });
-
 
 module.exports = {
   getAllBooks,

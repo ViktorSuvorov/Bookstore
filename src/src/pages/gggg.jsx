@@ -30,11 +30,9 @@ const BookEditPage = ({ match, history }) => {
   const onDrop = (picture) => {
     setPictures(picture);
   };
-  console.log(pictures);
 
   const bookDetails = useSelector((state) => state.bookDetails);
   const { loading, error, book } = bookDetails;
-  console.log(book);
 
   const bookUpdate = useSelector((state) => state.bookUpdate);
   const {
@@ -60,7 +58,6 @@ const BookEditPage = ({ match, history }) => {
   }, [dispatch, history, bookId, book, successUpdate]);
 
   const uploadFileHandler = async (e) => {
-    console.log(e.target);
     const file = pictures;
     const formData = new FormData();
     formData.append('image', file);
@@ -73,7 +70,6 @@ const BookEditPage = ({ match, history }) => {
       setUploading(false);
     }
   };
-  console.log(image);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -105,8 +101,6 @@ const BookEditPage = ({ match, history }) => {
         console.log(e);
       });
     setImage(pictures);
-    console.log('pictures', pictures);
-    console.log('images', image);
     dispatch(updateBook({
       id: bookId,
       name,

@@ -30,8 +30,6 @@ const UserListPage = ({ history }) => {
   }, [dispatch, history, userInfo, successDelete]);
 
   const deleteHandler = (id) => {
-    console.log(id);
-    // eslint-disable-next-line no-alert
     dispatch(deleteUser(id));
   };
 

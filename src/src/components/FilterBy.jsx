@@ -17,8 +17,6 @@ const FilterBy = ({ handleSetFilter }) => {
     {
     },
   );
-  console.log(myFilters);
-  console.log(type);
 
   const getAuthors = async () => {
     const { data } = await getBooksAuthors();
@@ -33,7 +31,6 @@ const FilterBy = ({ handleSetFilter }) => {
   const handleFilters = (filters, filterBy) => {
     const newFilters = { ...myFilters, ...type };
     newFilters[filterBy] = filters;
-    console.log(newFilters);
     setMyFilters(newFilters);
     handleSetFilter(newFilters);
   };
@@ -41,7 +38,6 @@ const FilterBy = ({ handleSetFilter }) => {
   useEffect(() => {
     getAuthors();
     getGenres();
-    // handleFilters(myFilters);
   }, [myFilters, type]);
 
   const onClickHandler = (event) => {
