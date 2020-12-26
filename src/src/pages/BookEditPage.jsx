@@ -51,6 +51,7 @@ const BookEditPage = ({ match, history }) => {
       setDescription(book.description);
     }
   }, [dispatch, history, bookId, book, successUpdate]);
+  console.log('bookeditpage', book);
 
   const submitHandler = (e) => {
     e.preventDefault();

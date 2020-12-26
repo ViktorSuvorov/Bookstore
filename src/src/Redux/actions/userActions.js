@@ -193,6 +193,10 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
     dispatch(userDetailsRequest());
     dispatch(userDetailsSuccess(data));
   } catch (error) {
+    const { message } = error.data;
+    if (message === 'Not Authorize please login') {
+      dispatch(logout());
+    }
     dispatch(userDetailsError(error));
   }
 };
@@ -204,7 +208,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     dispatch(userUpdateProfileSuccess(data));
   } catch (error) {
     const { message } = error.data;
-    if (message === 'Not Authorize') {
+    if (message === 'Not Authorize please login') {
       dispatch(logout());
     }
     dispatch(userUpdateProfileError(error));

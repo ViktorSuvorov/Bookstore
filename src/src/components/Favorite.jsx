@@ -31,18 +31,7 @@ const Favorite = ({ match, location, history }) => {
     dispatch(removeFromFavorite(id));
   };
 
-  const cartItems = [
-    {
-      book: 'asdasd',
-      image:
-        'https://static-cse.canva.com/blob/193590/%D0%9C%D0%9E%D0%99-%D0%9F%D0%A3%D0%A2%D0%AC.png',
-      name: 'Самая обычная книга',
-      price: 1000,
-      description:
-        'Nulla mollis molestie lorem. Quisque ut erat. Curabitur gravida nisi at nibh/Nulla mollis molestie lorem. Quisque ut erat. Curabitur gravida nisi at nib',
-      author: 'Лев Толстой',
-    },
-  ];
+  console.log(favoriteItems);
 
   return (
     <ListGroup variant="flush">
@@ -50,7 +39,7 @@ const Favorite = ({ match, location, history }) => {
         <ListGroup.Item key={item.book}>
           <Row>
             <Col md={2}>
-              <Image src={item.image} alt={item.name} fluid rounded />
+              <Image src={item.image?.[0].url} alt={item.name} fluid rounded />
             </Col>
             <Col md={3}>
               <Link to={`/book/${item.book}`}>

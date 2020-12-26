@@ -97,12 +97,12 @@ const getBookById = asyncHandler(async ({params:{id}}) => {
       {
         model: models.Genre,
         as: 'genre',
-        attributes: ['name'],
+        attributes: ['name','id'],
       },
       {
         model: models.Author,
         as: 'author',
-        attributes: ['name'],
+        attributes: ['name','id'],
       },
       {
         model: models.Image,

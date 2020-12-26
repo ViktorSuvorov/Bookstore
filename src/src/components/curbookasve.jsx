@@ -9,7 +9,6 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import AwesomeSlider from 'react-awesome-slider';
-import 'react-awesome-slider/dist/custom-animations/cube-animation.css';
 import 'react-awesome-slider/dist/styles.css';
 import { Link } from 'react-router-dom';
 import {
@@ -35,12 +34,16 @@ const CurrentBook = ({ history, match }) => {
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
-  // const [images, setImages] = useState([]);
 
   const bookDetails = useSelector((state) => state.bookDetails);
   const { loading, error, book } = bookDetails;
-
+  // console.log(typeof (book.image));
+  // const myObject = JSON.parse(book.image);
+  // console.log(myObject);
+  // const result = book.image.substring(1, book.image.length - 1);
   console.log(book);
+
+  // console.log(result);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -55,6 +58,7 @@ const CurrentBook = ({ history, match }) => {
   } = bookReviewCreate;
 
   useEffect(() => {
+    console.log('FROM USEEFFECT');
     if (successBookReview) {
       setRating(0);
       setComment('');
@@ -94,16 +98,9 @@ const CurrentBook = ({ history, match }) => {
         <>
           <Row>
             <Col md={6}>
-              <Image src={book.image?.[0].url} alt={book.name} style={{ maxHeight: '350px' }} className="my-3" />
-              <AwesomeSlider animation="cubeAnimation">
-                {images?.map((item) => (
-                  <Col>
-                    <Image src={item} alt={book.name} />
-                  </Col>
-                ))}
-
-              </AwesomeSlider>
+              <Image src={book.image?.[0].url} alt={book.name} fluid />
             </Col>
+
             <Col md={3}>
               <ListGroup variant="flush">
                 <ListGroup.Item>

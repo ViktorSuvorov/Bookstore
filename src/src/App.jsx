@@ -27,13 +27,13 @@ const App = () => (
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/register" component={RegisterPage} />
           <Route exact path="/cart/:id?" component={CartPage} />
-          <PrivateRoute exact path="/profile/:id?" component={ProfilePage} />
           <Route exact path="/book/:id" component={CurrentBook} />
-          <Route exact path="/admin/userlist" component={UserListPage} />
-          <Route exact path="/admin/user/:id/edit" component={UserEditPage} />
+          <PrivateRoute exact path="/profile/:id?" component={ProfilePage} />
+          <PrivateRoute exact path="/admin/userlist" component={UserListPage} />
+          <PrivateRoute exact path="/admin/user/:id/edit" component={UserEditPage} />
+          <PrivateRoute exact path="/admin/book/:id/edit" component={BookEditPage} />
           <Route exact path="/admin/booklist" component={BookListPage} />
           <Route exact path="/admin/booklist/:pageNumber" component={BookListPage} />
-          <Route exact path="/admin/book/:id/edit" component={BookEditPage} />
           <Route exact path="/page/:pageNumber" component={HomePage} />
           <Route exact path="/search/:keyword/" component={HomePage} />
           <Route
