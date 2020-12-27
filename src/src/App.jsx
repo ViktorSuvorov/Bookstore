@@ -4,7 +4,7 @@ import './App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { Container } from 'react-bootstrap';
-import CurrentBook from './components/CurrentBook';
+import BookPage from './pages/BookPage';
 import Header from './components/Header';
 import CartPage from './pages/CartPage';
 import LoginPage from './pages/LoginPage';
@@ -28,7 +28,7 @@ const App = () => (
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/register" component={RegisterPage} />
           <Route exact path="/cart/:id?" component={CartPage} />
-          <Route exact path="/book/:id" component={CurrentBook} />
+          <Route exact path="/book/:id" component={BookPage} />
           <PrivateRoute exact path="/profile/:id?" component={ProfilePage} />
           <PrivateRoute exact path="/admin/userlist" component={UserListPage} />
           <PrivateRoute exact path="/admin/user/:id/edit" component={UserEditPage} />

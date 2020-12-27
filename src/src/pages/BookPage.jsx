@@ -14,17 +14,17 @@ import {
   Card,
   Form,
 } from 'react-bootstrap';
-import Rating from './Rating';
+import Rating from '../components/Rating';
 import {
   getBookDetails,
   createBookReview,
   bookCreateReviewReset,
   deleteReview,
 } from '../Redux/actions/bookActions';
-import Loading from './Loading';
-import Message from './Message';
+import Loading from '../components/Loading';
+import Message from '../components/Message';
 
-const CurrentBook = ({ history, match }) => {
+const BookPage = ({ history, match }) => {
   const dispatch = useDispatch();
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
@@ -305,7 +305,7 @@ const CurrentBook = ({ history, match }) => {
   );
 };
 
-CurrentBook.propTypes = {
+BookPage.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -316,4 +316,4 @@ CurrentBook.propTypes = {
   }).isRequired,
 };
 
-export default CurrentBook;
+export default BookPage;
