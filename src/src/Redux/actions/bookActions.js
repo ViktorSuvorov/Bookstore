@@ -182,14 +182,14 @@ export const getBooksList = (filter, pageNumber = '', keyword = '') => async (
 };
 
 export const getBooksListByAdmin = (pageNumber = '') => async (
-  dispatch, getState,
+  dispatch,
+  getState,
 ) => {
   try {
     const { data } = await getBooksListAdmin(pageNumber, getState);
     dispatch(bookListRequest());
     dispatch(bookListSuccess(data));
   } catch (error) {
-    console.log(error);
     const { message } = error.data;
     if (message === 'Not Authorize please login') {
       dispatch(logout());
@@ -257,7 +257,6 @@ export const createBookReview = (bookId, review) => async (
 };
 
 export const updateReview = (review) => async (dispatch, getState) => {
-  console.log(review);
   try {
     const { data } = await updateReviewFromApi(getState, review);
     dispatch(reviewUpdateRequest());

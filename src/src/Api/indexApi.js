@@ -29,6 +29,6 @@ export default async ({
     });
     return response;
   } catch (error) {
-    throw (error.response);
+    throw error.response;
   }
 };

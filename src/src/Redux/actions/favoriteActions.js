@@ -20,10 +20,16 @@ export const remove = (id) => ({
 export const addToFavorite = (id) => async (dispatch, getState) => {
   const { data } = await getCurrentBook(id);
   dispatch(add(data));
-  localStorage.setItem('favoriteItems', JSON.stringify(getState().favorite.favoriteItems));
+  localStorage.setItem(
+    'favoriteItems',
+    JSON.stringify(getState().favorite.favoriteItems),
+  );
 };
 
 export const removeFromFavorite = (id) => async (dispatch, getState) => {
   dispatch(remove(id));
-  localStorage.setItem('favoriteItems', JSON.stringify(getState().favorite.favoriteItems));
+  localStorage.setItem(
+    'favoriteItems',
+    JSON.stringify(getState().favorite.favoriteItems),
+  );
 };

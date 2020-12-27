@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import PropTypes from 'prop-types';
@@ -17,7 +15,12 @@ const Book = ({
       }}
       to={`/book/${id}`}
     >
-      <Card.Img src={image?.[0]?.url} alt="book-covers" variant="top" style={{ width: '165px', height: '200px' }} />
+      <Card.Img
+        src={image?.[0]?.url}
+        alt="book-covers"
+        variant="top"
+        style={{ width: '165px', height: '200px' }}
+      />
       <Card.Body>
         <Card.Title as="div">
           <strong>
@@ -26,9 +29,7 @@ const Book = ({
           </strong>
         </Card.Title>
         <Card.Text as="div">
-          <div className="my-3">
-            {author.name}
-          </div>
+          <div className="my-3">{author.name}</div>
         </Card.Text>
         <Card.Text as="div">
           <Rating value={rating} />
@@ -43,5 +44,17 @@ const Book = ({
     </Link>
   </Card>
 );
+
+Book.propTypes = {
+  image: PropTypes.arrayOf(PropTypes.object).isRequired,
+  price: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  rating: PropTypes.string.isRequired,
+  author: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+  id: PropTypes.number.isRequired,
+};
 
 export default Book;

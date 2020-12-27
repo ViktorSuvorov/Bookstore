@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -81,6 +81,22 @@ const ReviewEditPage = ({ match, history }) => {
       </FormContainer>
     </>
   );
+};
+
+ReviewEditPage.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      keyword: PropTypes.string.isRequired,
+      reviewId: PropTypes.string.isRequired,
+    }),
+  }).isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.func.isRequired,
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default ReviewEditPage;

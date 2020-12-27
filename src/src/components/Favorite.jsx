@@ -1,14 +1,17 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
+/* eslint-disable react/require-default-props */
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import {
-  Row, Col, ListGroup, Image, Form, Button,
+  Row, Col, ListGroup, Image, Button,
 } from 'react-bootstrap';
-import { addToFavorite, removeFromFavorite } from '../Redux/actions/favoriteActions';
+import {
+  addToFavorite,
+  removeFromFavorite,
+} from '../Redux/actions/favoriteActions';
 
-const Favorite = ({ match, location, history }) => {
+const Favorite = ({ match }) => {
   const dispatch = useDispatch();
 
   const bookId = match.params.id;
@@ -66,6 +69,14 @@ const Favorite = ({ match, location, history }) => {
       ))}
     </ListGroup>
   );
+};
+
+Favorite.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }),
 };
 
 export default Favorite;

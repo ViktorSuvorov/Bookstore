@@ -1,6 +1,5 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable react/prop-types */
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,7 +7,6 @@ import Message from '../components/Message';
 import Loading from '../components/Loading';
 import { listUsers, deleteUser } from '../Redux/actions/userActions';
 
-// eslint-disable-next-line react/prop-types
 const UserListPage = ({ history }) => {
   const dispatch = useDispatch();
 
@@ -87,6 +85,12 @@ const UserListPage = ({ history }) => {
       )}
     </>
   );
+};
+
+UserListPage.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default UserListPage;

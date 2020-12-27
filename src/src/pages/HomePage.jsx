@@ -1,6 +1,4 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-nested-ternary */
-/* eslint-disable react/prop-types */
+/* eslint-disable react/require-default-props */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -69,8 +67,12 @@ const HomePage = ({ match }) => {
   );
 };
 
-// HomePage.propTypes = {
-//   filter: PropTypes.objectOf(PropTypes.string).isRequired,
-// };
+HomePage.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      keyword: PropTypes.string,
+    }),
+  }),
+};
 
 export default HomePage;

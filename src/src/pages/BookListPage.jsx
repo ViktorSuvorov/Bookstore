@@ -28,8 +28,6 @@ const BookListPage = ({ history, match }) => {
     isLoading, error, books, page, pages,
   } = bookList;
 
-  console.log(error);
-
   const bookDelete = useSelector((state) => state.bookDelete);
   const {
     isLoading: isLoadingDelete,

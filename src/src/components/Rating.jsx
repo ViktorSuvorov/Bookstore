@@ -1,6 +1,5 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-nested-ternary */
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Rating = ({ value, text }) => (
   <div className="rating">
@@ -62,5 +61,15 @@ const Rating = ({ value, text }) => (
     <span>{text && text }</span>
   </div>
 );
+
+Rating.defaultProps = {
+  value: 0,
+  text: '',
+};
+
+Rating.propTypes = {
+  value: PropTypes.string,
+  text: PropTypes.string,
+};
 
 export default Rating;

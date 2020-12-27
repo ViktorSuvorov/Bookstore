@@ -3,7 +3,6 @@ const models = require('../../database/models');
 const bookService = require('../../services/book/book.services');
 
 const getAllBooks = asyncHandler(async (req, res) => {
-  console.log('get get get');
   const pageSize = 8;
   const booksFilters = bookService.getDataFromBQuery(req);
   const page = Number(req.query.pageNumber) || 1;
@@ -16,17 +15,17 @@ const getAllBooks = asyncHandler(async (req, res) => {
   res.status(201).json({ books, page, pages: pages });
 });
 
-const getBookListAdmin = asyncHandler(async (req,res) => {
+const getBookListAdmin = asyncHandler(async (req, res) => {
   const pageSize = 8;
   const page = Number(req.query.pageNumber) || 1;
-  
+
   const count = await models.Book.count({});
-  const pages = Math.ceil(count/pageSize);
+  const pages = Math.ceil(count / pageSize);
   const skipValue = pageSize * (page - 1);
-  
+
   const books = await models.Book.findAll({
     limit: pageSize,
-    offset:skipValue,
+    offset: skipValue,
     include: [
       {
         model: models.Genre,
@@ -39,7 +38,7 @@ const getBookListAdmin = asyncHandler(async (req,res) => {
     ],
   });
   res.status(201).json({ books, page, pages: pages });
-})
+});
 
 const getCurrentBook = asyncHandler(async (req, res) => {
   const book = await bookService.getBookById(req);
@@ -80,7 +79,6 @@ const updateBook = asyncHandler(async (req, res) => {
     book.genre = data.genre;
     book.description = data.description;
     book.rating = data.rating;
-
     const updatedBook = await book.save();
     res.json(updatedBook);
   } else {
@@ -91,7 +89,7 @@ const updateBook = asyncHandler(async (req, res) => {
 
 const getAllAuthors = asyncHandler(async (req, res) => {
   try {
-    const authors = await models.Author.findAll({});
+    const authors = await models.Author.findAll({ attributes: ['id', 'name'] });
     res.json(authors);
   } catch (error) {
     console.error(console.message);
@@ -100,7 +98,7 @@ const getAllAuthors = asyncHandler(async (req, res) => {
 
 const getAllGenres = asyncHandler(async (req, res) => {
   try {
-    const genres = await models.Genre.findAll({});
+    const genres = await models.Genre.findAll({ attributes: ['id', 'name'] });
     res.json(genres);
   } catch (error) {
     console.error(console.message);
@@ -137,23 +135,8 @@ const updateBookReview = asyncHandler(async (req, res) => {
     review.rating = data.rating;
     review.comment = data.comment;
     review.userId = data.userId;
-    // review.id = data.id;
-
-    // const addImage = await bookService.addImage(req);
-    // book.name = data.name;
-    // book.price = data.price;
-    // book.userId = data.userId;
-    // book.image = addImage;
-    // book.author = data.author;
-    // book.genre = data.genre;
-    // book.description = data.description;
-    // book.rating = data.rating;
-
     const updatedReview = await review.save();
-
     await bookService.getBookReviewTotal(req);
-
-    console.log(updatedReview);
     await book.update({ updatedReview }, { where: { id: req.params.id } });
     res.json(updatedReview);
   } else {
@@ -163,7 +146,6 @@ const updateBookReview = asyncHandler(async (req, res) => {
 });
 
 const deleteBookReview = asyncHandler(async (req, res) => {
-  console.log('req',req.body);
   const book = await bookService.getBookById(req);
   if (book) {
     const review = await bookService.getReviewById(req);
@@ -193,5 +175,5 @@ module.exports = {
   getAllGenres,
   updateBookReview,
   deleteBookReview,
-  getBookListAdmin
+  getBookListAdmin,
 };

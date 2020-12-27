@@ -1,9 +1,5 @@
-/* eslint-disable no-shadow */
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-nested-ternary */
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
@@ -12,13 +8,16 @@ import ImageUploader from 'react-images-upload';
 import Message from '../components/Message';
 import Loading from '../components/Loading';
 import FormContainer from '../components/FormContainer';
-import { bookUpdateReset, getBookDetails, updateBook } from '../Redux/actions/bookActions';
+import {
+  bookUpdateReset,
+  getBookDetails,
+  updateBook,
+} from '../Redux/actions/bookActions';
+import { getBooksAuthors, getBooksGenres } from '../Api/Book/bookApi';
 
 const BookEditPage = ({ match, history }) => {
   const dispatch = useDispatch();
-  const bookId = Number(match.params.id);
 
-  // ИЗМЕНИТЬ НА useReducer, когда закончу с функционалом.
   const [name, setName] = useState('');
   const [price, setPrice] = useState(0);
   const [image, setImage] = useState('');
@@ -27,6 +26,10 @@ const BookEditPage = ({ match, history }) => {
   const [description, setDescription] = useState('');
   const [pictures, setPictures] = useState('');
   const [upload, setUpload] = useState(false);
+  const [genresData, setGenresData] = useState([]);
+  const [authorsData, setAuthorsData] = useState([]);
+  const bookId = Number(match.params.id);
+
   const bookDetails = useSelector((state) => state.bookDetails);
   const { loading, error, book } = bookDetails;
 
@@ -37,7 +40,19 @@ const BookEditPage = ({ match, history }) => {
     success: successUpdate,
   } = bookUpdate;
 
+  const getAuthorsData = async () => {
+    const { data } = await getBooksAuthors();
+    setAuthorsData(data);
+  };
+
+  const getGenresData = async () => {
+    const { data } = await getBooksGenres();
+    setGenresData(data);
+  };
+
   useEffect(() => {
+    getAuthorsData();
+    getGenresData();
     if (successUpdate) {
       dispatch(bookUpdateReset());
       history.push('/admin/booklist');
@@ -54,34 +69,38 @@ const BookEditPage = ({ match, history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(updateBook({
-      id: bookId,
-      name,
-      price,
-      image,
-      author,
-      genre,
-      description,
-    }));
+    dispatch(
+      updateBook({
+        id: bookId,
+        name,
+        price,
+        image,
+        author,
+        genre,
+        description,
+      }),
+    );
   };
 
   const onDrop = (picture) => {
     setPictures(picture);
   };
 
-  const upimg = (e) => {
+  const uploadImages = () => {
     const uploadPictures = pictures.map((item) => {
       const formData = new FormData();
       formData.append('image', item, item.name);
       return axios.post('http://localhost:5000/api/upload', formData);
     });
-    axios.all(uploadPictures).then((results) => {
-      const test = results.map((item) => item.data);
-      setImage(test[0]);
-      setUpload(true);
-    })
-      .catch((error) => {
-        console.log(error);
+    axios
+      .all(uploadPictures)
+      .then((results) => {
+        const img = results.map((item) => item.data);
+        setImage(img[0]);
+        setUpload(true);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -123,31 +142,35 @@ const BookEditPage = ({ match, history }) => {
               <Form.Label>Author</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter author name"
+                as="select"
+                placeholder="Choose author"
                 value={author}
                 onChange={(e) => setAuthor(e.target.value)}
-              />
+              >
+                {authorsData.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </Form.Control>
             </Form.Group>
-            {/* <Form.Group controlId="author">
-              <Form.Label>Author</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter author name"
-                value={author}
-                onChange={(e) => setAuthor(e.target.value)}
-              />
-            </Form.Group> */}
-
             <Form.Group controlId="genre">
-              <Form.Label>Genre</Form.Label>
+              <Form.Label>Genres</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter genre name"
+                as="select"
+                placeholder="Choose author"
                 value={genre}
                 onChange={(e) => setGenre(e.target.value)}
-              />
+              >
+                {genresData.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+                <option>Create new author</option>
+              </Form.Control>
             </Form.Group>
-
             <Form.Group controlId="description">
               <Form.Label>Description</Form.Label>
               <Form.Control
@@ -165,29 +188,45 @@ const BookEditPage = ({ match, history }) => {
       </FormContainer>
 
       <>
-        {upload ? <Message className="text-align-center">SUCCESS</Message> : (
+        {upload ? (
+          <Message className="text-align-center">
+            Image has been successfully uploadedx§
+          </Message>
+        ) : (
           <>
             <ImageUploader
               withIcon
               buttonText="Choose images"
-              withPreview="true"
+              withPreview
               onChange={onDrop}
               imgExtension={['.jpg', '.gif', '.png', '.jpeg']}
               maxFileSize={5242880}
             />
             <div className="d-flex justify-content-center">
-              {pictures.length === 0 ? (<Button type="submit" onClick={upimg} disabled>PLEASE ADD IMAGES</Button>) : (
-                <Button onClick={upimg}>UPLOAD</Button>
+              {pictures.length === 0 ? (
+                <Button type="button" onClick={uploadImages} disabled>
+                  PLEASE ADD IMAGES
+                </Button>
+              ) : (
+                <Button onClick={uploadImages}>UPLOAD</Button>
               )}
             </div>
           </>
         )}
-
       </>
-
     </>
-
   );
+};
+
+BookEditPage.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }),
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default BookEditPage;

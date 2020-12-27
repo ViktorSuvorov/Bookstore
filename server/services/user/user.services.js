@@ -11,8 +11,8 @@ const createNewUser = async ({ name, email, password }) => {
     name,
     email,
     password: bcryptPassword,
-    isAdmin:false,
-    image:'/images/user.png'
+    isAdmin: false,
+    image: '/images/user.png',
   });
   const token = jwtGenerator(newUser.id);
   return { token, newUser };
@@ -27,9 +27,7 @@ const getUser = asyncHandler(async ({ email }) => {
 });
 
 const getUserById = asyncHandler(async ({ params: { id } }) => {
-  
   return (user = await models.User.findOne({ where: { id } }));
-  
 });
 
 const getAllUsers = asyncHandler(async () => {
@@ -108,11 +106,11 @@ const getFavorite = asyncHandler(
     })
 );
 
-const addToFavourite = async (req) =>  (
+const addToFavourite = async (req) =>
   await new models.User_Books({
-    userId:req.body.userId,
-    bookId:req.body.bookId,
-  }))
+    userId: req.body.userId,
+    bookId: req.body.bookId,
+  });
 
 module.exports = {
   createNewUser,

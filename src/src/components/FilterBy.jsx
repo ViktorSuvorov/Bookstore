@@ -1,6 +1,5 @@
-/* eslint-disable no-undef */
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { ListGroup, Dropdown, DropdownButton } from 'react-bootstrap';
 import { getBooksAuthors, getBooksGenres } from '../Api/Book/bookApi';
 import Checkbox from './Checkbox';
@@ -112,4 +111,9 @@ const FilterBy = ({ handleSetFilter }) => {
     </>
   );
 };
+
+FilterBy.propTypes = {
+  handleSetFilter: PropTypes.func.isRequired,
+};
+
 export default FilterBy;

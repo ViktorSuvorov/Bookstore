@@ -1,7 +1,5 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Pagination } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
@@ -16,4 +14,17 @@ const Pagin = ({
   ))}
 </Pagination>
 );
+
+Pagin.defaultProps = {
+  keyword: '',
+  isAdmin: false,
+};
+
+Pagin.propTypes = {
+  pages: PropTypes.number.isRequired,
+  page: PropTypes.number.isRequired,
+  isAdmin: PropTypes.bool,
+  keyword: PropTypes.string,
+};
+
 export default Pagin;

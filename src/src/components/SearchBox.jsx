@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Form, Button } from 'react-bootstrap';
 
 const SearchBox = ({ history }) => {
@@ -28,6 +28,12 @@ const SearchBox = ({ history }) => {
       </Button>
     </Form>
   );
+};
+
+SearchBox.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default SearchBox;

@@ -1,11 +1,3 @@
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable no-alert */
-/* eslint-disable jsx-a11y/heading-has-content */
-/* eslint-disable no-nested-ternary */
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/forbid-prop-types */
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,7 +19,6 @@ import {
   getBookDetails,
   createBookReview,
   bookCreateReviewReset,
-  updateReview,
   deleteReview,
 } from '../Redux/actions/bookActions';
 import Loading from './Loading';
@@ -38,7 +29,6 @@ const CurrentBook = ({ history, match }) => {
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
-  // const [images, setImages] = useState([]);
 
   const bookDetails = useSelector((state) => state.bookDetails);
   const { loading, error, book } = bookDetails;
@@ -86,20 +76,14 @@ const CurrentBook = ({ history, match }) => {
   };
 
   const reviewEditHandler = (reviewId, id) => {
-    // const review = book?.reviews?.find((item) => item.userId === userInfo.id);
-    // console.log('review', review);
-    // dispatch(updateReview(match.params.id, review));
-
     history.push(`/admin/book/${id}/review/${reviewId}/edit`);
   };
 
   const reviewDeleteHandler = (reviewId, id) => {
     dispatch(deleteReview(reviewId, id));
-    console.log('reviewDelete');
   };
 
   const images = book.image?.map((item) => item.url);
-  console.log(book);
   return (
     <>
       <Link className="btn btn-dark my-3" to="/">
@@ -115,8 +99,8 @@ const CurrentBook = ({ history, match }) => {
             <Col md={6}>
               <Image src={book.image?.[0]?.url} alt={book.name} style={{ maxHeight: '350px' }} className="my-3" />
               <AwesomeSlider animation="cubeAnimation">
-                {images?.map((item, index) => (
-                  <Col key={item.toString() + index}>
+                {images?.map((item) => (
+                  <Col key={item.toString()}>
                     <Image src={item} alt={book.name} />
                   </Col>
                 ))}
@@ -258,7 +242,7 @@ const CurrentBook = ({ history, match }) => {
                     { userInfo && review.userId === userInfo.id && (
                       <Row>
                         <Col md={2}>
-                          <Button type="button" variant="outline-warning" className="btn-sm" onClick={(e) => reviewEditHandler(review.id, review.bookId)}>Edit</Button>
+                          <Button type="button" variant="outline-warning" className="btn-sm" onClick={() => reviewEditHandler(review.id, review.bookId)}>Edit</Button>
                         </Col>
                         <Col md={2}>
                           {errorBookReviewDelete && (<Message>{errorBookReviewDelete}</Message>)}
@@ -319,6 +303,17 @@ const CurrentBook = ({ history, match }) => {
       )}
     </>
   );
+};
+
+CurrentBook.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }),
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default CurrentBook;

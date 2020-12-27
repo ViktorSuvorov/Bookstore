@@ -1,7 +1,3 @@
-/* eslint-disable no-trailing-spaces */
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
-/* eslint-disable import/prefer-default-export */
 import axios from '../indexApi';
 
 const path = 'books/';
@@ -57,13 +53,13 @@ export const updateBookFromApi = (getState, book) => {
   const {
     userLogin: { userInfo },
   } = getState();
-  console.log(userInfo);
   return axios({
     method: 'PUT',
     url: `${path}${book.id}`,
     headers: {
       Authorization: `Bearer ${userInfo.token}`,
     },
+    data: { ...book },
   });
 };
 
@@ -130,7 +126,6 @@ export const updateReviewFromApi = (getState, review) => {
 };
 
 export const deleteReviewById = (reviewId, id, getState) => {
-  console.log(reviewId, id);
   const {
     userLogin: { userInfo },
   } = getState();

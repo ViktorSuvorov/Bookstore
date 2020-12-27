@@ -15,7 +15,7 @@ import UserEditPage from './pages/UserEditPage';
 import BookListPage from './pages/BookListPage';
 import BookEditPage from './pages/BookEditPage';
 import HomePage from './pages/HomePage';
-import { PrivateRoute } from './components/PrivateRout';
+import PrivateRoute from './components/PrivateRout';
 import ReviewEditPage from './pages/ReviewEditPage';
 
 const App = () => (

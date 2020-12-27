@@ -23,9 +23,7 @@ const Header = () => {
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
         <Container>
           <LinkContainer to="/">
-            <Navbar.Brand>
-              Bookstore
-            </Navbar.Brand>
+            <Navbar.Brand>Bookstore</Navbar.Brand>
           </LinkContainer>
           <Route render={({ history }) => <SearchBox history={history} />} />
           <Nav className="ml-auto">
@@ -40,7 +38,9 @@ const Header = () => {
                 <LinkContainer to="/profile">
                   <NavDropdown.Item>Profile</NavDropdown.Item>
                 </LinkContainer>
-                <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
+                <NavDropdown.Item onClick={logoutHandler}>
+                  Logout
+                </NavDropdown.Item>
               </NavDropdown>
             ) : (
               <LinkContainer to="/login">
@@ -51,19 +51,18 @@ const Header = () => {
               </LinkContainer>
             )}
             {userInfo && userInfo.isAdmin && (
-            <NavDropdown title="Admin" id="adminmenu">
-              <LinkContainer to="/admin/userlist">
-                <NavDropdown.Item>Userslist</NavDropdown.Item>
-              </LinkContainer>
-              <LinkContainer to="/admin/booklist">
-                <NavDropdown.Item>Booklist</NavDropdown.Item>
-              </LinkContainer>
-            </NavDropdown>
+              <NavDropdown title="Admin" id="adminmenu">
+                <LinkContainer to="/admin/userlist">
+                  <NavDropdown.Item>Userslist</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to="/admin/booklist">
+                  <NavDropdown.Item>Booklist</NavDropdown.Item>
+                </LinkContainer>
+              </NavDropdown>
             )}
           </Nav>
         </Container>
       </Navbar>
-
     </header>
   );
 };

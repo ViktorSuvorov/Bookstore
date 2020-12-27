@@ -1,6 +1,6 @@
-/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import {
   Form, Button, Row, Col,
 } from 'react-bootstrap';
@@ -69,6 +69,16 @@ const LoginPage = ({ location, history }) => {
       </Row>
     </FormContainer>
   );
+};
+
+LoginPage.propTypes = {
+
+  location: PropTypes.shape({
+    search: PropTypes.string.isRequired,
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default LoginPage;

@@ -11,7 +11,7 @@ import {
   updateUserProfile,
   userUpdateProfileReset,
 } from '../Redux/actions/userActions';
-import { uploadImage } from '../Api/Upload/uploadApi';
+import uploadImage from '../Api/Upload/uploadApi';
 import Message from '../components/Message';
 import Favorite from '../components/Favorite';
 import RenderTooltip from '../components/Tooltip';
