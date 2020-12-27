@@ -14,6 +14,7 @@ import {
   deleteBook,
   createBook,
   bookCreateReset,
+  getBooksListByAdmin,
 } from '../Redux/actions/bookActions';
 import Pagin from '../components/Pagin';
 
@@ -26,6 +27,8 @@ const BookListPage = ({ history, match }) => {
   const {
     isLoading, error, books, page, pages,
   } = bookList;
+
+  console.log(error);
 
   const bookDelete = useSelector((state) => state.bookDelete);
   const {
@@ -53,7 +56,7 @@ const BookListPage = ({ history, match }) => {
     if (successCreate) {
       history.push(`/admin/book/${createdBook.id}/edit`);
     } else {
-      dispatch(getBooksList('', pageNumber, ''));
+      dispatch(getBooksListByAdmin(pageNumber));
     }
   }, [
     dispatch,

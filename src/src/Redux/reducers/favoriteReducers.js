@@ -1,6 +1,6 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable import/prefer-default-export */
-import { FAVORITE_ADD_ITEM, FAVORITE_REMOVE_ITEM } from '../constants';
+import { FAVORITE_ADD_ITEM, FAVORITE_REMOVE_ITEM } from '../Constants';
 
 export const favoriteReducer = (state = { favoriteItems: [] }, { type, payload }) => {
   switch (type) {

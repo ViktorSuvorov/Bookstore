@@ -238,7 +238,7 @@ const getBookReviewTotal = asyncHandler(async ({ params: { id } }) => {
 });
 
 const getReviewById = asyncHandler(async (req) => {
-  console.log("!!@3123", req.body.reviewId)
+  console.log("!!@3123", req.body)
   return await models.Review.findOne({
     where: { id :req.body.reviewId },
   });

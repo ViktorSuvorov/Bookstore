@@ -70,7 +70,7 @@ const CurrentBook = ({ history, match }) => {
       dispatch(getBookDetails(match.params.id));
       dispatch(bookCreateReviewReset());
     }
-  }, [dispatch, successBookReview, book.id, match, successBookReviewDelete]);
+  }, [dispatch, successBookReview, book.id, match, successBookReviewDelete, errorBookReviewDelete]);
 
   const addToCartHandler = () => {
     history.push(`/cart/${match.params.id}?qty=${qty}`);
@@ -85,10 +85,12 @@ const CurrentBook = ({ history, match }) => {
     dispatch(createBookReview(match.params.id, { rating, comment }));
   };
 
-  const reviewEditHandler = () => {
-    const review = book?.reviews?.find((item) => item.userId === userInfo.id);
-    console.log('review', review);
-    dispatch(updateReview(match.params.id, review));
+  const reviewEditHandler = (reviewId, id) => {
+    // const review = book?.reviews?.find((item) => item.userId === userInfo.id);
+    // console.log('review', review);
+    // dispatch(updateReview(match.params.id, review));
+
+    history.push(`/admin/book/${id}/review/${reviewId}/edit`);
   };
 
   const reviewDeleteHandler = (reviewId, id) => {
@@ -256,10 +258,11 @@ const CurrentBook = ({ history, match }) => {
                     { userInfo && review.userId === userInfo.id && (
                       <Row>
                         <Col md={2}>
-                          <Button type="button" variant="warning" className="btn-sm" onClick={(e) => reviewEditHandler(e)}>Edit</Button>
+                          <Button type="button" variant="outline-warning" className="btn-sm" onClick={(e) => reviewEditHandler(review.id, review.bookId)}>Edit</Button>
                         </Col>
                         <Col md={2}>
-                          <Button type="button" variant="danger" className="btn-sm" onClick={() => reviewDeleteHandler(review.id, review.bookId)}>Delete</Button>
+                          {errorBookReviewDelete && (<Message>{errorBookReviewDelete}</Message>)}
+                          <Button type="button" variant="outline-danger" className="btn-sm" onClick={() => reviewDeleteHandler(review.id, review.bookId)}>Delete</Button>
                         </Col>
                       </Row>
                     )}

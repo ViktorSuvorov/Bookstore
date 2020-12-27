@@ -1,5 +1,5 @@
 import { getCurrentBook } from '../../Api/Book/bookApi';
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from '../constants';
+import { CART_ADD_ITEM, CART_REMOVE_ITEM } from '../Constants';
 
 export const add = (data, qty) => ({
   type: CART_ADD_ITEM,

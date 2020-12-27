@@ -28,7 +28,7 @@ import {
   REVIEW_DELETE_REQUEST,
   REVIEW_DELETE_SUCCESS,
   REVIEW_DELETE_FAIL,
-} from '../constants';
+} from '../Constants/bookConstants';
 
 const initialState = {
   isLoading: true,

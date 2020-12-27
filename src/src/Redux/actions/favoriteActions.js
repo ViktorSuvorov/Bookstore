@@ -1,5 +1,5 @@
 import { getCurrentBook } from '../../Api/Book/bookApi';
-import { FAVORITE_ADD_ITEM, FAVORITE_REMOVE_ITEM } from '../constants';
+import { FAVORITE_ADD_ITEM, FAVORITE_REMOVE_ITEM } from '../Constants';
 
 export const add = (data) => ({
   type: FAVORITE_ADD_ITEM,

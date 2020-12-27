@@ -1,12 +1,12 @@
-const e = require('express');
 const asyncHandler = require('express-async-handler');
 const models = require('../../database/models');
 const bookService = require('../../services/book/book.services');
 
 const getAllBooks = asyncHandler(async (req, res) => {
+  console.log('get get get');
   const pageSize = 8;
   const booksFilters = bookService.getDataFromBQuery(req);
-  let page = Number(req.query.pageNumber) || 1;
+  const page = Number(req.query.pageNumber) || 1;
 
   const books = await bookService.getBooks(booksFilters, pageSize, page);
 
@@ -15,6 +15,31 @@ const getAllBooks = asyncHandler(async (req, res) => {
 
   res.status(201).json({ books, page, pages: pages });
 });
+
+const getBookListAdmin = asyncHandler(async (req,res) => {
+  const pageSize = 8;
+  const page = Number(req.query.pageNumber) || 1;
+  
+  const count = await models.Book.count({});
+  const pages = Math.ceil(count/pageSize);
+  const skipValue = pageSize * (page - 1);
+  
+  const books = await models.Book.findAll({
+    limit: pageSize,
+    offset:skipValue,
+    include: [
+      {
+        model: models.Genre,
+        as: 'genre',
+      },
+      {
+        model: models.Author,
+        as: 'author',
+      },
+    ],
+  });
+  res.status(201).json({ books, page, pages: pages });
+})
 
 const getCurrentBook = asyncHandler(async (req, res) => {
   const book = await bookService.getBookById(req);
@@ -168,4 +193,5 @@ module.exports = {
   getAllGenres,
   updateBookReview,
   deleteBookReview,
+  getBookListAdmin
 };

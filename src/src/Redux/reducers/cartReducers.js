@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-case-declarations */
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from '../constants';
+import { CART_ADD_ITEM, CART_REMOVE_ITEM } from '../Constants';
 
 export const cartReducer = (state = { cartItems: [] }, { type, payload }) => {
   switch (type) {

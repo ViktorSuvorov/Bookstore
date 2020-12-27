@@ -57,13 +57,13 @@ export const updateBookFromApi = (getState, book) => {
   const {
     userLogin: { userInfo },
   } = getState();
+  console.log(userInfo);
   return axios({
     method: 'PUT',
     url: `${path}${book.id}`,
     headers: {
       Authorization: `Bearer ${userInfo.token}`,
     },
-    data: book,
   });
 };
 
@@ -83,11 +83,25 @@ export const getBooks = async (filter, pageNumber, keyword) => {
   });
 };
 
+export const getBooksListAdmin = async (pageNumber, getState) => {
+  const {
+    userLogin: { userInfo },
+  } = getState();
+  return axios({
+    url: `${path}admin/booklist/?pageNumber=${pageNumber}`,
+    headers: {
+      Authorization: `Bearer ${userInfo.token}`,
+    },
+    data: {
+      userInfo,
+    },
+  });
+};
+
 export const createReviewBookApi = (getState, bookId, review) => {
   const {
     userLogin: { userInfo },
   } = getState();
-  // const { userLogin } = getState();
   return axios({
     method: 'POST',
     url: `${path}${bookId}/reviews`,
@@ -101,17 +115,17 @@ export const createReviewBookApi = (getState, bookId, review) => {
   });
 };
 
-export const updateReviewFromApi = (getState, review, id) => {
+export const updateReviewFromApi = (getState, review) => {
   const {
     userLogin: { userInfo },
   } = getState();
   return axios({
     method: 'PUT',
-    url: `${path}${book.id}/reviews`,
+    url: `${path}${review.bookId}/reviews`,
     headers: {
       Authorization: `Bearer ${userInfo.token}`,
     },
-    data: { review, id },
+    data: { ...review },
   });
 };
 

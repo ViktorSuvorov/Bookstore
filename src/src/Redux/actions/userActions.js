@@ -26,7 +26,7 @@ import {
   USER_DETAILS_RESET,
   USER_LIST_RESET,
   USER_UPDATE_PROFILE_RESET,
-} from '../constants';
+} from '../Constants/userConstants';
 import {
   userLoginApi,
   userRegisterApi,
@@ -171,7 +171,7 @@ export const logoutUser = () => async (dispatch) => {
     dispatch(userDetailsReset());
     dispatch(userListReset());
   } catch (error) {
-    console.log('!');
+    console.log('User logout error');
   }
 };
 
@@ -223,7 +223,7 @@ export const listUsers = () => async (dispatch, getState) => {
     dispatch(userListSuccess(data));
   } catch (error) {
     const { message } = error.data;
-    if (message === 'Not Authorize') {
+    if (message === 'Not Authorize please login') {
       dispatch(logout());
     }
     dispatch(userListError(error));
@@ -237,7 +237,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
     dispatch(userDeleteSuccess(data));
   } catch (error) {
     const { message } = error.data;
-    if (message === 'Not Authorize') {
+    if (message === 'Not Authorize please login') {
       dispatch(logout());
     }
     dispatch(userDeleteError(error));

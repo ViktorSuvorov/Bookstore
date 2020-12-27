@@ -16,6 +16,7 @@ import BookListPage from './pages/BookListPage';
 import BookEditPage from './pages/BookEditPage';
 import HomePage from './pages/HomePage';
 import { PrivateRoute } from './components/PrivateRout';
+import ReviewEditPage from './pages/ReviewEditPage';
 
 const App = () => (
   <Router>
@@ -34,6 +35,7 @@ const App = () => (
           <PrivateRoute exact path="/admin/book/:id/edit" component={BookEditPage} />
           <PrivateRoute exact path="/admin/booklist" component={BookListPage} />
           <PrivateRoute exact path="/admin/booklist/:pageNumber" component={BookListPage} />
+          <PrivateRoute exact path="/admin/book/:id/review/:reviewId/edit" component={ReviewEditPage} />
           <Route exact path="/page/:pageNumber" component={HomePage} />
           <Route exact path="/search/:keyword/" component={HomePage} />
           <Route
@@ -41,6 +43,7 @@ const App = () => (
             component={HomePage}
             exact
           />
+
         </Switch>
       </Container>
     </main>

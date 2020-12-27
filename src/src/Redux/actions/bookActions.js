@@ -8,7 +8,10 @@ import {
   createReviewBookApi,
   updateReviewFromApi,
   deleteReviewById,
+  getBooksListAdmin,
 } from '../../Api/Book/bookApi';
+
+import { logout } from './userActions';
 
 import {
   BOOKS_LIST_SUCCESS,
@@ -39,7 +42,7 @@ import {
   REVIEW_DELETE_REQUEST,
   REVIEW_DELETE_SUCCESS,
   REVIEW_DELETE_FAIL,
-} from '../constants';
+} from '../Constants/bookConstants';
 
 export const bookListRequest = () => ({
   type: BOOKS_LIST_REQUEST,
@@ -178,6 +181,23 @@ export const getBooksList = (filter, pageNumber = '', keyword = '') => async (
   }
 };
 
+export const getBooksListByAdmin = (pageNumber = '') => async (
+  dispatch, getState,
+) => {
+  try {
+    const { data } = await getBooksListAdmin(pageNumber, getState);
+    dispatch(bookListRequest());
+    dispatch(bookListSuccess(data));
+  } catch (error) {
+    console.log(error);
+    const { message } = error.data;
+    if (message === 'Not Authorize please login') {
+      dispatch(logout());
+    }
+    dispatch(bookListError(error));
+  }
+};
+
 export const getBookDetails = (id) => async (dispatch) => {
   try {
     const { data } = await getCurrentBook(id);
@@ -215,6 +235,10 @@ export const updateBook = (book) => async (dispatch, getState) => {
     dispatch(bookUpdateRequest());
     dispatch(bookUpdateSuccess(data));
   } catch (error) {
+    const { message } = error.data;
+    if (message === 'Not Authorize please login') {
+      dispatch(logout());
+    }
     dispatch(bookUpdateError(error));
   }
 };
@@ -233,6 +257,7 @@ export const createBookReview = (bookId, review) => async (
 };
 
 export const updateReview = (review) => async (dispatch, getState) => {
+  console.log(review);
   try {
     const { data } = await updateReviewFromApi(getState, review);
     dispatch(reviewUpdateRequest());
