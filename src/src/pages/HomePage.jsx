@@ -12,20 +12,21 @@ import FilterBy from '../components/FilterBy';
 
 const HomePage = ({ match }) => {
   const [filter, setFilter] = useState({});
-
   const handleSetFilter = (result) => {
     setFilter(result);
   };
 
   const dispatch = useDispatch();
 
-  const { keyword } = match.params;
   const { pageNumber } = match.params || 1;
 
   const bookList = useSelector((state) => state.bookList);
   const {
     books, isLoading, page, pages, error,
   } = bookList;
+
+  const searchWord = useSelector((state) => state.keyword);
+  const { keyword } = searchWord;
 
   useEffect(() => {
     dispatch(getBooksList(filter, pageNumber, keyword));

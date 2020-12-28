@@ -1,25 +1,18 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
-import { getBooksList } from '../Redux/actions/bookActions';
-import { getBooks } from '../Api/Book/bookApi';
+import { addKeywordWord, deleteKeyword, getBooksList } from '../Redux/actions/bookActions';
 
-const SearchBox = ({ history }) => {
+const SearchBox = () => {
   const dispatch = useDispatch();
-  const [keyword, setKeyword] = useState('');
-
+  const [keyword, setKeyword] = useState({ keyword: {} });
   const submitHandler = (e) => {
     e.preventDefault();
     if (keyword.trim()) {
-      // dispatch(getBooksList('', '', keyword));
-      getBooks('', '', keyword);
-      // history.push(`/?search=${keyword}`);
-      // history.push(`/${keyword}`);
+      dispatch(getBooksList('', '', keyword));
+      dispatch(addKeywordWord(keyword));
     } else {
-      // dispatch(getBooksList('', '', ''));
-      history.push('/');
+      dispatch(deleteKeyword());
     }
   };
 
@@ -41,12 +34,6 @@ const SearchBox = ({ history }) => {
       </Button>
     </Form>
   );
-};
-
-SearchBox.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
 };
 
 export default SearchBox;

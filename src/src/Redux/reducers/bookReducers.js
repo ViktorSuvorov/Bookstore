@@ -28,6 +28,8 @@ import {
   REVIEW_DELETE_REQUEST,
   REVIEW_DELETE_SUCCESS,
   REVIEW_DELETE_FAIL,
+  ADD_KEYWORD,
+  DELETE_KEYWORD,
 } from '../Constants/bookConstants';
 
 const initialState = {
@@ -234,6 +236,24 @@ export const bookReviewDeleteReducer = (
       return {
         isLoading: false,
         error: payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export const bookKeywordReducer = (
+  state = { keyword: '' },
+  { type, payload },
+) => {
+  switch (type) {
+    case ADD_KEYWORD:
+      return {
+        keyword: payload,
+      };
+    case DELETE_KEYWORD:
+      return {
+        keyword: '',
       };
     default:
       return state;

@@ -42,6 +42,8 @@ import {
   REVIEW_DELETE_REQUEST,
   REVIEW_DELETE_SUCCESS,
   REVIEW_DELETE_FAIL,
+  ADD_KEYWORD,
+  DELETE_KEYWORD,
 } from '../Constants/bookConstants';
 
 export const bookListRequest = () => ({
@@ -169,6 +171,15 @@ export const reviewDeleteError = (error) => ({
   payload: error.data.message,
 });
 
+export const addKeyword = (keyword) => ({
+  type: ADD_KEYWORD,
+  payload: keyword,
+});
+
+export const deleteKeyword = () => ({
+  type: DELETE_KEYWORD,
+});
+
 export const getBooksList = (filter, pageNumber = '', keyword = '') => async (
   dispatch,
 ) => {
@@ -275,4 +286,8 @@ export const deleteReview = (reviewId, id) => async (dispatch, getState) => {
   } catch (error) {
     dispatch(reviewDeleteError(error));
   }
+};
+
+export const addKeywordWord = (keyword) => async (dispatch) => {
+  dispatch(addKeyword(keyword));
 };
