@@ -68,6 +68,7 @@ export const getCurrentBook = (id) => axios({
 });
 
 export const getBooks = async (filter, pageNumber, keyword) => {
+  console.log(keyword);
   const allGenresId = await getGenres();
   const allAuthorsId = await getAuthors();
   const priceType = filter.price || 'price up';

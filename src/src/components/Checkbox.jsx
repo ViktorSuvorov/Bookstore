@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
 
 const Checkbox = ({ filterList, handleFilters }) => {
@@ -17,13 +18,12 @@ const Checkbox = ({ filterList, handleFilters }) => {
   return filterList.map((item) => (
     <li className="list-unstyled" key={item.id}>
       <input
-        id="checkboxId"
         onChange={handleToggle(item.id)}
         type="checkbox"
         className="form-check-input"
         value={checked.indexOf(item.id === -1)}
       />
-      <label htmlFor="checkboxId" className="form-check-label">
+      <label className="form-check-label">
         {item.name}
       </label>
     </li>

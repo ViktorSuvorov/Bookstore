@@ -8,6 +8,7 @@ const getDataFromBQuery = (req) => {
 };
 
 const getBooks = async (filters, pageSize, page) => {
+  console.log('filters', filters);
   const genresIdFromDb = [
     ...(await models.Genre.findAll({ attributes: ['id'], raw: true })),
   ].map((item) => item.id);

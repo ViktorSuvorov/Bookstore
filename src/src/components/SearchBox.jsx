@@ -1,18 +1,31 @@
-import React, { useState } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
+import { getBooksList } from '../Redux/actions/bookActions';
+import { getBooks } from '../Api/Book/bookApi';
 
 const SearchBox = ({ history }) => {
+  const dispatch = useDispatch();
   const [keyword, setKeyword] = useState('');
 
   const submitHandler = (e) => {
     e.preventDefault();
     if (keyword.trim()) {
-      history.push(`/search/${keyword}`);
+      // dispatch(getBooksList('', '', keyword));
+      getBooks('', '', keyword);
+      // history.push(`/?search=${keyword}`);
+      // history.push(`/${keyword}`);
     } else {
+      // dispatch(getBooksList('', '', ''));
       history.push('/');
     }
   };
+
+  useEffect(() => {
+
+  }, [keyword]);
 
   return (
     <Form onSubmit={submitHandler} inline>
