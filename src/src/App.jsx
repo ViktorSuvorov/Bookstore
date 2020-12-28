@@ -37,13 +37,6 @@ const App = () => (
           <PrivateRoute exact path="/admin/booklist/:pageNumber" component={BookListPage} />
           <PrivateRoute exact path="/admin/book/:id/review/:reviewId/edit" component={ReviewEditPage} />
           <Route exact path="/page/:pageNumber" component={HomePage} />
-          <Route exact path="/search/:keyword/" component={HomePage} />
-          <Route
-            path="/search/:keyword/page/:pageNumber"
-            component={HomePage}
-            exact
-          />
-
         </Switch>
       </Container>
     </main>

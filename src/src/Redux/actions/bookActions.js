@@ -288,6 +288,6 @@ export const deleteReview = (reviewId, id) => async (dispatch, getState) => {
   }
 };
 
-export const addKeywordWord = (keyword) => async (dispatch) => {
+export const addKeywordWord = (keyword) => (dispatch) => {
   dispatch(addKeyword(keyword));
 };
